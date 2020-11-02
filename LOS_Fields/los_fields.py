@@ -43,19 +43,6 @@ vss = np.loadtxt("Input_3_Line_of_Sight_Velocity_Field.txt")
 def bs(n):
 	return np.sqrt(2.0 * k_B * Tss[:, n] / m_p)
 
-# Find the position in the redshift array of z0 via a recursive binary search;
-# if there is no match, take the lower of the two adjacent indices
-def zIndex(z0, z0s):
-	l = len(z0s)
-	if l < 2:
-		return 0
-	else:
-		splitAt = l // 2
-		if z0 < z0s[splitAt]:
-			return zIndex(z0, z0s[: splitAt])
-		else:
-			return splitAt + zIndex(z0, z0s[splitAt :])
-
 # Measure of integration in [C2001] equation 30 in terms of that of redshift;
 # assume no radiation or curvature contributions
 dxs = (c / H_0) * (om_La + om_m * (1.0 + zs) ** 3.0) ** -0.5
@@ -93,8 +80,7 @@ def integrand1s(n, z0):
 # the nth sightline; we integrate using Simpson's rule over all the points that
 # fall in the region and assume the redshifts are in increasing order
 def opticalDepth(n, z0):
-	index = zIndex(z0, zs)
-	return si.simps(integrand1s(n, z0)[index :], zs[index :])
+	return si.simps(integrand1s(n, z0), zs)
 
 def output1s(n):
 	return np.array([opticalDepth(n, z0) for z0 in zs])
