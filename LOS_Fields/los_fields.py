@@ -66,7 +66,8 @@ dxs = (h_0 / c) * (om_la + om_m * (1.0 + zs) ** 3.0) ** -0.5
 # S. White) [GFaE], equation 16.104)
 def voigt(A, B):
 	integrand = lambda y: np.exp(-y ** 2.0) / ((B - y) ** 2.0 + A ** 2.0)
-	return A * si.quad(integrand, -math.inf, math.inf)[0] / pi
+	integral, err = si.quad(integrand, -math.inf, math.inf)
+	return A * integral / pi
 
 # The approximation to the Voigt function given in [GFaE] equation 16.106
 def voigtApprox(A, B):
@@ -84,13 +85,13 @@ def vArg2s(n, z0):
 # The \alpha used in the 1st argument of the Voigt function in equation 30 in
 # [C20001], for the nth sightline
 def als(n):
-	return 1.0 # TODO
+	return c * a_12 / (4 * pi * nu_12 * bs(n))
 
 # The integrand as in [C2001] equation 30 except with a change of variables to
 # be an integral over z, for the nth sightline
 def integrand1s(n, z0):
 	prefactor = c * i_al / sqrt_pi
-	voigtFn = voigtApprox2(als(n), vArg2s(n, z0))
+	voigtFn = voigtApprox(als(n), vArg2s(n, z0))
 	return prefactor * dxs * voigtFn * nHIss[:, n] / (bs(n) * (1.0 + zs))
 
 # Optical depth of the nth sightline from the farthest redshift up to z0, for
@@ -111,5 +112,4 @@ def output2s(n):
 # -- Plotting --
 # --------------
 
-print([opticalDepth(2, z0) for z0 in zs])
-#plt.scatter(zs, [opticalDepth(2, z0) for z0 in zs])
+plt.scatter(
