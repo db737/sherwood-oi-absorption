@@ -11,14 +11,13 @@ import math
 # Matter contribution
 om_m = 0.308
 # Cosmological constant contribution
-om_la = 0.692
+om_La = 0.692
 # Hubble constant, in SI units (s^{-1})
-h_0 = 2.1972e-18
+H_0 = 2.1972e-18
 # Lyman-alpha transition frequency (Hz)
 nu_12 = 2.4661e15
-# Lyman-alpha intrinsic linewidth
-# (https://www.roe.ac.uk/~jsd/Rad_Matt/notes_part2.pdf)
-a_12 = 4.9804e8
+# Lyman-alpha damping constant
+Ga = 6.265e8
 # Proton mass (kg)
 m_p = 1.6726e-27
 # Boltmann constant (JK^{-1})
@@ -26,7 +25,7 @@ k_B = 1.3806e-23
 # Speed of light (ms^{-1})
 c = 2.9979e8
 # Prefactor I_\alpha as given in Choudhury et al. (2001) [C2001], (cm^{-2})
-i_al = 4.45e-18
+I_al = 4.45e-18
 # \sqrt{\pi}
 sqrt_pi = math.sqrt(pi)
 
@@ -36,13 +35,13 @@ sqrt_pi = math.sqrt(pi)
 
 zs = np.loadtxt("Input_0_Redshift_axis.txt")
 nHIss = np.loadtxt("Input_1_nHI_Field.txt")
-tss = np.loadtxt("Input_2_Temperature_Field.txt")
+Tss = np.loadtxt("Input_2_Temperature_Field.txt")
 vss = np.loadtxt("Input_3_Line_of_Sight_Velocity_Field.txt")
 
 # Convert temperature to b as defined in [C2001], equation 31, for the nth
 # sightline
 def bs(n):
-	return np.sqrt(2.0 * k_B * tss[:, n] / m_p)
+	return np.sqrt(2.0 * k_B * Tss[:, n] / m_p)
 
 # Find the position in the redshift array of z0 via a recursive binary search;
 # if there is no match, take the lower of the two adjacent indices
@@ -59,23 +58,19 @@ def zIndex(z0, z0s):
 
 # Measure of integration in [C2001] equation 30 in terms of that of redshift;
 # assume no radiation or curvature contributions
-dxs = (h_0 / c) * (om_la + om_m * (1.0 + zs) ** 3.0) ** -0.5
+dxs = (c / H_0) * (om_La + om_m * (1.0 + zs) ** 3.0) ** -0.5
 
 # -- Calculation --
 # Voigt function (Galaxy Formation and Evolution (H. Mo, F. Bosch and
 # S. White) [GFaE], equation 16.104)
 def voigt(A, B):
-	integrand = lambda y: np.exp(-y ** 2.0) / ((B - y) ** 2.0 + A ** 2.0)
+	integrand = lambda ys: np.exp(-ys ** 2.0) / ((B - ys) ** 2.0 + A ** 2.0)
 	integral, err = si.quad(integrand, -math.inf, math.inf)
 	return A * integral / pi
 
 # The approximation to the Voigt function given in [GFaE] equation 16.106
 def voigtApprox(A, B):
 	return np.exp(-B ** 2.0) + A / (sqrt_pi * (A ** 2.0 + B ** 2.0))
-
-# The approximation to the Voigt function given in [C2001] equation 33
-def voigtApprox2(A, B):
-	return np.exp(-B ** 2.0)
 
 # 2nd argument to be passed to the Voigt function int [C2001] equation 30, for
 # the nth sightline
@@ -85,12 +80,12 @@ def vArg2s(n, z0):
 # The \alpha used in the 1st argument of the Voigt function in equation 30 in
 # [C20001], for the nth sightline
 def als(n):
-	return c * a_12 / (4 * pi * nu_12 * bs(n))
+	return c * Ga / (4 * pi * nu_12 * bs(n))
 
 # The integrand as in [C2001] equation 30 except with a change of variables to
 # be an integral over z, for the nth sightline
 def integrand1s(n, z0):
-	prefactor = c * i_al / sqrt_pi
+	prefactor = c * I_al / sqrt_pi
 	voigtFn = voigtApprox(als(n), vArg2s(n, z0))
 	return prefactor * dxs * voigtFn * nHIss[:, n] / (bs(n) * (1.0 + zs))
 
@@ -99,7 +94,7 @@ def integrand1s(n, z0):
 # fall in the region and assume the redshifts are in increasing order
 def opticalDepth(n, z0):
 	index = zIndex(z0, zs)
-	return -si.simps(integrand1s(n, z0)[index :], zs[index :])
+	return si.simps(integrand1s(n, z0)[index :], zs[index :])
 
 def output1s(n):
 	return np.array([opticalDepth(n, z0) for z0 in zs])
@@ -112,4 +107,15 @@ def output2s(n):
 # -- Plotting --
 # --------------
 
-plt.scatter(
+def plot(n):
+	plt.subplot(211)
+	plt.semilogy(zs, output1s(n))
+	plt.title(f"Optical depth for sightline {n + 1}")
+	plt.ylabel("$\\tau_{HI}$")
+	plt.subplot(212)
+	plt.plot(zs, output2s(n))
+	plt.ylabel("$F=e^{-\\tau_{HI}}$")
+	plt.xlabel("$z$")
+	plt.show()
+
+plot(2)
