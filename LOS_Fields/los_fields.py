@@ -24,8 +24,8 @@ m_p = 1.6726e-27
 k_B = 1.3806e-23
 # Speed of light (ms^{-1})
 c = 2.9979e8
-# Prefactor I_\alpha as given in Choudhury et al. (2001) [C2001], (cm^{-2})
-I_al = 4.45e-18
+# Prefactor I_\alpha as given in Choudhury et al. (2001) [C2001], (m^2)
+I_al = 4.45e-22
 # \sqrt{\pi}
 sqrt_pi = math.sqrt(pi)
 
@@ -74,7 +74,7 @@ def als(n):
 def integrand1s(n, z0):
 	prefactor = c * I_al / sqrt_pi
 	voigtFn = voigtApprox(als(n), vArg2s(n, z0))
-	return prefactor * dxs * voigtFn * nHIss[:, n] / (bs(n) * (1.0 + zs))
+	return prefactor * dxs * voigtFn * nHIss[:, n] * 1.0e6 / (bs(n) * (1.0 + zs))
 
 # Optical depth of the nth sightline from the farthest redshift up to z0, for
 # the nth sightline; we integrate using Simpson's rule over all the points that
