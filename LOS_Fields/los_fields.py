@@ -34,9 +34,9 @@ sqrt_pi = math.sqrt(pi)
 # ------------
 
 zs = np.loadtxt("Input_0_Redshift_axis.txt")
-nHIss = np.loadtxt("Input_1_nHI_Field.txt")
+nHIss = np.loadtxt("Input_1_nHI_Field.txt") * 1.0e6
 Tss = np.loadtxt("Input_2_Temperature_Field.txt")
-vss = np.loadtxt("Input_3_Line_of_Sight_Velocity_Field.txt")
+vss = np.loadtxt("Input_3_Line_of_Sight_Velocity_Field.txt") * 1000.0
 
 # Convert temperature to b as defined in [C2001], equation 31, for the nth
 # sightline
@@ -62,7 +62,7 @@ def voigtApprox(A, B):
 # 2nd argument to be passed to the Voigt function int [C2001] equation 30, for
 # the nth sightline
 def vArg2s(n, z0):
-	return (vss[:, n] * 1000.0 + c * (zs - z0) / (1.0 + z0)) / bs(n)
+	return (vss[:, n] + c * (zs - z0) / (1.0 + z0)) / bs(n)
 
 # The \alpha used in the 1st argument of the Voigt function in equation 30 in
 # [C20001], for the nth sightline
@@ -74,7 +74,7 @@ def als(n):
 def integrand1s(n, z0):
 	prefactor = c * I_al / sqrt_pi
 	voigtFn = voigtApprox(als(n), vArg2s(n, z0))
-	return prefactor * dxs * voigtFn * nHIss[:, n] * 1.0e6 / (bs(n) * (1.0 + zs))
+	return prefactor * dxs * voigtFn * nHIss[:, n] / (bs(n) * (1.0 + zs))
 
 # Optical depth of the nth sightline from the farthest redshift up to z0, for
 # the nth sightline; we integrate using Simpson's rule over all the points that
