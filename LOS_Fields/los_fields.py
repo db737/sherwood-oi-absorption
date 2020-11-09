@@ -1,8 +1,10 @@
 from numpy import pi
 import numpy as np
 import scipy.integrate as si
+import scipy.special as ss
 import matplotlib.pyplot as plt
 import math
+import sys
 
 # -----------------
 # --- Constants ---
@@ -51,13 +53,18 @@ dxs = (c / H_0) * (om_La + om_m * (1.0 + zs) ** 3.0) ** -0.5
 # Voigt function (Galaxy Formation and Evolution (H. Mo, F. Bosch and
 # S. White) [GFaE], equation 16.104)
 def voigt(A, B):
-	integrand = lambda ys: np.exp(-ys ** 2.0) / ((B - ys) ** 2.0 + A ** 2.0)
-	integral, err = si.quad(integrand, -math.inf, math.inf)
-	return A * integral / pi
+	s2 = 2 ** -0.5
+	return ss.voigt_profile(B, s2, A) * sqrt_pi
 
 # The approximation to the Voigt function given in [GFaE] equation 16.106
-def voigtApprox(A, B):
-	return np.exp(-B ** 2.0) + A / (sqrt_pi * (A ** 2.0 + B ** 2.0))
+def voigtApprox(As, Bs):
+	return np.exp(-Bs ** 2.0) + As / (sqrt_pi * (As ** 2.0 + Bs ** 2.0))
+
+# Voigt function computed from the Fadeeva function
+def voigt_wofz(As, Bs):
+	z = Bs + 1j * As
+	I = ss.wofz(z).real
+	return I
 
 # 2nd argument to be passed to the Voigt function int [C2001] equation 30, for
 # the nth sightline
@@ -73,7 +80,7 @@ def als(n):
 # be an integral over z, for the nth sightline
 def integrand1s(n, z0):
 	prefactor = c * I_al / sqrt_pi
-	voigtFn = voigtApprox(als(n), vArg2s(n, z0))
+	voigtFn = voigt_wofz(als(n), vArg2s(n, z0))
 	return prefactor * dxs * voigtFn * nHIss[:, n] / (bs(n) * (1.0 + zs))
 
 # Optical depth of the nth sightline from the farthest redshift up to z0, for
@@ -104,4 +111,9 @@ def plot(n):
 	plt.xlabel("$z$")
 	plt.show()
 
-plot(2)
+# Main method
+n = 0
+
+if len(sys.argv) > 0:
+	n = int(sys.argv[1])
+plot(n)
