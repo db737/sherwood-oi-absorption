@@ -50,21 +50,9 @@ def bs(n):
 dxs = (c / H_0) * (om_La + om_m * (1.0 + zs) ** 3.0) ** -0.5
 
 # -- Calculation --
-# Voigt function (Galaxy Formation and Evolution (H. Mo, F. Bosch and
-# S. White) [GFaE], equation 16.104)
-def voigt(A, B):
-	s2 = 2 ** -0.5
-	return ss.voigt_profile(B, s2, A) * sqrt_pi
-
-# The approximation to the Voigt function given in [GFaE] equation 16.106
-def voigtApprox(As, Bs):
-	return np.exp(-Bs ** 2.0) + As / (sqrt_pi * (As ** 2.0 + Bs ** 2.0))
-
 # Voigt function computed from the Fadeeva function
-def voigt_wofz(As, Bs):
-	z = Bs + 1j * As
-	I = ss.wofz(z).real
-	return I
+def voigt(As, Bs):
+	return ss.wofz(Bs + As * 1.0j).real
 
 # 2nd argument to be passed to the Voigt function int [C2001] equation 30, for
 # the nth sightline
@@ -80,7 +68,7 @@ def als(n):
 # be an integral over z, for the nth sightline
 def integrand1s(n, z0):
 	prefactor = c * I_al / sqrt_pi
-	voigtFn = voigt_wofz(als(n), vArg2s(n, z0))
+	voigtFn = voigt(als(n), vArg2s(n, z0))
 	return prefactor * dxs * voigtFn * nHIss[:, n] / (bs(n) * (1.0 + zs))
 
 # Optical depth of the nth sightline from the farthest redshift up to z0, for
