@@ -51,11 +51,11 @@ def bs(n):
 dxs = (c / H_0) * (om_La + om_m * (1.0 + zs) ** 3.0) ** -0.5
 
 # -- Calculation --
-# Voigt function computed from the Fadeeva function
+# Voigt function computed from the Faddeeva function
 def voigt(As, Bs):
 	return ss.wofz(Bs + As * 1.0j).real
 
-# 2nd argument to be passed to the Voigt function int [C2001] equation 30, for
+# 2nd argument to be passed to the Voigt function in [C2001] equation 30, for
 # the nth sightline
 def vArg2s(n, z0):
 	return (vss[:, n] + c * (zs - z0) / (1.0 + z0)) / bs(n)
