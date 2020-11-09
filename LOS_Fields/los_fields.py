@@ -35,6 +35,7 @@ sqrt_pi = math.sqrt(pi)
 # --- Data ---
 # ------------
 
+# All in SI units
 zs = np.loadtxt("Input_0_Redshift_axis.txt")
 nHIss = np.loadtxt("Input_1_nHI_Field.txt") * 1.0e6
 Tss = np.loadtxt("Input_2_Temperature_Field.txt")
@@ -90,8 +91,8 @@ def output2s(n):
 
 def plot(n):
 	plt.subplot(211)
-	plt.semilogy(zs, output1s(n))
 	plt.title(f"Optical depth for sightline {n + 1}")
+	plt.semilogy(zs, output1s(n))
 	plt.ylabel("$\\tau_{HI}$")
 	plt.subplot(212)
 	plt.plot(zs, output2s(n))
@@ -99,9 +100,8 @@ def plot(n):
 	plt.xlabel("$z$")
 	plt.show()
 
-# Main method
+# Main
 n = 0
-
 if len(sys.argv) > 0:
-	n = int(sys.argv[1])
+	n = int(sys.argv[1]) - 1
 plot(n)
