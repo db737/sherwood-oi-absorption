@@ -93,19 +93,19 @@ def output2s(n, f_scale):
 # -- Plotting --
 # --------------
 
-depthName = "$\\tau_\\mathrm{O\\,I}$"
-fluxName = "$F=e^{-" + depthName[1 : len(depthName) - 1] + "}$"
+depthLabel = "$\\tau_\\mathrm{O\\,I}$"
+fluxLabel = "$F=e^{-" + depthLabel[1 : len(depthLabel) - 1] + "}$"
 
 # Optical depth and flux
 def plot1(n, f_scale):
 	plt.subplot(211)
 	plt.title(f"Optical depth for sightline {n + 1}")
 	plt.semilogy(zs, output1s(n, f_scale))
-	plt.ylabel(depthName)
+	plt.ylabel(depthLabel)
 	plt.subplot(212)
 	plt.plot(zs, output2s(n, f_scale))
 	plt.xlabel("$z$")
-	plt.ylabel(fluxName)
+	plt.ylabel(fluxLabel)
 	plt.show()
 
 # A single line for plot2
@@ -125,7 +125,7 @@ def plot2(n):
 	lines = [None] * count
 	for i in range(0, count):
 		lines[i] = plot2single(n, colors[i], f_scales[i])
-	plt.ylabel(fluxName)
+	plt.ylabel(fluxLabel)
 	plt.legend(handles = lines, loc = "center right", framealpha = 0.95)
 	plt.subplot(212)
 	colors = ["k", "c", "m"]
@@ -133,7 +133,7 @@ def plot2(n):
 	for i in range(0, count):
 		lines[i] = plot2single(n, colors[i], f_scales[i])
 	plt.xlabel("$z$")
-	plt.ylabel(fluxName)
+	plt.ylabel(fluxLabel)
 	plt.legend(handles = lines, loc = "center right", framealpha = 0.95)
 	plt.show()
 
