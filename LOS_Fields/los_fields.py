@@ -31,7 +31,9 @@ c = 2.9979e8
 # Prefactor I_\alpha to the integral, calculated using above constants and
 # https://www.astro.ncu.edu.tw/~wchen/Courses/ISM/04.EinsteinCoefficients.pdf
 # TODO: find more accurate OI value
-I_al = 1.971e-22
+I_al = 5.73e-19
+# Ionising background in units of 10^{-12}s^{-1}
+Ga_UV
 # \sqrt{\pi}
 sqrt_pi = math.sqrt(pi)
 
@@ -40,10 +42,22 @@ sqrt_pi = math.sqrt(pi)
 # ------------
 
 # All in SI units
+# Redshifts
 zs = np.loadtxt("Input_0_Redshift_axis.txt")
+# Neutral hydrogen number density
 nHIss = np.loadtxt("Input_1_nHI_Field.txt") * 1.0e6
+# Temperature
 Tss = np.loadtxt("Input_2_Temperature_Field.txt")
+# Peculiar velocity along the line of sight
 vss = np.loadtxt("Input_3_Line_of_Sight_Velocity_Field.txt") * 1000.0
+# Metallicity
+ZOss = np.loadtxt("") # TODO metallicities
+
+# Number of elements in a sightline
+count = len(zs)
+
+# 1 + z
+zP1s = zs + np.ones(count)
 
 # Convert temperature to b as defined in Choudhury et al. (2001) [C2001],
 # equation 31, for the nth sightline
@@ -69,12 +83,28 @@ def vArg2s(n, z0):
 def als(n):
 	return c * Ga / (4 * pi * nu_12 * bs(n))
 
+# The overdensity at which a region becomes 'self-shielded' (Keating et al.
+# (2015)), computed for the nth sightline.
+def cutoffsSS(n):
+	T4s = Tss[:, n] / 1.0e4
+	p1 = 2.0 / 3.0
+	p2 = 2.0 / 15.0
+	zFactors = (zP1s / 7.0) ** -3.0
+	return 54.0 * (Ga_UV ** p1) * (T4s ** p2) * zFactors
+
+# The number density of neutral oxygen at a point, for the nth sightline
+def nOIs(n):
+	dtyAve = 0.0 # TODO Compute average density
+	overdensities = (nHIss[:, n] - np.full(count, dtyAve)) / dtyAve
+	fOI = np.heaviside(overdensities - cutoffsSS(n), 1.0)
+	return fOI * ZOss[:, n]
+
 # The integrand as in [C2001] equation 30 except with a change of variables to
 # be an integral over z, for the nth sightline
 def integrand1s(n, z0, f_scale):
 	prefactor = c * I_al / sqrt_pi
 	voigtFn = voigt(als(n), vArg2s(n, z0))
-	return prefactor * dxs * voigtFn * nHIss[:, n] * f_scale / (bs(n) * (1.0 + zs))
+	return prefactor * dxs * voigtFn * nOIs(n) / (bs(n) * zP1s)
 
 # Optical depth of the nth sightline from the farthest redshift up to z0, for
 # the nth sightline; we integrate using Simpson's rule over all the points that
@@ -89,6 +119,7 @@ def output1s(n, f_scale):
 def output2s(n, f_scale):
 	return np.exp(-output1s(n, f_scale))
 
+
 # --------------
 # -- Plotting --
 # --------------
@@ -98,47 +129,14 @@ fluxLabel = "$F=e^{-" + depthLabel[1 : len(depthLabel) - 1] + "}$"
 
 # Optical depth and flux
 def plot1(n, f_scale):
-	plt.subplot(211)
 	plt.title(f"Optical depth for sightline {n + 1}")
-	plt.semilogy(zs, output1s(n, f_scale))
-	plt.ylabel(depthLabel)
-	plt.subplot(212)
-	plt.plot(zs, output2s(n, f_scale))
+	plt.plot(zs, output2s(n))
 	plt.xlabel("$z$")
 	plt.ylabel(fluxLabel)
-	plt.show()
-
-# A single line for plot2
-def plot2single(n, color, f_scale):
-	plt.plot(zs, output2s(n, f_scale), color = color)
-	powerstring = str(np.log10(f_scale))
-	powerstring = powerstring[: len(powerstring) - 2]
-	return ml.Line2D([], [], color = color, label = f"$f_{{scale}} = 10^{{{powerstring}}}$")
-
-# Varying hydrogen to oxygen fraction
-def plot2(n):
-	plt.subplot(211)
-	plt.title(f"Observed flux for different oxygen to hydrogen ratios $f_{{scale}}$ for sightline ${n + 1}$")
-	count = 3
-	colors = ["r", "g", "b"]
-	f_scales = [1000.0, 100.0, 10.0]
-	lines = [None] * count
-	for i in range(0, count):
-		lines[i] = plot2single(n, colors[i], f_scales[i])
-	plt.ylabel(fluxLabel)
-	plt.legend(handles = lines, loc = "center right", framealpha = 0.95)
-	plt.subplot(212)
-	colors = ["k", "c", "m"]
-	f_scales = [1.0, 0.1, 0.01]
-	for i in range(0, count):
-		lines[i] = plot2single(n, colors[i], f_scales[i])
-	plt.xlabel("$z$")
-	plt.ylabel(fluxLabel)
-	plt.legend(handles = lines, loc = "center right", framealpha = 0.95)
 	plt.show()
 
 # Main
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-plot2(n)
+plot1(n)
