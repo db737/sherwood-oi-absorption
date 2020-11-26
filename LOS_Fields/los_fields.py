@@ -98,14 +98,20 @@ fluxLabel = "$F=e^{-" + depthLabel[1 : len(depthLabel) - 1] + "}$"
 
 # Optical depth and flux
 def plot1(n, f_scale):
-	plt.subplot(211)
-	plt.title(f"Optical depth for sightline {n + 1}")
-	plt.semilogy(zs, output1s(n, f_scale))
-	plt.ylabel(depthLabel)
-	plt.subplot(212)
-	plt.plot(zs, output2s(n, f_scale))
-	plt.xlabel("$z$")
-	plt.ylabel(fluxLabel)
+	fig, axes = plt.subplots(5, 1, sharex = True)
+	axes[0].semilogy(zs, nHIss[:, n] / 1.0e6)
+	axes[0].set_title(f"Optical depth for sightline {n + 1}")
+	axes[0].set_ylabel("$n_{\\mathrm{H\\,I}}/\\mathrm{cm^{-3}}$")
+	axes[1].semilogy(zs, Tss[:, n])
+	axes[1].set_ylabel("$T/\\mathrm{K}$")
+	axes[2].plot(zs, vss[:, n] / 1000.0)
+	axes[2].set_ylabel("$v/\\mathrm{kms^{-1}}$")
+	axes[3].semilogy(zs, output1s(n, f_scale))
+	axes[3].set_ylabel(depthLabel)
+	axes[4].plot(zs, output2s(n, f_scale))
+	axes[4].set_xlabel("$z$")
+	axes[4].set_ylabel(fluxLabel)
+	plt.subplots_adjust(hspace = 0)
 	plt.show()
 
 # A single line for plot2
