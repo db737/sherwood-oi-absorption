@@ -117,18 +117,10 @@ def plot2single(n, color, f_scale):
 
 # Varying hydrogen to oxygen fraction
 def plot2(n):
-	plt.subplot(211)
 	plt.title(f"Observed flux for different oxygen to hydrogen ratios $f_{{scale}}$ for sightline ${n + 1}$")
 	count = 3
-	colors = ["r", "g", "b"]
-	f_scales = [1000.0, 100.0, 10.0]
 	lines = [None] * count
-	for i in range(0, count):
-		lines[i] = plot2single(n, colors[i], f_scales[i])
-	plt.ylabel(fluxLabel)
-	plt.legend(handles = lines, loc = "center right", framealpha = 0.95)
-	plt.subplot(212)
-	colors = ["k", "c", "m"]
+	colors = ["k", "r", "b"]
 	f_scales = [1.0, 0.1, 0.01]
 	for i in range(0, count):
 		lines[i] = plot2single(n, colors[i], f_scales[i])
