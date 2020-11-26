@@ -1,4 +1,5 @@
 from numpy import pi
+from . import spectra
 import numpy as np
 import scipy.integrate as si
 import scipy.special as ss
@@ -30,8 +31,8 @@ k_B = 1.3806e-23
 c = 2.9979e8
 # Prefactor I_\alpha to the integral, calculated using above constants and
 # https://www.astro.ncu.edu.tw/~wchen/Courses/ISM/04.EinsteinCoefficients.pdf
-# TODO: find more accurate OI value
-I_al = 5.73e-19
+# and the 'atom.dat' data file of VPFIT 10.4 
+I_al = 5.5e-19
 # Ionising background in units of 10^{-12}s^{-1}
 Ga_UV
 # \sqrt{\pi}
@@ -41,34 +42,54 @@ sqrt_pi = math.sqrt(pi)
 # --- Data ---
 # ------------
 
+# Upper z limit
+z_max = "3.000"
+
+def filename(x):
+	return "./los/" + x + "2048_n5000_z" + zmax + ".dat"
+
+flag_spectype = "se_onthefly"
+spec_obj = spectra(flag_spectype, filename("los"), taufilename = filename("tau"))
+
 # All in SI units
-# Redshifts
-zs = np.loadtxt("Input_0_Redshift_axis.txt")
-# Neutral hydrogen number density
-nHIss = np.loadtxt("Input_1_nHI_Field.txt") * 1.0e6
+# Neutral hydrogen fraction
+fnss = np.transpose(spec_obj.nHI_frac)
+# Hydrogen number density
+nHss = np.transpose(spec_obj.rhoH2rhoHmean) * 1.0e6
 # Temperature
-Tss = np.loadtxt("Input_2_Temperature_Field.txt")
+Tss = np.transpose(spec_obj.temp_HI)
 # Peculiar velocity along the line of sight
-vss = np.loadtxt("Input_3_Line_of_Sight_Velocity_Field.txt") * 1000.0
-# Metallicity
-ZOss = np.loadtxt("") # TODO metallicities
+vss = np.transpose(spec_obj.vel_HI) * 1000.0
 
 # Number of elements in a sightline
-count = len(zs)
+count = len(fnss[:, 0])
 
-# 1 + z
-zP1s = zs + np.ones(count)
+# Neutral hydrogen number density
+def nHIs(n):
+	return np.multiply(fnss[:, n], nHss[:, n])
 
 # Convert temperature to b as defined in Choudhury et al. (2001) [C2001],
 # equation 31, for the nth sightline
 def bs(n):
 	return np.sqrt(2.0 * k_B * Tss[:, n] / m_p)
 
-# Measure of integration in [C2001] equation 30 in terms of that of redshift;
-# assume no radiation or curvature contributions
-dxs = (c / H_0) * (om_La + om_m * (1.0 + zs) ** 3.0) ** -0.5
+# Box size
+box = spec_obj.box
 
+# -----------------
 # -- Calculation --
+# -----------------
+
+# See [C2001] equation 30; assume no radiation or curvature contributions
+def dz_by_dx(z): 
+	return (H_0 / c) * (om_La + om_m * (1.0 + z) ** 3.0) ** 0.5
+
+# Compute redshift axis
+zs = np.full(count, float(z_max))
+for i in range(count - 1, 0, -1):
+	z = zs[i + 1]
+	zs[i] = s - dz_by_dx(z) * box /count
+
 # Voigt function computed from the Faddeeva function
 def voigt(As, Bs):
 	return ss.wofz(Bs + As * 1.0j).real
@@ -89,7 +110,7 @@ def cutoffsSS(n):
 	T4s = Tss[:, n] / 1.0e4
 	p1 = 2.0 / 3.0
 	p2 = 2.0 / 15.0
-	zFactors = (zP1s / 7.0) ** -3.0
+	zFactors = ((1.0 + zs) / 7.0) ** -3.0
 	return 54.0 * (Ga_UV ** p1) * (T4s ** p2) * zFactors
 
 # The number density of neutral oxygen at a point, for the nth sightline
@@ -97,14 +118,15 @@ def nOIs(n):
 	dtyAve = 0.0 # TODO Compute average density
 	overdensities = (nHIss[:, n] - np.full(count, dtyAve)) / dtyAve
 	fOI = np.heaviside(overdensities - cutoffsSS(n), 1.0)
-	return fOI * ZOss[:, n]
+	return fOI # TODO metallicity
 
 # The integrand as in [C2001] equation 30 except with a change of variables to
 # be an integral over z, for the nth sightline
 def integrand1s(n, z0, f_scale):
 	prefactor = c * I_al / sqrt_pi
 	voigtFn = voigt(als(n), vArg2s(n, z0))
-	return prefactor * dxs * voigtFn * nOIs(n) / (bs(n) * zP1s)
+	measure = dz_by_dx(zs)
+	return prefactor * measure * voigtFn * nHIs(n) / (bs(n) * (1.0 + zs)) # TODO return to OI
 
 # Optical depth of the nth sightline from the farthest redshift up to z0, for
 # the nth sightline; we integrate using Simpson's rule over all the points that
