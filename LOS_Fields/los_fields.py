@@ -1,6 +1,7 @@
 import numpy as np
 import scipy.integrate as si
 import scipy.special as ss
+import scipy.constants as consts
 import matplotlib.pyplot as plt
 import matplotlib.lines as ml
 import math
@@ -9,27 +10,42 @@ import sys
 from numpy import pi
 from read_spec_ewald_script import spectra
 
+# Upper z limit
+z_max = "3.000"
+
+def filename(x):
+	return "../../los/" + x + "2048_n5000_z" + z_max + ".dat"
+
+flag_spectype = "se_onthefly"
+spec_obj = spectra(flag_spectype, filename("los"), taufilename = filename("tau"))
+
 # -----------------
 # --- Constants ---
 # -----------------
 
+# All in SI units unless otherwise stated
+G = consts.value("Newtonian constant of gravitation")
 # Matter contribution
-om_m = 0.308
+om_m = spec_obj.om
+# Baryon contribution
+om_b = spec_obj.ob
 # Cosmological constant contribution
-om_La = 0.692
-# Hubble constant, in SI units (s^{-1})
-H_0 = 2.1972e-18
-# Transition frequency (Hz)
+om_La = spec_obj.ol
+# Hubble constant
+H_0 = spec_obj.H0
+# Critical density
+rh_crit = 3.0 * H_0 ** 2.0 / (8.0 * pi * G)
+# Hydrogen fraction
+x_H = spec_obj.xh
+# Transition frequency
 # (https://physics.nist.gov/PhysRefData/ASD/lines_form.html) [NIST]
 nu_12 = 2.3023e15
 # Quantum-mechanical damping constant [NIST]
 Ga = 3.41e8
-# Particle mass (kg)
-m_p = 2.6788e-26
-# Boltzmann constant (JK^{-1})
-k_B = 1.3806e-23
-# Speed of light (ms^{-1})
-c = 2.9979e8
+# Particle mass
+m_p = 8.0 * (consts.value("proton mass") + consts.value("neutron mass") + consts.value("electron mass"))
+k_B = consts.value("Boltzmann constant")
+c = consts.value("speed of light in vacuum")
 # Prefactor I_\alpha to the integral, calculated using above constants and
 # https://www.astro.ncu.edu.tw/~wchen/Courses/ISM/04.EinsteinCoefficients.pdf
 # and the 'atom.dat' data file of VPFIT 10.4 
@@ -43,20 +59,11 @@ sqrt_pi = math.sqrt(pi)
 # --- Data ---
 # ------------
 
-# Upper z limit
-z_max = "3.000"
-
-def filename(x):
-	return "../../los/" + x + "2048_n5000_z" + z_max + ".dat"
-
-flag_spectype = "se_onthefly"
-spec_obj = spectra(flag_spectype, filename("los"), taufilename = filename("tau"))
-
 # All in SI units
 # Neutral hydrogen fraction
-fnss = np.transpose(spec_obj.nHI_frac)
-# Hydrogen number density
-nHss = np.transpose(spec_obj.rhoH2rhoHmean) * 1.0e6
+fHIss = np.transpose(spec_obj.nHI_frac)
+# Hydrogen overdensity
+deHss = np.transpose(spec_obj.rhoH2rhoHmean) * 1.0e6
 # Temperature
 Tss = np.transpose(spec_obj.temp_HI)
 # Peculiar velocity along the line of sight
@@ -64,10 +71,6 @@ vss = np.transpose(spec_obj.vel_HI) * 1000.0
 
 # Number of elements in a sightline
 count = len(fnss[:, 0])
-
-# Neutral hydrogen number density
-def nHIs(n):
-	return np.multiply(fnss[:, n], nHss[:, n])
 
 # Convert temperature to b as defined in Choudhury et al. (2001) [C2001],
 # equation 31, for the nth sightline
@@ -90,6 +93,12 @@ zs = np.full(count, float(z_max))
 for i in range(count - 2, -1, -1):
 	z = zs[i + 1]
 	zs[i] = z - dz_by_dx(z) * box /count
+
+# Neutral hydrogen number density
+def nHIs(n):
+	rh_bar = rh_crit * om_b * x_H
+	nHs = deHss[:, n] * rh_bar + rh_bar
+	return nHs * fHIss[:, n]
 
 # Voigt function computed from the Faddeeva function
 def voigt(As, Bs):
