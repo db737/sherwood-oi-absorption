@@ -89,7 +89,7 @@ def dz_by_dx(z):
 zs = np.full(count, float(z_max))
 for i in range(count - 2, -1, -1):
 	z = zs[i + 1]
-	zs[i] = s - dz_by_dx(z) * box /count
+	zs[i] = z - dz_by_dx(z) * box /count
 
 # Voigt function computed from the Faddeeva function
 def voigt(As, Bs):
