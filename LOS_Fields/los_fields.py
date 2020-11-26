@@ -52,6 +52,12 @@ c = consts.value("speed of light in vacuum")
 I_al = 5.5e-19
 # Ionising background in units of 10^{-12}s^{-1}
 Ga_UV = 7.0
+# Solar metallicity
+Z_solar = 0.0134
+# Metallicity prefactor
+Z_80 = Z_solar * 10.0 ** -2.65
+# Metallicity exponent in formula 5 of Keating et al. (2014) [K2014]
+n_Z = 1.3
 # \sqrt{\pi}
 sqrt_pi = math.sqrt(pi)
 
@@ -63,7 +69,7 @@ sqrt_pi = math.sqrt(pi)
 # Neutral hydrogen fraction
 fHIss = np.transpose(spec_obj.nHI_frac)
 # Hydrogen overdensity
-deHss = np.transpose(spec_obj.rhoH2rhoHmean) * 1.0e6
+DeHss = np.transpose(spec_obj.rhoH2rhoHmean) * 1.0e6
 # Temperature
 Tss = np.transpose(spec_obj.temp_HI)
 # Peculiar velocity along the line of sight
@@ -97,8 +103,8 @@ for i in range(count - 2, -1, -1):
 # Neutral hydrogen number density
 def nHIs(n):
 	rh_bar = rh_crit * om_b * x_H
-	nHs = deHss[:, n] * rh_bar + rh_bar
-	return nHs * fHIss[:, n]
+	nHs = DeHss[:, n] * rh_bar
+	return nHs * fHIss[:, n] * 1.0e6 # 10^6 from conversion to SI
 
 # Voigt function computed from the Faddeeva function
 def voigt(As, Bs):
@@ -114,8 +120,12 @@ def vArg2s(n, z0):
 def als(n):
 	return c * Ga / (4 * pi * nu_12 * bs(n))
 
+# Metallicity using formula 5 from Keating et al. (2014) [K2014]
+def Zs(n):
+	return Z_80 * (DeHss[:, n] / 80.0) ^ n_Z
+
 # The overdensity at which a region becomes 'self-shielded' (Keating et al.
-# (2015)), computed for the nth sightline.
+# (2016) [K2016]), computed for the nth sightline.
 def cutoffsSS(n):
 	T4s = Tss[:, n] / 1.0e4
 	p1 = 2.0 / 3.0
@@ -125,10 +135,8 @@ def cutoffsSS(n):
 
 # The number density of neutral oxygen at a point, for the nth sightline
 def nOIs(n):
-	dtyAve = 0.0 # TODO Compute average density
-	overdensities = (nHIss[:, n] - np.full(count, dtyAve)) / dtyAve
-	fOI = np.heaviside(overdensities - cutoffsSS(n), 1.0)
-	return fOI # TODO metallicity
+	fOI = np.heaviside(DeHss[:, n] - cutoffsSS(n), 1.0)
+	return fOI * Zs(n)
 
 # The integrand as in [C2001] equation 30 except with a change of variables to
 # be an integral over z, for the nth sightline
