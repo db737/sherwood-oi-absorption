@@ -123,7 +123,7 @@ def nOIs(n):
 
 # The integrand as in [C2001] equation 30 except with a change of variables to
 # be an integral over z, for the nth sightline
-def integrand1s(n, z0, f_scale):
+def integrand1s(n, z0):
 	prefactor = c * I_al / sqrt_pi
 	voigtFn = voigt(als(n), vArg2s(n, z0))
 	measure = dz_by_dx(zs)
@@ -132,15 +132,15 @@ def integrand1s(n, z0, f_scale):
 # Optical depth of the nth sightline from the farthest redshift up to z0, for
 # the nth sightline; we integrate using Simpson's rule over all the points that
 # fall in the region and assume the redshifts are in increasing order
-def opticalDepth(n, z0, f_scale):
-	return si.simps(integrand1s(n, z0, f_scale), zs)
+def opticalDepth(n, z0):
+	return si.simps(integrand1s(n, z0), zs)
 
-def output1s(n, f_scale):
-	return np.array([opticalDepth(n, z0, f_scale) for z0 in zs])
+def output1s(n):
+	return np.array([opticalDepth(n, z0) for z0 in zs])
 
 # Attenuation coefficient
-def output2s(n, f_scale):
-	return np.exp(-output1s(n, f_scale))
+def output2s(n):
+	return np.exp(-output1s(n))
 
 
 # --------------
