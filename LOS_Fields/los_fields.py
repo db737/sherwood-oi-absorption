@@ -5,10 +5,6 @@ import matplotlib.pyplot as plt
 import matplotlib.lines as ml
 import math
 import sys
-import os
-
-print(os.path.join(os.path.dirname(__file__), "..", "..", "read_spec_ewald_script.py"))
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "read_spec_ewald_script.py"))
 
 from numpy import pi
 from read_spec_ewald_script import spectra
