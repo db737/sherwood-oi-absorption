@@ -151,7 +151,7 @@ depthLabel = "$\\tau_\\mathrm{O\\,I}$"
 fluxLabel = "$F=e^{-" + depthLabel[1 : len(depthLabel) - 1] + "}$"
 
 # Optical depth and flux
-def plot1(n, f_scale):
+def plot1(n):
 	plt.title(f"Optical depth for sightline {n + 1}")
 	plt.plot(zs, output2s(n))
 	plt.xlabel("$z$")
