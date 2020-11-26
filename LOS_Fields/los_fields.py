@@ -70,7 +70,7 @@ Tss = np.transpose(spec_obj.temp_HI)
 vss = np.transpose(spec_obj.vel_HI) * 1000.0
 
 # Number of elements in a sightline
-count = len(fnss[:, 0])
+count = len(fHIss[:, 0])
 
 # Convert temperature to b as defined in Choudhury et al. (2001) [C2001],
 # equation 31, for the nth sightline
