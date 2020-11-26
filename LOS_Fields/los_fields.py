@@ -1,5 +1,3 @@
-from numpy import pi
-from . import spectra
 import numpy as np
 import scipy.integrate as si
 import scipy.special as ss
@@ -7,6 +5,11 @@ import matplotlib.pyplot as plt
 import matplotlib.lines as ml
 import math
 import sys
+
+sys.path.append("../../read_spec_ewald_script.py")
+
+from numpy import pi
+from read_spec_ewald_script import spectra
 
 # -----------------
 # --- Constants ---
@@ -34,7 +37,7 @@ c = 2.9979e8
 # and the 'atom.dat' data file of VPFIT 10.4 
 I_al = 5.5e-19
 # Ionising background in units of 10^{-12}s^{-1}
-Ga_UV
+Ga_UV = 7.0
 # \sqrt{\pi}
 sqrt_pi = math.sqrt(pi)
 
