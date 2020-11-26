@@ -47,7 +47,7 @@ sqrt_pi = math.sqrt(pi)
 z_max = "3.000"
 
 def filename(x):
-	return "./los/" + x + "2048_n5000_z" + z_max + ".dat"
+	return "../../los/" + x + "2048_n5000_z" + z_max + ".dat"
 
 flag_spectype = "se_onthefly"
 spec_obj = spectra(flag_spectype, filename("los"), taufilename = filename("tau"))
