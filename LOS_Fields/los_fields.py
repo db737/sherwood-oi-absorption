@@ -87,7 +87,7 @@ def dz_by_dx(z):
 
 # Compute redshift axis
 zs = np.full(count, float(z_max))
-for i in range(count - 1, 0, -1):
+for i in range(count - 2, -1, -1):
 	z = zs[i + 1]
 	zs[i] = s - dz_by_dx(z) * box /count
 
