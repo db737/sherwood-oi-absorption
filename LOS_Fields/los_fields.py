@@ -111,7 +111,7 @@ def nHIs(n):
 	rh_crits = rh_crit0 * (Om_La + Om_m * (1.0 + zs) ** 3.0)
 	rh_bars = rh_crits * Om_b * x_H
 	nHs = DeHss[:, n] * rh_bars / m_HI # Number density from mass density
-	return nHs * fHIss[:, n] * 1.0e6 # 10^6 from conversion to SI
+	return nHs * fHIss[:, n]
 
 # Voigt function computed from the Faddeeva function
 def voigt(As, Bs):
@@ -150,7 +150,7 @@ def nOIs(n):
 def integrand1s(n, z0):
 	prefactor = c * I_al / sqrt_pi
 	voigtFn = voigt(als(n), vArg2s(n, z0))
-	measure = dz_by_dx(zs)
+	measure = 1.0 / dz_by_dx(zs)
 	return prefactor * measure * voigtFn * nHIs(n) / (bs(n) * (1.0 + zs)) # TODO return to OI
 
 # Optical depth of the nth sightline from the farthest redshift up to z0, for
