@@ -26,15 +26,15 @@ spec_obj = spectra(flag_spectype, filename("los"), taufilename = filename("tau")
 # All in SI units unless otherwise stated
 G = consts.value("Newtonian constant of gravitation")
 # Matter contribution
-om_m = spec_obj.om
+Om_m = spec_obj.om
 # Baryon contribution
-om_b = spec_obj.ob
+Om_b = spec_obj.ob
 # Cosmological constant contribution
-om_La = spec_obj.ol
+Om_La = spec_obj.ol
 # Hubble constant
 H_0 = spec_obj.H0
-# Critical density
-rh_crit = 3.0 * H_0 ** 2.0 / (8.0 * pi * G)
+# Critical density now
+rh_crit0 = 3.0 * H_0 ** 2.0 / (8.0 * pi * G)
 # Hydrogen fraction
 x_H = spec_obj.xh
 # Transition frequency
@@ -92,7 +92,7 @@ box = spec_obj.box * 1.0e3 * consts.parsec / spec_obj.h
 
 # See [C2001] equation 30; assume no radiation or curvature contributions
 def dz_by_dx(z):
-	return (H_0 / c) * (om_La + om_m * (1.0 + z) ** 3.0) ** 0.5
+	return (H_0 / c) * (Om_La + Om_m * (1.0 + z) ** 3.0) ** 0.5
 
 # Compute redshift axis
 zs = np.full(count, float(z_mid))
@@ -106,8 +106,9 @@ for i in range(middleIndex + 1, count):
 
 # Neutral hydrogen number density
 def nHIs(n):
-	rh_bar = rh_crit * om_b * x_H
-	nHs = DeHss[:, n] * rh_bar
+	rh_crits = rh_crit0 * (Om_La + Om_m * (1.0 + zs) ** 3.0)
+	rh_bars = rh_crits * Om_b * x_H
+	nHs = DeHss[:, n] * rh_bars
 	return nHs * fHIss[:, n] * 1.0e6 # 10^6 from conversion to SI
 
 # Voigt function computed from the Faddeeva function
