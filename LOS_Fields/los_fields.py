@@ -10,11 +10,11 @@ import sys
 from numpy import pi
 from read_spec_ewald_script import spectra
 
-# Upper z limit
-z_max = "3.000"
+# Middle z value
+z_mid = "3.000"
 
 def filename(x):
-	return "../../los/" + x + "2048_n5000_z" + z_max + ".dat"
+	return "../../los/" + x + "2048_n5000_z" + z_mid + ".dat"
 
 flag_spectype = "se_onthefly"
 spec_obj = spectra(flag_spectype, filename("los"), taufilename = filename("tau"))
@@ -73,7 +73,7 @@ DeHss = np.transpose(spec_obj.rhoH2rhoHmean) * 1.0e6
 # Temperature
 Tss = np.transpose(spec_obj.temp_HI)
 # Peculiar velocity along the line of sight
-vss = np.transpose(spec_obj.vel_HI) * 1000.0
+vss = np.transpose(spec_obj.vel_HI) * 1.0e3
 
 # Number of elements in a sightline
 count = len(fHIss[:, 0])
@@ -83,22 +83,26 @@ count = len(fHIss[:, 0])
 def bs(n):
 	return np.sqrt(2.0 * k_B * Tss[:, n] / m_p)
 
-# Box size
-box = spec_obj.box
+# Box size (box is in units of h^{-1} ckPc)
+box = spec_obj.box * 1.0e3 * consts.parsec / spec_obj.h
 
 # -----------------
 # -- Calculation --
 # -----------------
 
 # See [C2001] equation 30; assume no radiation or curvature contributions
-def dz_by_dx(z): 
+def dz_by_dx(z):
 	return (H_0 / c) * (om_La + om_m * (1.0 + z) ** 3.0) ** 0.5
 
 # Compute redshift axis
-zs = np.full(count, float(z_max))
-for i in range(count - 2, -1, -1):
+zs = np.full(count, float(z_mid))
+middleIndex = (count - 1) // 2
+for i in range(middleIndex - 1, -1, -1):
 	z = zs[i + 1]
-	zs[i] = z - dz_by_dx(z) * box /count
+	zs[i] = z - dz_by_dx(z) * box / count
+for i in range(middleIndex + 1, count):
+	z = zs[i - 1]
+	zs[i] = z + dz_by_dx(z) * box / count
 
 # Neutral hydrogen number density
 def nHIs(n):
