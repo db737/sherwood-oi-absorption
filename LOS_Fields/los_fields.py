@@ -42,8 +42,10 @@ x_H = spec_obj.xh
 nu_12 = 2.3023e15
 # Quantum-mechanical damping constant [NIST]
 Ga = 3.41e8
-# Particle mass
-m_p = 8.0 * (consts.value("proton mass") + consts.value("neutron mass") + consts.value("electron mass"))
+# HI mass
+m_HI = consts.value("proton mass") + consts.value("electron mass")
+# OI mass
+m_OI = 8.0 * (m_HI + consts.value("neutron mass"))
 k_B = consts.value("Boltzmann constant")
 c = consts.value("speed of light in vacuum")
 # Prefactor I_\alpha to the integral, calculated using above constants and
@@ -81,7 +83,7 @@ count = len(fHIss[:, 0])
 # Convert temperature to b as defined in Choudhury et al. (2001) [C2001],
 # equation 31, for the nth sightline
 def bs(n):
-	return np.sqrt(2.0 * k_B * Tss[:, n] / m_p)
+	return np.sqrt(2.0 * k_B * Tss[:, n] / m_OI)
 
 # Box size (box is in units of h^{-1} ckPc)
 box = spec_obj.box * 1.0e3 * consts.parsec / spec_obj.h
@@ -108,7 +110,7 @@ for i in range(middleIndex + 1, count):
 def nHIs(n):
 	rh_crits = rh_crit0 * (Om_La + Om_m * (1.0 + zs) ** 3.0)
 	rh_bars = rh_crits * Om_b * x_H
-	nHs = DeHss[:, n] * rh_bars
+	nHs = DeHss[:, n] * rh_bars / m_HI # Number density from mass density
 	return nHs * fHIss[:, n] * 1.0e6 # 10^6 from conversion to SI
 
 # Voigt function computed from the Faddeeva function
