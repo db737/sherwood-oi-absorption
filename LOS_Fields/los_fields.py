@@ -60,8 +60,6 @@ Z_solar = 0.0134
 Z_80 = Z_solar * 10.0 ** -2.65
 # Metallicity exponent in formula 5 of Keating et al. (2014) [K2014]
 n_Z = 1.3
-# \sqrt{\pi}
-sqrt_pi = math.sqrt(pi)
 
 # ------------
 # --- Data ---
@@ -71,7 +69,7 @@ sqrt_pi = math.sqrt(pi)
 # Neutral hydrogen fraction
 fHIss = np.transpose(spec_obj.nHI_frac)
 # Hydrogen overdensity
-DeHss = np.transpose(spec_obj.rhoH2rhoHmean) * 1.0e6
+DeHss = np.transpose(spec_obj.rhoH2rhoHmean)
 # Temperature
 Tss = np.transpose(spec_obj.temp_HI)
 # Peculiar velocity along the line of sight
@@ -148,7 +146,7 @@ def nOIs(n):
 # The integrand as in [C2001] equation 30 except with a change of variables to
 # be an integral over z, for the nth sightline
 def integrand1s(n, z0):
-	prefactor = c * I_al / sqrt_pi
+	prefactor = c * I_al * math.pi ** -0.5
 	voigtFn = voigt(als(n), vArg2s(n, z0))
 	measure = 1.0 / dz_by_dx(zs)
 	return prefactor * measure * voigtFn * nHIs(n) / (bs(n) * (1.0 + zs)) # TODO return to OI
@@ -165,7 +163,6 @@ def output1s(n):
 # Attenuation coefficient
 def output2s(n):
 	return np.exp(-output1s(n))
-
 
 # --------------
 # -- Plotting --
