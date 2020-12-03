@@ -208,7 +208,7 @@ def test2(n):
 	f1s = np.sqrt(Tss[:, n] / T1)
 	Us = 11604.5 * E / Tss[:, n]
 	# Recombination rates
-	als = a / (f0s * ((1.0 + f0s) ** (1.0 - b)) * ((1.0 + f1s) ** (1.0 + b))
+	als = a / (f0s * ((1.0 + f0s) ** (1.0 - b)) * ((1.0 + f1s) ** (1.0 + b)))
 	# Collisional ionisation rates
 	gas = A * (Us ** m) * np.exp(-Us) / (X + Us)
 	# Background ionisation rate
