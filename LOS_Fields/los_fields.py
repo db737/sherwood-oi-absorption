@@ -12,6 +12,7 @@ from numpy import pi
 from read_spec_ewald_script import spectra
 
 matplotlib.rcParams["text.usetex"] = True
+plt.style.use("custom_plot_style.py")
 
 # Middle z value
 z_mid = "3.000"
