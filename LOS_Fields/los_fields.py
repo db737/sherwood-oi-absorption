@@ -108,7 +108,7 @@ for i in range(middleIndex + 1, count):
 def nHIs(n):
 	rh_crits = rh_crit0 * (Om_La + Om_m * (1.0 + zs) ** 3.0)
 	rh_barIs = rh_crits * Om_b * x_H * fHIss[:, n] / (1.0 - fHIss[:, n])
-	nHIIs = DeHss[:, n] * rh_bars / m_HI # Number density from mass density
+	nHIIs = DeHss[:, n] * rh_barIs / m_HI # Number density from mass density
 	return nHIIs * fHIss[:, n]
 
 # Voigt function computed from the Faddeeva function
