@@ -4,11 +4,14 @@ import scipy.special as ss
 import scipy.constants as consts
 import matplotlib.pyplot as plt
 import matplotlib.lines as ml
+import matplotlib
 import math
 import sys
 
 from numpy import pi
 from read_spec_ewald_script import spectra
+
+matplotlib.rcParams["text.usetex"] = True
 
 # Middle z value
 z_mid = "3.000"
