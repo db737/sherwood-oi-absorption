@@ -221,7 +221,7 @@ def test2(n):
 	nbs = nHIs(n) / fHIss[:, n] * 1.0e-6
 	mue = 2.0 * (2.0 - Y) / (4.0 - 3.0 * Y)
 	nhis = als * nbs / (als + gas + j / (mue * nbs))
-	plt.title(f"Comparison of measured and computed neutral fractions for sightline {n + 1}")
+	plt.title(f"Comparison of measured and computed neutral hydrogen number densities for sightline {n + 1}")
 	plt.plot(zs, nHIs(n) * 1.0e-6, color = 'b')
 	plt.plot(zs, nhis, color = 'k')
 	measured = ml.Line2D([], [], color = 'b', label = "measured")
