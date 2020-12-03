@@ -177,7 +177,7 @@ def output2s(n):
 # -- Plotting --
 # --------------
 
-oiLabel = '\mbox{O\,\sc{i} }'
+oiLabel = 'O\,\sc{i}'
 depthLabel = '$\tau_{' + oiLabel + "}$"
 fluxLabel = "$F=e^{-" + depthLabel[1 : len(depthLabel) - 1] + "}$"
 
@@ -227,7 +227,7 @@ def test2(n):
 	measured = ml.Line2D([], [], color = 'b', label = "measured")
 	computed = ml.Line2D([], [], color = 'k', label = "computed")
 	plt.xlabel("$z$")
-	plt.ylabel("$n_{" + oiLabel + '} / \mathrm{cm^3s^{-1}}$')
+	plt.ylabel("$n_{" + oiLabel + '} / \mathrm{cm^3}$')
 	plt.legend(handles = [measured, computed])
 	plt.show()
 
