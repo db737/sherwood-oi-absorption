@@ -104,12 +104,17 @@ for i in range(middleIndex + 1, count):
 	z = zs[i - 1]
 	zs[i] = z + dz_by_dx(z) * box / count
 
+# Average density of baryons
+def rhBars():
+	rh_crits = rh_crit0 * (Om_La + Om_m * (1.0 + zs) ** 3.0)
+	return Om_b * rh_crits
+
 # Neutral hydrogen number density
 def nHIs(n):
 	rh_crits = rh_crit0 * (Om_La + Om_m * (1.0 + zs) ** 3.0)
-	rh_barIs = rh_crits * Om_b * x_H * fHIss[:, n] / (1.0 - fHIss[:, n])
-	nHIIs = DeHss[:, n] * rh_barIs / m_HI # Number density from mass density
-	return nHIIs * fHIss[:, n]
+	rh_bars = rh_crits * Om_b * x_H
+	nHIs = DeHss[:, n] * rh_bars / m_HI # Number density from mass density
+	return nHIs * fHIss[:, n]
 
 # Voigt function computed from the Faddeeva function
 def voigt(As, Bs):
@@ -179,8 +184,14 @@ def plot1(n):
 	plt.ylabel(fluxLabel)
 	plt.show()
 
+# Check that overdensity averages to 1 for a given redshift
+def test1():
+	Des = DeHss[middleIndex, :]
+	print(np.mean(Des))
+	
+
 # Main
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-plot1(n)
+test1()
