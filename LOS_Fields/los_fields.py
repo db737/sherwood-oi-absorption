@@ -174,7 +174,8 @@ def output2s(n):
 # -- Plotting --
 # --------------
 
-depthLabel = "$\\tau_\\mathrm{O\\,I}$"
+oiLabel = "$\\mbox{O\\,\\sc{i} }$"
+depthLabel = "$\\tau_{" + oiLabel + "}$"
 fluxLabel = "$F=e^{-" + depthLabel[1 : len(depthLabel) - 1] + "}$"
 
 # Optical depth and flux
@@ -213,11 +214,19 @@ def test2(n):
 	gas = A * (Us ** m) * np.exp(-Us) / (X + Us)
 	# Background ionisation rate
 	j = 8.28e-13
-	# Baryon number density
-	nbs = nHIs(n) / fHIss[:, n]
+	# Baryon number density, not in SI units
+	nbs = nHIs(n) / fHIss[:, n] * 1.0e-6
 	mue = 2.0 * (2.0 - Y) / (4.0 - 3.0 * Y)
 	nhis = als * nbs / (als + gas + j / (mue * nbs))
-	print(f"measured: {nHIs(n)}, computed: {nhis}")
+	plt.title(f"Comparison of measured and computed photoionisation rates for sightline {n + 1}")
+	plt.plot(zs, nHIs, color = 'b')
+	plt.plot(zs, nhis, color = 'k')
+	measured = ml.Line2D([], [], color = 'b', label = "measured")
+	computed = ml.Line2D([], [], color = 'k', label = "computed")
+	plt.xlabel("$z$")
+	plt.ylabel("$n_{" + oiLabel + "} / \\mathrm{cm^3s^{-1}}$")
+	plt.legend(handles = [measured, computed])
+	plt.show()
 
 # Main
 n = 0
