@@ -48,7 +48,7 @@ m_HI = consts.value("proton mass") + consts.value("electron mass")
 m_OI = 8.0 * (m_HI + consts.value("neutron mass"))
 k_B = consts.value("Boltzmann constant")
 c = consts.value("speed of light in vacuum")
-# Prefactor I_\alpha to the integral, calculated using above constants and
+# Prefactor I_{\alpha} to the integral, calculated using above constants and
 # https://www.astro.ncu.edu.tw/~wchen/Courses/ISM/04.EinsteinCoefficients.pdf
 # and the 'atom.dat' data file of VPFIT 10.4 
 I_al = 5.5e-19
@@ -107,9 +107,9 @@ for i in range(middleIndex + 1, count):
 # Neutral hydrogen number density
 def nHIs(n):
 	rh_crits = rh_crit0 * (Om_La + Om_m * (1.0 + zs) ** 3.0)
-	rh_bars = rh_crits * Om_b * x_H
-	nHs = DeHss[:, n] * rh_bars / m_HI # Number density from mass density
-	return nHs * fHIss[:, n]
+	rh_barIs = rh_crits * Om_b * x_H * fHIss[:, n] / (1.0 - fHIss[:, n])
+	nHIIs = DeHss[:, n] * rh_bars / m_HI # Number density from mass density
+	return nHIIs * fHIss[:, n]
 
 # Voigt function computed from the Faddeeva function
 def voigt(As, Bs):
@@ -127,7 +127,7 @@ def als(n):
 
 # Metallicity using formula 5 from Keating et al. (2014) [K2014]
 def Zs(n):
-	return Z_80 * (DeHss[:, n] / 80.0) ^ n_Z
+	return Z_80 * (DeHss[:, n] / 80.0) ** n_Z
 
 # The overdensity at which a region becomes 'self-shielded' (Keating et al.
 # (2016) [K2016]), computed for the nth sightline.
