@@ -217,7 +217,7 @@ def test2(n):
 	nbs = nHIs(n) / fHIss[:, n]
 	mue = 2.0 * (2.0 - Y) / (4.0 - 3.0 * Y)
 	nhis = als * nbs / (als + gas + j / (mue * nbs))
-	print("measured: {}, computed: {}", nHIs(n), nhis)
+	print(f"measured: {nHIs(n)}, computed: {nhis}")
 
 # Main
 n = 0
