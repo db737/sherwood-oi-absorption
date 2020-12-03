@@ -177,7 +177,7 @@ def output2s(n):
 # -- Plotting --
 # --------------
 
-oiLabel = '$\mbox{O\,\sc{i} }$'
+oiLabel = '\mbox{O\,\sc{i} }'
 depthLabel = '$\tau_{' + oiLabel + "}$"
 fluxLabel = "$F=e^{-" + depthLabel[1 : len(depthLabel) - 1] + "}$"
 
