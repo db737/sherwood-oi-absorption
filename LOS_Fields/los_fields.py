@@ -56,6 +56,7 @@ I_al = 5.5e-19
 Ga_UV = 7.0
 # Solar metallicity
 Z_solar = 0.0134
+
 # Metallicity prefactor
 Z_80 = Z_solar * 10.0 ** -2.65
 # Metallicity exponent in formula 5 of Keating et al. (2014) [K2014]
@@ -80,8 +81,8 @@ count = len(fHIss[:, 0])
 
 # Convert temperature to b as defined in Choudhury et al. (2001) [C2001],
 # equation 31, for the nth sightline
-def bs(n):
-	return np.sqrt(2.0 * k_B * Tss[:, n] / m_OI)
+def bs(n, mass):
+	return np.sqrt(2.0 * k_B * Tss[:, n] / mass)
 
 # Box size (box is in units of h^{-1} ckPc)
 box = spec_obj.box * 1.0e3 * consts.parsec / spec_obj.h
@@ -113,8 +114,8 @@ def rhBars():
 def nHIs(n):
 	rh_crits = rh_crit0 * (Om_La + Om_m * (1.0 + zs) ** 3.0)
 	rh_bars = rh_crits * Om_b * x_H
-	nHIs = DeHss[:, n] * rh_bars / m_HI # Number density from mass density
-	return nHIs * fHIss[:, n]
+	nHs = DeHss[:, n] * rh_bars / m_HI # Number density from mass density
+	return nHs * fHIss[:, n]
 
 # Voigt function computed from the Faddeeva function
 def voigt(As, Bs):
@@ -154,7 +155,7 @@ def integrand1s(n, z0):
 	prefactor = c * I_al * math.pi ** -0.5
 	voigtFn = voigt(als(n), vArg2s(n, z0))
 	measure = 1.0 / dz_by_dx(zs)
-	return prefactor * measure * voigtFn * nHIs(n) / (bs(n) * (1.0 + zs)) # TODO return to OI
+	return prefactor * measure * voigtFn * nHIs(n) / (bs(n, m_HI) * (1.0 + zs)) # TODO return to OI
 
 # Optical depth of the nth sightline from the farthest redshift up to z0, for
 # the nth sightline; we integrate using Simpson's rule over all the points that
@@ -188,7 +189,35 @@ def plot1(n):
 def test1():
 	Des = DeHss[middleIndex, :]
 	print(np.mean(Des))
-	
+
+# Check that the ionised fraction agrees with what we would expect from the
+# photoionisation equation
+def test2(n):
+	# Fitted parameters for photoionisation based on temperature
+	a = 7.982e-11
+	b = 0.748
+	T0 = 3.148
+	T1 = 7.036e5
+	A = 2.91e-8
+	E = 13.6
+	X = 0.232
+	m = 0.39
+	# Helium fraction
+	Y = 0.2485
+	f0s = np.sqrt(Tss[:, n] / T0)
+	f1s = np.sqrt(Tss[:, n] / T1)
+	Us = 11604.5 * E / Tss[:, n]
+	# Recombination rates
+	als = a / (f0s * ((1.0 + f0s) ** (1.0 - b)) * ((1.0 + f1s) ** (1.0 + b))
+	# Collisional ionisation rates
+	gas = A * (Us ** m) * np.exp(-Us) / (X + Us)
+	# Background ionisation rate
+	j = 8.28e-13
+	# Baryon number density
+	nbs = nHIs(n) / fHIss[:, n]
+	mue = 2.0 * (2.0 - Y) / (4.0 - 3.0 * Y)
+	nhis = als * nbs / (als + gas + j / (mue * nbs))
+	print("measured: {}, computed: {}", nHIs(n), nhis)
 
 # Main
 n = 0
