@@ -226,7 +226,7 @@ def test2(n):
 	plt.plot(zs, nhis * 3.1, color = 'k')
 	measured = ml.Line2D([], [], color = 'b', label = "measured")
 	computed = ml.Line2D([], [], color = 'k', label = "computed")
-	plt.xlabel("$z$", fontsize = large)
+	plt.xlabel("$z$", fontsize = "large")
 	plt.ylabel("$n_{" + oiLabel + '} / \mathrm{cm^3}$', fontsize = "large")
 	plt.legend(handles = [measured, computed])
 	plt.show()
