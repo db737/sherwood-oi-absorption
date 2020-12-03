@@ -223,7 +223,7 @@ def test2(n):
 	nhis = als * nbs / (als + gas + j / (mue * nbs))
 	plt.title(f"Comparison of measured and computed neutral fractions for sightline {n + 1}")
 	plt.plot(zs, nHIs(n) * 1.0e-6, color = 'b')
-	plt.plot(zs, nhis * 3.1, color = 'k')
+	plt.plot(zs, nhis, color = 'k')
 	measured = ml.Line2D([], [], color = 'b', label = "measured")
 	computed = ml.Line2D([], [], color = 'k', label = "computed")
 	plt.xlabel("$z$", fontsize = "large")
