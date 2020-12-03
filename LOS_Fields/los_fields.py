@@ -223,4 +223,4 @@ def test2(n):
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-test1()
+test2(n)
