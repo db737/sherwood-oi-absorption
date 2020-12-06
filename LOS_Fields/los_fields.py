@@ -4,8 +4,12 @@ import scipy.integrate as si
 import scipy.special as ss
 import matplotlib.pyplot as plt
 import matplotlib.lines as ml
+import matplotlib
 import math
 import sys
+
+matplotlib.rcParams["text.usetex"] = True
+plt.style.use("custom_plot_style.py")
 
 # -----------------
 # --- Constants ---
@@ -93,25 +97,34 @@ def output2s(n, f_scale):
 # -- Plotting --
 # --------------
 
-depthLabel = "$\\tau_\\mathrm{O\\,I}$"
-fluxLabel = "$F=e^{-" + depthLabel[1 : len(depthLabel) - 1] + "}$"
+def iLabel(x):
+	return '\small\mbox{' + x + '\,\sc{i} }'
+
+def depthLabel(x):
+	return '$\\tau_{' + iLabel(x) + "}$"
+
+def fluxLabel(x):
+	dl = depthLabel(x)
+	return  "$F=e^{-" + dl[1 : len(dl) - 1] + "}$"
 
 # Optical depth and flux
-def plot1(n, f_scale):
+def plot1(n):
+	fs = "xx-small"
 	fig, axes = plt.subplots(5, 1, sharex = True)
 	axes[0].semilogy(zs, nHIss[:, n] / 1.0e6)
 	axes[0].set_title(f"Optical depth for sightline {n + 1}")
-	axes[0].set_ylabel("$n_{\\mathrm{H\\,I}}/\\mathrm{cm^{-3}}$")
+	axes[0].set_ylabel('$n_{' + iLabel("H") + '}/\mathrm{cm^{-3}}$', fontsize = fs)
 	axes[1].semilogy(zs, Tss[:, n])
-	axes[1].set_ylabel("$T/\\mathrm{K}$")
+	axes[1].set_ylabel('$T/\mathrm{K}$', fontsize = fs)
 	axes[2].plot(zs, vss[:, n] / 1000.0)
-	axes[2].set_ylabel("$v/\\mathrm{kms^{-1}}$")
-	axes[3].semilogy(zs, output1s(n, f_scale))
-	axes[3].set_ylabel(depthLabel)
-	axes[4].plot(zs, output2s(n, f_scale))
+	axes[2].set_ylabel('$v/\mathrm{kms^{-1}}$', fontsize = fs)
+	axes[3].semilogy(zs, output1s(n, 1.0))
+	axes[3].set_ylabel(depthLabel("H"), fontsize = fs)
+	axes[4].plot(zs, output2s(n, 1.0))
 	axes[4].set_xlabel("$z$")
-	axes[4].set_ylabel(fluxLabel)
+	axes[4].set_ylabel(fluxLabel("H"), fontsize = fs)
 	plt.subplots_adjust(hspace = 0)
+	fig.align_ylabels()
 	plt.show()
 
 # A single line for plot2
@@ -131,7 +144,7 @@ def plot2(n):
 	for i in range(0, count):
 		lines[i] = plot2single(n, colors[i], f_scales[i])
 	plt.xlabel("$z$")
-	plt.ylabel(fluxLabel)
+	plt.ylabel(fluxLabel("O"))
 	plt.legend(handles = lines, loc = "center right", framealpha = 0.95)
 	plt.show()
 
