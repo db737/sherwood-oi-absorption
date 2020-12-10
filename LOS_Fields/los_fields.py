@@ -237,7 +237,7 @@ def test2(n):
 # Compare Neutral hydrogen optical depths
 def test3(n):
 	plt.plot(zs, ta_HIss[:, n], "k")
-	plt.plot(zs, output2s(n), "b--")
+	plt.plot(zs, output1s(n), "b--")
 	plt.show()
 
 # Main
