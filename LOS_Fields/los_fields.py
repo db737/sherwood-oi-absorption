@@ -133,8 +133,8 @@ def vArg2s(n, z0):
 
 # The \alpha used in the 1st argument of the Voigt function in equation 30 in
 # [C20001], for the nth sightline
-def als(n):
-	return c * Ga / (4 * pi * nu_12 * bs(n))
+def als(n, mass):
+	return c * Ga / (4 * pi * nu_12 * bs(n, mass))
 
 # Metallicity using formula 5 from Keating et al. (2014) [K2014]
 def Zs(n):
@@ -156,17 +156,17 @@ def nOIs(n):
 
 # The integrand as in [C2001] equation 30 except with a change of variables to
 # be an integral over z, for the nth sightline
-def integrand1s(n, z0):
+def integrand1s(n, z0, mass):
 	prefactor = c * I_al * math.pi ** -0.5
-	voigtFn = voigt(als(n), vArg2s(n, z0))
+	voigtFn = voigt(als(n, mass), vArg2s(n, z0))
 	measure = 1.0 / dz_by_dx(zs)
-	return prefactor * measure * voigtFn * nHIs(n) / (bs(n, m_HI) * (1.0 + zs)) # TODO return to OI
+	return prefactor * measure * voigtFn * nHIs(n) / (bs(n, mass) * (1.0 + zs)) # TODO return to OI
 
 # Optical depth of the nth sightline from the farthest redshift up to z0, for
 # the nth sightline; we integrate using Simpson's rule over all the points that
 # fall in the region and assume the redshifts are in increasing order
 def opticalDepth(n, z0):
-	return si.simps(integrand1s(n, z0), zs)
+	return si.simps(integrand1s(n, z0, m_HI), zs)
 
 def output1s(n):
 	return np.array([opticalDepth(n, z0) for z0 in zs])
