@@ -238,6 +238,7 @@ def test2(n):
 def test3(n):
 	plt.plot(zs, ta_HIss[:, n], "k")
 	plt.plot(zs, output2s(n), "b--")
+	plt.show()
 
 # Main
 n = 0
