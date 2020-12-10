@@ -79,6 +79,8 @@ DeHss = np.transpose(spec_obj.rhoH2rhoHmean)
 Tss = np.transpose(spec_obj.temp_HI)
 # Peculiar velocity along the line of sight
 vss = np.transpose(spec_obj.vel_HI) * 1.0e3
+# HI optical depths
+ta_HI = np.transpose(spec_obj.tau_HI)
 
 # Number of elements in a sightline
 count = len(fHIss[:, 0])
@@ -232,8 +234,13 @@ def test2(n):
 	plt.legend(handles = [measured, computed])
 	plt.show()
 
+# Compare Neutral hydrogen optical depths
+def test3(n):
+	plt.plot(zs, ta_HIs[:, n], "k")
+	plt.plot(zs, output2s(n), "b--")
+
 # Main
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-test2(n)
+test3(n)
