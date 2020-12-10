@@ -128,8 +128,8 @@ def voigt(As, Bs):
 
 # 2nd argument to be passed to the Voigt function in [C2001] equation 30, for
 # the nth sightline
-def vArg2s(n, z0):
-	return (vss[:, n] + c * (zs - z0) / (1.0 + z0)) / bs(n)
+def vArg2s(n, z0, mass):
+	return (vss[:, n] + c * (zs - z0) / (1.0 + z0)) / bs(n, mass)
 
 # The \alpha used in the 1st argument of the Voigt function in equation 30 in
 # [C20001], for the nth sightline
@@ -158,7 +158,7 @@ def nOIs(n):
 # be an integral over z, for the nth sightline
 def integrand1s(n, z0, mass):
 	prefactor = c * I_al * math.pi ** -0.5
-	voigtFn = voigt(als(n, mass), vArg2s(n, z0))
+	voigtFn = voigt(als(n, mass), vArg2s(n, z0, mass))
 	measure = 1.0 / dz_by_dx(zs)
 	return prefactor * measure * voigtFn * nHIs(n) / (bs(n, mass) * (1.0 + zs)) # TODO return to OI
 
