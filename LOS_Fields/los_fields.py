@@ -30,9 +30,9 @@ spec_obj = spectra(flag_spectype, filename("los"), taufilename = filename("tau")
 # All in SI units unless otherwise stated
 G = consts.value("Newtonian constant of gravitation")
 # Matter contribution
-Om_m = spec_obj.om
+Om_m0 = spec_obj.om
 # Baryon contribution
-Om_b = spec_obj.ob
+Om_b0 = spec_obj.ob
 # Cosmological constant contribution
 Om_La = spec_obj.ol
 # Hubble constant
@@ -97,7 +97,7 @@ box = spec_obj.box * 1.0e3 * consts.parsec / spec_obj.h
 
 # See [C2001] equation 30; assume no radiation or curvature contributions
 def dz_by_dx(z):
-	return (H_0 / c) * (Om_La + Om_m * (1.0 + z) ** 3.0) ** 0.5
+	return (H_0 / c) * (Om_La + Om_m0 * (1.0 + z) ** 3.0) ** 0.5
 
 # Compute redshift axis
 zs = np.full(count, float(z_mid))
@@ -111,13 +111,12 @@ for i in range(middleIndex + 1, count):
 
 # Average density of baryons
 def rhBars():
-	rh_crits = rh_crit0 * (Om_La + Om_m * (1.0 + zs) ** 3.0)
-	return Om_b * rh_crits
+	rh_crits = rh_crit0 * (Om_La + Om_m0 * (1.0 + zs) ** 3.0)
+	return Om_b0 * rh_crits
 
 # Neutral hydrogen number density
 def nHIs(n):
-	rh_crits = rh_crit0 * (Om_La + Om_m * (1.0 + zs) ** 3.0)
-	rh_bars = rh_crits * Om_b * x_H
+	rh_bars = rh_crit0 * Om_b0 * (1.0 + zs) ** 3.0
 	nHs = DeHss[:, n] * rh_bars / m_HI # Number density from mass density
 	return nHs * fHIss[:, n]
 
@@ -178,6 +177,7 @@ def output2s(n):
 # -- Plotting --
 # --------------
 
+hiLabel = '\mbox{H\,\sc{i} }'
 oiLabel = '\mbox{O\,\sc{i} }'
 depthLabel = '$\tau_{' + oiLabel + "}$"
 fluxLabel = "$F=e^{-" + depthLabel[1 : len(depthLabel) - 1] + "}$"
@@ -228,7 +228,7 @@ def test2(n):
 	measured = ml.Line2D([], [], color = 'b', label = "measured")
 	computed = ml.Line2D([], [], color = 'k', label = "computed")
 	plt.xlabel("$z$")
-	plt.ylabel("$n_{" + oiLabel + '} / \mathrm{10^{-11}\,cm^3}$')
+	plt.ylabel("$n_{" + hiLabel + '} / \mathrm{10^{-11}\,cm^{-3}}$')
 	plt.legend(handles = [measured, computed])
 	plt.show()
 
