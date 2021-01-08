@@ -160,13 +160,13 @@ def integrand1s(n, z0, mass):
 	prefactor = c * I_al * math.pi ** -0.5
 	voigtFn = voigt(als(n, mass), vArg2s(n, z0, mass))
 	measure = 1.0 / dz_by_dx(zs)
-	return prefactor * measure * voigtFn * nHIs(n) / (bs(n, mass) * (1.0 + zs)) # TODO return to OI
+	return prefactor * measure * voigtFn * nOIs(n) / (bs(n, mass) * (1.0 + zs)) # TODO return to OI
 
 # Optical depth of the nth sightline from the farthest redshift up to z0, for
 # the nth sightline; we integrate using Simpson's rule over all the points that
 # fall in the region and assume the redshifts are in increasing order
 def opticalDepth(n, z0):
-	return si.simps(integrand1s(n, z0, m_HI), zs)
+	return si.simps(integrand1s(n, z0, m_OI), zs)
 
 def output1s(n):
 	return np.array([opticalDepth(n, z0) for z0 in zs])
@@ -236,8 +236,12 @@ def test2(n):
 
 # Compare Neutral hydrogen optical depths
 def test3(n):
+	plt.title(f"Comparison of simulation output and computed neutral hydrogen number densities for sightline {n + 1}")
 	plt.plot(zs, ta_HIss[:, n], "k")
 	plt.plot(zs, output1s(n), "b--")
+	measured = ml.Line2D([], [], color = "k", label = "from simulation")
+	computed = ml.Line2D([], [], color = "b", ls = "--", label = "computed")
+	plt.legend(handles = [measured, computed])
 	plt.show()
 
 # Main
