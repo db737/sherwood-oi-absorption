@@ -261,8 +261,13 @@ def check2(n):
 	print("V arg 2: {}\n".format(vArg2s(n, 3.0, m_HI)[0]))
 	print("V(..., ...): {}\n".format(voigt(als(n, m_HI), vArg2s(n, 3.0, m_HI))[0]))
 
+# Check oxygen stuff
+def check3(n):
+	print("Zs: {}\n".format(Zs(n)))
+	print("cutoffs: {}\n".format(cutoffsSS(n)))
+
 # Main
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-print(output1s(n))
+check3(n)
