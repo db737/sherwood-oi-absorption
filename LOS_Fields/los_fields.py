@@ -183,7 +183,7 @@ def output2s(n, hydrogen):
 
 hiLabel = '\mbox{H\,\sc{i} }'
 oiLabel = '\mbox{O\,\sc{i} }'
-depthLabel = '$\tau_{' + oiLabel + "}$"
+depthLabel = '$\\tau_{' + oiLabel + "}$"
 fluxLabel = "$F=e^{-" + depthLabel[1 : len(depthLabel) - 1] + "}$"
 
 # Optical depth and flux
@@ -272,4 +272,4 @@ def check3(n):
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-plot1(n)
+check3(n)
