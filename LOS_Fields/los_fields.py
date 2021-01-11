@@ -258,7 +258,8 @@ def check2(n):
 	print("z: {}\n".format(zs[0]))
 	print("dz/dx: {}\n".format(dz_by_dx(zs)[0]))
 	print("alpha: {}\n".format(als(n, m_HI)[0]))
-	print("V arg 2: {}\n".format(vArg2s(n, m_HI, 3.0)[0]))
+	print("V arg 2: {}\n".format(vArg2s(n, 3.0, m_HI)[0]))
+	print("V(..., ...): {}\n".format(voigt(als(n, m_HI), vArg2s(n, 3.0, m_HI))[0]))
 
 # Main
 n = 0
