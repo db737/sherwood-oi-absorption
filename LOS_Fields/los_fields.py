@@ -181,8 +181,8 @@ def output2s(n, hydrogen):
 # -- Plotting --
 # --------------
 
-hiLabel = 'H\,\\normalfont\\textsc{i}'
-oiLabel = 'O\,\\normalfont\\textsc{i}'
+hiLabel = 'HI'
+oiLabel = 'OI'
 depthLabel = '$\\tau_{' + oiLabel + "}$"
 fluxLabel = "$F=e^{-" + depthLabel[1 : len(depthLabel) - 1] + "}$"
 
