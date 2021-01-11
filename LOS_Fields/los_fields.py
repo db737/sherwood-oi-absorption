@@ -255,10 +255,10 @@ def check1(n):
 # Check initial computed quantities are as expected
 def check2(n):
 	print("b: {}\n".format(bs(n, m_HI)))
-	print("z: {}\n".format(zs(n)))
+	print("z: {}\n".format(zs))
 
 # Main
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-check1(n)
+check2(n)
