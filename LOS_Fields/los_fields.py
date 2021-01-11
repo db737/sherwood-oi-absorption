@@ -254,11 +254,14 @@ def check1(n):
 
 # Check initial computed quantities are as expected
 def check2(n):
-	print("b: {}\n".format(bs(n, m_HI)))
-	print("z: {}\n".format(zs))
+	print("b: {}\n".format(bs(n, m_HI)[0]))
+	print("z: {}\n".format(zs[0]))
+	print("dz/dx: {}\n".format(dz_by_dx(zs)[0]))
+	print("alpha: {}\n".format(als(n, m_HI)[0]))
+	print("V arg 2: {}\n".format(vArg2s(n, m_HI, 3.0)[0]))
 
 # Main
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-print(output1s(n))
+check2(n)
