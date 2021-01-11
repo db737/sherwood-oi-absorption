@@ -244,12 +244,18 @@ def test3(n):
 	plt.legend(handles = [measured, computed])
 	plt.show()
 
+# Check inputs are as expected
 def check1(n):
 	print("HI fraction: {}\n".format(fHIss[0, n]))
 	print("Overdensity: {}\n".format(DeHss[0, n]))
 	print("Temperature: {}\n".format(Tss[0, n]))
 	print("Velocity: {}\n".format(vss[0, n]))
 	print("HI depth: {}\n".format(ta_HIss[0, n]))
+
+# Check initial computed quantities are as expected
+def check2(n):
+	print("b: {}\n".format(bs(n, m_HI)))
+	print("z: {}\n".format(zs(n)))
 
 # Main
 n = 0
