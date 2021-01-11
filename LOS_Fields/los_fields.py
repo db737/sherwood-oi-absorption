@@ -189,7 +189,7 @@ fluxLabel = "$F=e^{-" + depthLabel[1 : len(depthLabel) - 1] + "}$"
 # Optical depth and flux
 def plot1(n):
 	plt.title(f"Optical depth for sightline {n + 1}")
-	plt.plot(zs, output2s(n, false))
+	plt.plot(zs, output2s(n, False))
 	plt.xlabel("$z$")
 	plt.ylabel(fluxLabel)
 	plt.show()
@@ -240,7 +240,7 @@ def test2(n):
 def test3(n):
 	plt.title(f"Comparison of simulation output and computed neutral hydrogen number densities for sightline {n + 1}")
 	plt.plot(zs, ta_HIss[:, n], "k")
-	plt.plot(zs, output1s(n, true), "b--")
+	plt.plot(zs, output1s(n, True), "b--")
 	measured = ml.Line2D([], [], color = "k", label = "from simulation")
 	computed = ml.Line2D([], [], color = "b", ls = "--", label = "computed")
 	plt.legend(handles = [measured, computed])
