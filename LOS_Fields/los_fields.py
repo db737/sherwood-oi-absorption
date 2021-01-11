@@ -272,4 +272,4 @@ def check3(n):
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-plot1(n)
+check1(n)
