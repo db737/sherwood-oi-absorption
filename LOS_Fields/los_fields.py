@@ -262,7 +262,7 @@ def check2(n):
 	print("V(..., ...): {}\n".format(voigt(als(n, m_HI), vArg2s(n, 3.0, m_HI))[0]))
 
 # Check oxygen stuff
-def check3(n):
+def check3(n):
 	print("Zs: {}\n".format(Zs(n)))
 	print("cutoffs: {}\n".format(cutoffsSS(n)))
 
