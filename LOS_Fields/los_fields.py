@@ -261,4 +261,4 @@ def check2(n):
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-check2(n)
+print(output1s(n))
