@@ -57,7 +57,7 @@ c = consts.value("speed of light in vacuum")
 # and the 'atom.dat' data file of VPFIT 10.4 
 I_al = 5.5e-19
 # Ionising background in units of 10^{-12}s^{-1}
-Ga_UV = 7.0
+Ga_UV = 0.158
 # Solar metallicity
 Z_solar = 0.0134
 
@@ -155,25 +155,27 @@ def nOIs(n):
 	return fOI * Zs(n)
 
 # The integrand as in [C2001] equation 30 except with a change of variables to
-# be an integral over z, for the nth sightline
-def integrand1s(n, z0, mass):
+# be an integral over z, for the nth sightline; 'hydrogen' is a boolean setting
+def integrand1s(n, z0, hydrogen):
+	mass = m_HI if hydrogen else m_OI
+	ns = nHIs(n) if hydrogen else nOIs(n)
 	prefactor = c * I_al * math.pi ** -0.5
 	voigtFn = voigt(als(n, mass), vArg2s(n, z0, mass))
 	measure = 1.0 / dz_by_dx(zs)
-	return prefactor * measure * voigtFn * nOIs(n) / (bs(n, mass) * (1.0 + zs)) # TODO return to OI
+	return prefactor * measure * voigtFn * ns / (bs(n, mass) * (1.0 + zs))
 
 # Optical depth of the nth sightline from the farthest redshift up to z0, for
 # the nth sightline; we integrate using Simpson's rule over all the points that
 # fall in the region and assume the redshifts are in increasing order
-def opticalDepth(n, z0):
-	return si.simps(integrand1s(n, z0, m_OI), zs)
+def opticalDepth(n, z0, hydrogen):
+	return si.simps(integrand1s(n, z0, hydrogen), zs)
 
-def output1s(n):
-	return np.array([opticalDepth(n, z0) for z0 in zs])
+def output1s(n, hydrogen):
+	return np.array([opticalDepth(n, z0, hydrogen) for z0 in zs])
 
 # Attenuation coefficient
-def output2s(n):
-	return np.exp(-output1s(n))
+def output2s(n, hydrogen):
+	return np.exp(-output1s(n, hydrogen))
 
 # --------------
 # -- Plotting --
@@ -187,7 +189,7 @@ fluxLabel = "$F=e^{-" + depthLabel[1 : len(depthLabel) - 1] + "}$"
 # Optical depth and flux
 def plot1(n):
 	plt.title(f"Optical depth for sightline {n + 1}")
-	plt.plot(zs, output2s(n))
+	plt.plot(zs, output2s(n, false))
 	plt.xlabel("$z$")
 	plt.ylabel(fluxLabel)
 	plt.show()
@@ -238,7 +240,7 @@ def test2(n):
 def test3(n):
 	plt.title(f"Comparison of simulation output and computed neutral hydrogen number densities for sightline {n + 1}")
 	plt.plot(zs, ta_HIss[:, n], "k")
-	plt.plot(zs, output1s(n), "b--")
+	plt.plot(zs, output1s(n, true), "b--")
 	measured = ml.Line2D([], [], color = "k", label = "from simulation")
 	computed = ml.Line2D([], [], color = "b", ls = "--", label = "computed")
 	plt.legend(handles = [measured, computed])
@@ -270,4 +272,4 @@ def check3(n):
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-print(np.max(DeHss[:, n]))
+plot1(n)
