@@ -238,7 +238,7 @@ def test2(n):
 
 # Compare Neutral hydrogen optical depths
 def test3(n):
-	plt.title(f"Comparison of simulation output and computed neutral hydrogen number densities for sightline {n + 1}")
+	plt.title(f"Comparison of simulation output and computed neutral hydrogen optical depths for sightline {n + 1}")
 	plt.plot(zs, ta_HIss[:, n], "k")
 	plt.plot(zs, output1s(n, True), "b--")
 	measured = ml.Line2D([], [], color = "k", label = "from simulation")
