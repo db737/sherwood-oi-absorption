@@ -265,8 +265,13 @@ def check2(n):
 	print("V(..., ...): {}".format(voigt(als(n, m_HI), vArg2s(n, 3.0, m_HI))[0]))
 	print("integrand: {}".format(integrand1s(n, 3.0, True)[0]))
 
-# Check oxygen stuff
+# Compare hydrogen outputs directly
 def check3(n):
+	print("from data: {}".format(ta_HIss[0, n]))
+	print("computed: {}".format(opticalDepth(n, zs[0], True)))
+
+# Check oxygen stuff
+def check4(n):
 	print("Zs: {}".format(Zs(n)))
 	print("cutoffs: {}".format(cutoffsSS(n)))
 
@@ -274,5 +279,4 @@ def check3(n):
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-plot1(n)
-test3(n)
+check3(n)
