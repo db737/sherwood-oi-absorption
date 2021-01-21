@@ -165,7 +165,7 @@ def integrand1s(n, z0, hydrogen):
 	ns = nHIs(n) if hydrogen else nOIs(n)
 	I_al = I_alHI if hydrogen else I_alOI
 	prefactor = c * I_al * math.pi ** -0.5
-	voigtFn = voigt(als(n, mass), vArg2s(n, z0, mass))
+	voigtFn = voigt(als(n, hydrogen), vArg2s(n, z0, mass))
 	measure = 1.0 / dz_by_dx(zs)
 	return prefactor * measure * voigtFn * ns / (bs(n, mass) * (1.0 + zs))
 
