@@ -193,6 +193,7 @@ fluxLabel = "$F=e^{-" + depthLabel[1 : len(depthLabel) - 1] + "}$"
 def plot1(n):
 	plt.title(f"Optical depth for sightline {n + 1}")
 	plt.plot(zs, fluxes(n, False))
+	plt.ylim([0.0, 1.0])
 	plt.xlabel("$z$")
 	plt.ylabel(fluxLabel)
 	plt.show()
