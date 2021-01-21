@@ -41,9 +41,10 @@ H_0 = spec_obj.H0
 rh_crit0 = 3.0 * H_0 ** 2.0 / (8.0 * pi * G)
 # Hydrogen fraction
 x_H = spec_obj.xh
-# Transition frequency
+# Transition frequencies
 # (https://physics.nist.gov/PhysRefData/ASD/lines_form.html) [NIST]
-nu_12 = 2.3023e15
+nu_12_HI = 2.4661e15
+nu_12_OI = 2.3023e15
 # Quantum-mechanical damping constants [NIST]
 Ga_HI = 6.265e8
 Ga_OI = 3.41e8
@@ -56,8 +57,8 @@ c = consts.value("speed of light in vacuum")
 # Prefactors I_{\alpha} to the integral, calculated using above constants and
 # https://www.astro.ncu.edu.tw/~wchen/Courses/ISM/04.EinsteinCoefficients.pdf
 # and the 'atom.dat' data file of VPFIT 10.4 
-I_alHI = 4.45e-22
-I_alOI = 5.5e-23
+I_al_HI = 4.45e-22
+I_al_OI = 5.5e-23
 # Ionising background in units of 10^{-12}s^{-1}
 Ga_UV = 0.158
 # Solar metallicity
@@ -133,6 +134,7 @@ def voigt(As, Bs):
 def als(n, hydrogen):
 	mass = m_HI if hydrogen else m_OI
 	Ga = Ga_HI if hydrogen else Ga_OI
+	nu_12 = nu_12_HI if hydrogen else nu_12_OI
 	return c * Ga / (4 * pi * nu_12 * bs(n, mass))
 
 # 2nd argument to be passed to the Voigt function in [C2001] equation 30, for
@@ -163,7 +165,7 @@ def nOIs(n):
 def integrand1s(n, z0, hydrogen):
 	mass = m_HI if hydrogen else m_OI
 	ns = nHIs(n) if hydrogen else nOIs(n)
-	I_al = I_alHI if hydrogen else I_alOI
+	I_al = I_al_HI if hydrogen else I_al_OI
 	prefactor = c * I_al * math.pi ** -0.5
 	voigtFn = voigt(als(n, hydrogen), vArg2s(n, z0, mass))
 	measure = 1.0 / dz_by_dx(zs)
@@ -175,12 +177,12 @@ def integrand1s(n, z0, hydrogen):
 def opticalDepth(n, z0, hydrogen):
 	return si.simps(integrand1s(n, z0, hydrogen), zs)
 
-def output1s(n, hydrogen):
+def opticalDepths(n, hydrogen):
 	return np.array([opticalDepth(n, z0, hydrogen) for z0 in zs])
 
 # Attenuation coefficient
-def output2s(n, hydrogen):
-	return np.exp(-output1s(n, hydrogen))
+def fluxes(n, hydrogen):
+	return np.exp(-opticalDepths(n, hydrogen))
 
 # --------------
 # -- Plotting --
@@ -194,7 +196,7 @@ fluxLabel = "$F=e^{-" + depthLabel[1 : len(depthLabel) - 1] + "}$"
 # Optical depth and flux
 def plot1(n):
 	plt.title(f"Optical depth for sightline {n + 1}")
-	plt.plot(zs, output2s(n, False))
+	plt.plot(zs, fluxes(n, False))
 	plt.xlabel("$z$")
 	plt.ylabel(fluxLabel)
 	plt.show()
@@ -245,7 +247,7 @@ def test2(n):
 def test3(n):
 	plt.title(f"Comparison of simulation output and computed neutral hydrogen optical depths for sightline {n + 1}")
 	plt.plot(zs, ta_HIss[:, n], "k")
-	plt.plot(zs, output1s(n, True), "b--")
+	plt.plot(zs, opticalDepths(n, True), "b--")
 	measured = ml.Line2D([], [], color = "k", label = "from simulation")
 	computed = ml.Line2D([], [], color = "b", ls = "--", label = "computed")
 	plt.legend(handles = [measured, computed])
