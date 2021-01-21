@@ -44,8 +44,9 @@ x_H = spec_obj.xh
 # Transition frequency
 # (https://physics.nist.gov/PhysRefData/ASD/lines_form.html) [NIST]
 nu_12 = 2.3023e15
-# Quantum-mechanical damping constant [NIST]
-Ga = 3.41e8
+# Quantum-mechanical damping constants [NIST]
+Ga_HI = 6.265e8
+Ga_OI = 3.41e8
 # HI mass
 m_HI = consts.value("proton mass") + consts.value("electron mass")
 # OI mass
@@ -129,7 +130,9 @@ def voigt(As, Bs):
 
 # The \alpha used in the 1st argument of the Voigt function in equation 30 in
 # [C20001], for the nth sightline
-def als(n, mass):
+def als(n, hydrogen):
+	mass = m_HI if hydrogen else m_OI
+	Ga = Ga_HI if hydrogen else Ga_OI
 	return c * Ga / (4 * pi * nu_12 * bs(n, mass))
 
 # 2nd argument to be passed to the Voigt function in [C2001] equation 30, for
@@ -281,4 +284,5 @@ def check4(n):
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-check3(n)
+plot1(n)
+test3(n)
