@@ -126,15 +126,15 @@ def nHIs(n):
 def voigt(As, Bs):
 	return ss.wofz(Bs + As * 1.0j).real
 
-# 2nd argument to be passed to the Voigt function in [C2001] equation 30, for
-# the nth sightline
-def vArg2s(n, z0, mass):
-	return (vss[:, n] + c * (zs - z0) / (1.0 + z0)) / bs(n, mass)
-
 # The \alpha used in the 1st argument of the Voigt function in equation 30 in
 # [C20001], for the nth sightline
 def als(n, mass):
 	return c * Ga / (4 * pi * nu_12 * bs(n, mass))
+
+# 2nd argument to be passed to the Voigt function in [C2001] equation 30, for
+# the nth sightline
+def vArg2s(n, z0, mass):
+	return (vss[:, n] + c * (zs - z0) / (1.0 + z0)) / bs(n, mass)
 
 # Metallicity using formula 5 from Keating et al. (2014) [K2014]
 def Zs(n):
@@ -262,6 +262,7 @@ def check2(n):
 	print("alpha: {}\n".format(als(n, m_HI)[0]))
 	print("V arg 2: {}\n".format(vArg2s(n, 3.0, m_HI)[0]))
 	print("V(..., ...): {}\n".format(voigt(als(n, m_HI), vArg2s(n, 3.0, m_HI))[0]))
+	print("integrand: {}\n".format(integrand1s(n, 3.0, True)))
 
 # Check oxygen stuff
 def check3(n):
@@ -272,4 +273,4 @@ def check3(n):
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-test3(n)
+check2(n)
