@@ -64,11 +64,6 @@ Ga_UV = 0.158
 # Solar metallicity
 Z_solar = 0.0134
 
-# Metallicity prefactor
-Z_80 = Z_solar * 10.0 ** -2.65
-# Metallicity exponent in formula 5 of Keating et al. (2014) [K2014]
-n_Z = 1.3
-
 # ------------
 # --- Data ---
 # ------------
@@ -144,7 +139,8 @@ def vArg2s(n, z0, mass):
 
 # Metallicity using formula 5 from Keating et al. (2014) [K2014]
 def Zs(n):
-	return Z_80 * (DeHss[:, n] / 80.0) ** n_Z
+	Z_80 = Z_solar * 10.0 ** -2.65
+	return Z_80 * (DeHss[:, n] / 80.0) ** 1.3
 
 # The overdensity at which a region becomes 'self-shielded' (Keating et al.
 # (2016) [K2016]), computed for the nth sightline.
@@ -167,7 +163,7 @@ def integrand1s(n, z0, hydrogen):
 	ns = nHIs(n) if hydrogen else nOIs(n)
 	I_al = I_al_HI if hydrogen else I_al_OI
 	prefactor = c * I_al * math.pi ** -0.5
-	voigtFn = voigt(als(n, hydrogen) * 1000, vArg2s(n, z0, mass))
+	voigtFn = voigt(als(n, hydrogen), vArg2s(n, z0, mass))
 	measure = 1.0 / dz_by_dx(zs)
 	return prefactor * measure * voigtFn * ns / (bs(n, mass) * (1.0 + zs))
 
@@ -267,9 +263,10 @@ def check2(n):
 	print("b: {}".format(bs(n, m_HI)[0]))
 	print("z: {}".format(zs[0]))
 	print("dz/dx: {}".format(dz_by_dx(zs)[0]))
-	print("alpha: {}".format(als(n, m_HI)[0]))
+	print("alpha (HI): {}".format(als(n, True)[0]))
+	print("alpha (OI): {}".format(als(n, False)[0]))
 	print("V arg 2: {}".format(vArg2s(n, 3.0, m_HI)[0]))
-	print("V(..., ...): {}".format(voigt(als(n, m_HI), vArg2s(n, 3.0, m_HI))[0]))
+	print("V(..., ...): {}".format(voigt(als(n, True), vArg2s(n, 3.0, m_HI))[0]))
 	print("integrand: {}".format(integrand1s(n, 3.0, True)[0]))
 
 # Compare hydrogen outputs directly
