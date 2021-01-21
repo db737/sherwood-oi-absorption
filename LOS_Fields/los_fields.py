@@ -248,29 +248,31 @@ def test3(n):
 
 # Check inputs are as expected
 def check1(n):
-	print("HI fraction: {}\n".format(fHIss[0, n]))
-	print("Overdensity: {}\n".format(DeHss[0, n]))
-	print("Temperature: {}\n".format(Tss[0, n]))
-	print("Velocity: {}\n".format(vss[0, n]))
-	print("HI depth: {}\n".format(ta_HIss[0, n]))
+	print("HI fraction: {}".format(fHIss[0, n]))
+	print("Overdensity: {}".format(DeHss[0, n]))
+	print("Temperature: {}".format(Tss[0, n]))
+	print("Velocity: {}".format(vss[0, n]))
+	print("HI depth: {}".format(ta_HIss[0, n]))
+	print("HI number density: {}".format(nHIs(n)[0]))
 
 # Check initial computed quantities are as expected
 def check2(n):
-	print("b: {}\n".format(bs(n, m_HI)[0]))
-	print("z: {}\n".format(zs[0]))
-	print("dz/dx: {}\n".format(dz_by_dx(zs)[0]))
-	print("alpha: {}\n".format(als(n, m_HI)[0]))
-	print("V arg 2: {}\n".format(vArg2s(n, 3.0, m_HI)[0]))
-	print("V(..., ...): {}\n".format(voigt(als(n, m_HI), vArg2s(n, 3.0, m_HI))[0]))
-	print("integrand: {}\n".format(integrand1s(n, 3.0, True)))
+	print("b: {}".format(bs(n, m_HI)[0]))
+	print("z: {}".format(zs[0]))
+	print("dz/dx: {}".format(dz_by_dx(zs)[0]))
+	print("alpha: {}".format(als(n, m_HI)[0]))
+	print("V arg 2: {}".format(vArg2s(n, 3.0, m_HI)[0]))
+	print("V(..., ...): {}".format(voigt(als(n, m_HI), vArg2s(n, 3.0, m_HI))[0]))
+	print("integrand: {}".format(integrand1s(n, 3.0, True)[0]))
 
 # Check oxygen stuff
 def check3(n):
-	print("Zs: {}\n".format(Zs(n)))
-	print("cutoffs: {}\n".format(cutoffsSS(n)))
+	print("Zs: {}".format(Zs(n)))
+	print("cutoffs: {}".format(cutoffsSS(n)))
 
 # Main
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
+check1(n)
 check2(n)
