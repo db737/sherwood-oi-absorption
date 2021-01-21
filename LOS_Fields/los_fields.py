@@ -158,7 +158,7 @@ def nOIs(n):
 # be an integral over z, for the nth sightline; 'hydrogen' is a boolean setting
 def integrand1s(n, z0, hydrogen):
 	mass = m_HI if hydrogen else m_OI
-	ns = nHIs(n) if hydrogen else nOIs(n)
+	ns = (nHIs(n) if hydrogen else nOIs(n)) * 1.0e-6
 	prefactor = c * I_al * math.pi ** -0.5
 	voigtFn = voigt(als(n, mass), vArg2s(n, z0, mass))
 	measure = 1.0 / dz_by_dx(zs)
