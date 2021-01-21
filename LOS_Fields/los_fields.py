@@ -275,4 +275,4 @@ n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
 plot1(n)
-test1(n)
+test3(n)
