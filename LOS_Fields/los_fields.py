@@ -52,10 +52,11 @@ m_HI = consts.value("proton mass") + consts.value("electron mass")
 m_OI = 8.0 * (m_HI + consts.value("neutron mass"))
 k_B = consts.value("Boltzmann constant")
 c = consts.value("speed of light in vacuum")
-# Prefactor I_{\alpha} to the integral, calculated using above constants and
+# Prefactors I_{\alpha} to the integral, calculated using above constants and
 # https://www.astro.ncu.edu.tw/~wchen/Courses/ISM/04.EinsteinCoefficients.pdf
 # and the 'atom.dat' data file of VPFIT 10.4 
-I_al = 5.5e-19
+I_alHI = 4.45e-22
+I_alOI = 5.5e-23
 # Ionising background in units of 10^{-12}s^{-1}
 Ga_UV = 0.158
 # Solar metallicity
@@ -158,7 +159,8 @@ def nOIs(n):
 # be an integral over z, for the nth sightline; 'hydrogen' is a boolean setting
 def integrand1s(n, z0, hydrogen):
 	mass = m_HI if hydrogen else m_OI
-	ns = (nHIs(n) if hydrogen else nOIs(n)) * 1.0e-6
+	ns = nHIs(n) if hydrogen else nOIs(n)
+	I_al = I_alHI if hydrogen else I_alOI
 	prefactor = c * I_al * math.pi ** -0.5
 	voigtFn = voigt(als(n, mass), vArg2s(n, z0, mass))
 	measure = 1.0 / dz_by_dx(zs)
