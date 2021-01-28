@@ -250,6 +250,25 @@ def test3(n):
 	plt.legend(handles = [measured, computed])
 	plt.show()
 
+# Metallicity, self-shielding etc.
+def test4(n):
+	fig, axes = plt.subplots(5, 1, sharex = True)
+	axes[0].semilogy(zs, nOIs(n) / 1.0e6)
+	axes[0].set_title(f"Oxygen properties for sightline {n + 1}")
+	axes[0].set_ylabel("$n_{" + oiLabel + '} / \mathrm{cm^{-3}}$')
+	axes[1].semilogy(zs, Zs(n))
+	axes[1].set_ylabel('$Z$')
+	axes[2].plot(zs, cutoffsSS(n))
+	axes[2].set_ylabel('$Delta_{ss}$')
+	axes[3].plot(zs, np.heaviside(DeHss[:, n] - cutoffsSS(n), 1.0))
+	axes[3].set_ylabel("Self-shielding", fontsize = 6)
+	axes[4].plot(zs, fluxes(n, False))
+	axes[4].set_xlabel("$z$")
+	axes[4].set_ylabel(fluxLabel)
+	plt.subplots_adjust(hspace = 0)
+	fig.align_ylabels()
+	plt.show()
+	
 # Check inputs are as expected
 def check1(n):
 	print("HI fraction: {}".format(fHIss[0, n]))
@@ -284,4 +303,4 @@ def check4(n):
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-test3(n)
+test4(n)
