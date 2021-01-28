@@ -260,7 +260,7 @@ def test4(n):
 	axes[1].set_ylabel('$\Delta_{ss}$')
 	axes[2].plot(zs, np.heaviside(DeHss[:, n] - cutoffsSS(n), 1.0))
 	axes[2].set_ylabel("Self-shielding", fontsize = 12, rotation = "horizontal")
-	axes[2].set_ytick_labels([])
+	axes[2].set_yticklabels([])
 	axes[3].semilogy(zs, nOIs(n) / 1.0e6)
 	axes[3].set_ylabel("$n_{" + oiLabel + '} / \mathrm{cm^{-3}}$')
 	axes[4].plot(zs, fluxes(n, False))
