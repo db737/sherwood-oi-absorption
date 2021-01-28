@@ -63,6 +63,8 @@ I_al_OI = 5.5e-23
 Ga_12 = 0.158
 # Solar metallicity
 Z_solar = 0.0134
+# Helium fraction
+Y = 0.2485
 
 # ------------
 # --- Data ---
@@ -112,7 +114,7 @@ for i in range(middleIndex + 1, count):
 # Average density of baryons
 def rhBars():
 	rh_crits = rh_crit0 * (Om_La + Om_m0 * (1.0 + zs) ** 3.0)
-	return Om_b0 * rh_crits
+	return Om_b0 * rh_crits * (1 - Y)
 
 # Neutral hydrogen number density
 def nHIs(n):
@@ -215,8 +217,6 @@ def test2(n):
 	E = 13.6
 	X = 0.232
 	m = 0.39
-	# Helium fraction
-	Y = 0.2485
 	f0s = np.sqrt(Tss[:, n] / T0)
 	f1s = np.sqrt(Tss[:, n] / T1)
 	Us = 11604.5 * E / Tss[:, n]
@@ -305,4 +305,4 @@ def check4(n):
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-test4(n)
+test3(n)
