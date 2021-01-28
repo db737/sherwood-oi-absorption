@@ -118,8 +118,7 @@ def rhBars():
 
 # Neutral hydrogen number density
 def nHIs(n):
-	rh_bars = rh_crit0 * Om_b0 * (1.0 + zs) ** 3.0
-	nHs = DeHss[:, n] * rh_bars / m_HI # Number density from mass density
+	nHs = DeHss[:, n] * rhBars() / m_HI # Number density from mass density
 	return nHs * fHIss[:, n]
 
 # Voigt function computed from the Faddeeva function
