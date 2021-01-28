@@ -111,15 +111,11 @@ for i in range(middleIndex + 1, count):
 	z = zs[i - 1]
 	zs[i] = z + dz_by_dx(z) * box / count
 
-# Average density of baryons
-def rhBars():
-	rh_crits = rh_crit0 * (Om_La + Om_m0 * (1.0 + zs) ** 3.0)
-	return Om_b0 * rh_crits * (1 - Y)
-
 # Neutral hydrogen number density
 def nHIs(n):
-	nHs = DeHss[:, n] * rhBars() / m_HI # Number density from mass density
-	return nHs * fHIss[:, n]
+	rh_bars = rh_crit0 * Om_b0 * (1.0 + zs) ** 3.0
+	nHs = DeHss[:, n] * rh_bars / m_HI # Number density from mass density
+	return nHs * fHIss[:, n] * (1.0 - Y)
 
 # Voigt function computed from the Faddeeva function
 def voigt(As, Bs):
