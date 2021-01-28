@@ -253,7 +253,7 @@ def test3(n):
 # Metallicity, self-shielding etc.
 def test4(n):
 	fig, axes = plt.subplots(5, 1, sharex = True)
-	axes[0].set_title(f"Oxygen properties for sightline {n + 1}")
+	axes[0].set_title(f"Oxygen properties for sightline {n + 1}, using $\\Gamma_12={Ga_UV}$ and $z={z_mid}$")
 	axes[0].semilogy(zs, Zs(n))
 	axes[0].set_ylabel('$Z$')
 	axes[1].plot(zs, cutoffsSS(n))
@@ -264,7 +264,7 @@ def test4(n):
 	axes[3].set_ylabel("$n_{" + oiLabel + '} / \mathrm{cm^{-3}}$')
 	axes[4].plot(zs, fluxes(n, False))
 	axes[4].set_xlabel("$z$")
-	axes[4].set_ylabel(fluxLabel, rotation = "horizontal")
+	axes[4].set_ylabel("$F$")
 	plt.subplots_adjust(hspace = 0)
 	fig.align_ylabels()
 	plt.show()
