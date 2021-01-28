@@ -135,7 +135,7 @@ def als(n, hydrogen):
 # 2nd argument to be passed to the Voigt function in [C2001] equation 30, for
 # the nth sightline
 def vArg2s(n, z0, mass):
-	return (vss[:, n] + c * (zs - z0) / (1.0 + z0)) / bs(n, mass)
+	return (vss[:, n] * 1000 + c * (zs - z0) / (1.0 + z0)) / bs(n, mass)
 
 # Metallicity using formula 5 from Keating et al. (2014) [K2014]
 def Zs(n):
@@ -285,4 +285,4 @@ n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
 for i in range(0, 2048):
-	print(vss[i, n])
+	test3(n)
