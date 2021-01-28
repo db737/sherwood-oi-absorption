@@ -60,7 +60,7 @@ c = consts.value("speed of light in vacuum")
 I_al_HI = 4.45e-22
 I_al_OI = 5.5e-23
 # Ionising background in units of 10^{-12}s^{-1}
-Ga_UV = 0.158
+Ga_12 = 0.158
 # Solar metallicity
 Z_solar = 0.0134
 
@@ -149,7 +149,7 @@ def cutoffsSS(n):
 	p1 = 2.0 / 3.0
 	p2 = 2.0 / 15.0
 	zFactors = ((1.0 + zs) / 7.0) ** -3.0
-	return 54.0 * (Ga_UV ** p1) * (T4s ** p2) * zFactors
+	return 54.0 * (Ga_12 ** p1) * (T4s ** p2) * zFactors
 
 # The number density of neutral oxygen at a point, for the nth sightline
 def nOIs(n):
@@ -253,7 +253,7 @@ def test3(n):
 # Metallicity, self-shielding etc.
 def test4(n):
 	fig, axes = plt.subplots(5, 1, sharex = True)
-	axes[0].set_title(f"Oxygen properties for sightline {n + 1}, using $\\Gamma_{12}={Ga_UV}$ and $z={z_mid}$")
+	axes[0].set_title(f"Oxygen properties for sightline {n + 1}, using $\\Gamma_{{12}}={Ga_12}$ and $z={z_mid}$")
 	axes[0].semilogy(zs, Zs(n))
 	axes[0].set_ylabel('$Z$')
 	axes[1].plot(zs, cutoffsSS(n))
