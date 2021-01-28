@@ -118,8 +118,7 @@ def rhBars():
 def nHIs(n):
 	rh_bars = rh_crit0 * Om_b0 * (1.0 + zs) ** 3.0
 	nHs = DeHss[:, n] * rh_bars / m_HI # Number density from mass density
-	testFactor = np.mean(DeHss[middleIndex, :]) # TODO remove this
-	return nHs * fHIss[:, n] / testFactor
+	return nHs * fHIss[:, n]
 
 # Voigt function computed from the Faddeeva function
 def voigt(As, Bs):
@@ -306,4 +305,4 @@ def check4(n):
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-test3(n)
+test4(n)
