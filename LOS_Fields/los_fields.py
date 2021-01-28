@@ -284,5 +284,5 @@ def check4(n):
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-plot1(n)
-test3(n)
+for i in range(0, 2048):
+	print(vss[i, n])
