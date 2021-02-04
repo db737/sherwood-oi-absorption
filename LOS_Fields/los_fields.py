@@ -179,7 +179,7 @@ def fluxes(n, hydrogen):
 	return np.exp(-opticalDepths(n, hydrogen))
 
 # Find minima or maxima in the flux
-def extrema(n, hydrogren, minima):
+def extrema(n, hydrogen, minima):
 	flux_data = fluxes(n, hydrogen)
 	if minima:
 		flux_data = 1.0 - flux_data
