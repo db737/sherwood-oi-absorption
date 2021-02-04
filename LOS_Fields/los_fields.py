@@ -343,8 +343,8 @@ def test5(n):
 	plt.scatter(zs[maxes], flux_data[maxes], c = 'g')
 	for i in mins:
 		prev, next = trough_boundaries(i, mins, maxes)
-		plt.plot(zs[prev], flux_data[prev], color = 'k', marker = '<', markersize = 2.0)
-		plt.plot(zs[next], flux_data[next], color = 'k', marker = '>', markersize = 2.0)
+		plt.plot(zs[prev], flux_data[prev], color = 'k', marker = '<', markersize = 5.0)
+		plt.plot(zs[next], flux_data[next], color = 'k', marker = '>', markersize = 5.0)
 	plt.show()
 	
 # Check inputs are as expected
