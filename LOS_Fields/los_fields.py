@@ -286,6 +286,7 @@ def test5(n):
 	maxes = extrema(n, False, True)
 	plt.scatter(zs[mins], flux_data[mins], c = 'r')
 	plt.scatter(zs[maxes], flux_data[maxes], c = 'g')
+	plt.show()
 	
 # Check inputs are as expected
 def check1(n):
