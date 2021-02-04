@@ -67,9 +67,6 @@ Z_solar = 0.0134
 # Helium fraction
 Y = 0.2485
 
-# The number of points away before we consider a trough to have ended
-max_dist = count // 100
-
 # ------------
 # --- Data ---
 # ------------
@@ -88,6 +85,9 @@ ta_HIss = np.transpose(spec_obj.tau_HI)
 
 # Number of elements in a sightline
 count = len(fHIss[:, 0])
+
+# The number of points away before we consider a trough to have ended
+max_dist = count // 100
 
 # Convert temperature to b as defined in Choudhury et al. (2001) [C2001],
 # equation 31, for the nth sightline
