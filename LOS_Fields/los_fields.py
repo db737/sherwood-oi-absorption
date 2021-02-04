@@ -2,6 +2,7 @@ import numpy as np
 import scipy.integrate as si
 import scipy.special as ss
 import scipy.constants as consts
+import scipy.signal as spsig
 import matplotlib.pyplot as plt
 import matplotlib.lines as ml
 import matplotlib
@@ -15,7 +16,7 @@ matplotlib.rcParams["text.usetex"] = True
 plt.style.use("custom_plot_style.py")
 
 # Middle z value
-z_mid = "3.000"
+z_mid = "5.600"
 
 def filename(x):
 	return "../../los/" + x + "2048_n5000_z" + z_mid + ".dat"
@@ -177,6 +178,13 @@ def opticalDepths(n, hydrogen):
 def fluxes(n, hydrogen):
 	return np.exp(-opticalDepths(n, hydrogen))
 
+# Find minima or maxima in the flux
+def extrema(n, hydrogren, minima):
+	fluxes = fluxes(n, hydrogen)
+	if minima:
+		fluxes = 1.0 - fluxes
+	return spsig.find_peaks(fluxes, distance = 3)
+
 # --------------
 # -- Plotting --
 # --------------
@@ -265,6 +273,18 @@ def test4(n):
 	plt.subplots_adjust(hspace = 0)
 	fig.align_ylabels()
 	plt.show()
+
+# Plot positions of peaks
+def test5(n):
+	fluxes = fluxes(n, False)
+	plt.plot(zs, fluxes)
+	plt.ylim([0.0, 1.1])
+	plt.xlabel("$z$")
+	plt.ylabel(fluxLabel)
+	mins = extrema(n, False, False)
+	maxes = extrema(n, False, True)
+	plt.scatter(zs[mins], fluxes[mins], c = 'r')
+	plt.scatter(zs[maxes], fluxes[maxes], c = 'g')
 	
 # Check inputs are as expected
 def check1(n):
@@ -300,4 +320,4 @@ def check4(n):
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-test3(n)
+test5(n)
