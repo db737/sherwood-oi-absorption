@@ -213,9 +213,9 @@ def adjacent(i, xs, prev):
 # Find the indices of the positions where an absorber starts and ends
 def trough_boundaries(i, mins, maxes):
 	prev_min = adjacent(i, mins, True)
-	prev_max = adjacent(i, mins, True)
+	prev_max = adjacent(i, maxes, True)
 	next_min = adjacent(i, mins, False)
-	next_max = adjacent(i, mins, False)
+	next_max = adjacent(i, maxes, False)
 	prev = max(prev_min, prev_max)
 	next = min(next_min, next_max)
 	if prev_min > prev_max:
