@@ -91,7 +91,7 @@ count = len(fHIss[:, 0])
 min_dist = count // 100
 
 # The maximum number of points away before we consider a trough to have ended
-max_dist = count // 80
+max_dist = count // 40
 
 # Convert temperature to b as defined in Choudhury et al. (2001) [C2001],
 # equation 31, for the nth sightline
