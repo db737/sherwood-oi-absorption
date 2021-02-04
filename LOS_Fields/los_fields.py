@@ -273,6 +273,7 @@ def plot2():
 	widths = np.array([])
 	for n in range(0, num_sightlines):
 		np.append(equiv_widths(n, False), widths)
+		print(n)
 	plt.hist(widths, num_bins, density = True, histtype = "step", cumulative = -1)
 	plt.xlabel('$' + oiLabel + '$ equivalent width')
 	plt.ylabel('$\\frac{dN}{dX}$')
@@ -397,8 +398,14 @@ def check4(n):
 	print("Zs: {}".format(Zs(n)))
 	print("cutoffs: {}".format(cutoffsSS(n)))
 
+# Check equivalent widths
+def check5(n):
+	widths = equiv_widths(n, False)
+	for w in widths:
+		print(w)
+
 # Main
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-plot2()
+check5(n)
