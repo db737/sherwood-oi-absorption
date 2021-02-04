@@ -180,10 +180,10 @@ def fluxes(n, hydrogen):
 
 # Find minima or maxima in the flux
 def extrema(n, hydrogren, minima):
-	fluxes = fluxes(n, hydrogen)
+	flux_data = fluxes(n, hydrogen)
 	if minima:
-		fluxes = 1.0 - fluxes
-	return spsig.find_peaks(fluxes, distance = 3)
+		flux_data = 1.0 - flux_data
+	return spsig.find_peaks(flux_data, distance = 3)
 
 # --------------
 # -- Plotting --
