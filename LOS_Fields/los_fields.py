@@ -216,8 +216,8 @@ def trough_boundaries(i, mins, maxes):
 	prev_max = adjacent(i, maxes, True)
 	next_min = adjacent(i, mins, False)
 	next_max = adjacent(i, maxes, False)
-	prev = max(prev_min, prev_max)
-	next = min(next_min, next_max)
+	prev = clamp(max(prev_min, prev_max) - 1)
+	next = clamp(min(next_min, next_max) + 1)
 	if prev_min > prev_max:
 		prev = (i + prev_min) // 2
 	if next_min < next_max:
@@ -343,8 +343,8 @@ def test5(n):
 	plt.scatter(zs[maxes], flux_data[maxes], c = 'g')
 	for i in mins:
 		prev, next = trough_boundaries(i, mins, maxes)
-		plt.plot(zs[prev], flux_data[prev], color = 'k', marker = '<', markersize = 5.0)
-		plt.plot(zs[next], flux_data[next], color = 'k', marker = '>', markersize = 5.0)
+		plt.plot(zs[prev], flux_data[prev], color = 'k', marker = '<', markersize = 4.0)
+		plt.plot(zs[next], flux_data[next], color = 'k', marker = '>', markersize = 4.0)
 	plt.show()
 	
 # Check inputs are as expected
