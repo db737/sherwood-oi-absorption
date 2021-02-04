@@ -10,6 +10,7 @@ import math
 import sys
 
 from numpy import pi
+from scipy import ndimage
 from read_spec_ewald_script import spectra
 
 matplotlib.rcParams["text.usetex"] = True
@@ -83,8 +84,17 @@ vss = np.transpose(spec_obj.vel_HI) * 1.0e3
 # HI optical depths
 ta_HIss = np.transpose(spec_obj.tau_HI)
 
+# Number of sightlines
+num = len(fHIss[0, :])
+
 # Number of elements in a sightline
 count = len(fHIss[:, 0])
+
+# Number of sightlines to average over
+num_sightlines = 100
+
+# Number of bins
+num_bins = 128
 
 # The minimum number of points away before we consider two troughs to be a
 # single one
@@ -226,19 +236,26 @@ def trough_boundaries(i, mins, maxes):
 	next = min(next, i + max_dist)
 	return prev, next
 
-# Find the equivalent widths of all absorbers in the spectrum. Returns pairs
-# of the form (index, width).
+# Find the equivalent widths of all absorbers in the spectrum.
 def equiv_widths(n, hydrogen):
 	mins = extrema(n, hydrogen, True)
 	maxes = extrema(n, hydrogen, False)
-	num = len(mins)
-	widths = np.zeros(num)
-	for j in range(0, num):
+	num_mins = len(mins)
+	widths = np.zeros(num_mins)
+	for j in range(0, num_mins):
 		prev, next = trough_boundaries(mins[j], mins, maxes)
 		# The area above the trough equals its equivalent width
 		width = si.simps(1.0 - fluxes(n, hydrogen)[prev : next], zs[prev : next])
-		widths[j] = mins[j], width
+		widths[j] = width
+	return widths
 		
+# The average number of absorbers in each redshift interval per sightline
+def average_absorbers(hydrogen):
+	widths = np.array([])
+	for n in range(0, num_sightlines):
+		np.append(equiv_widths(n, hydrogen), widths)
+	min_w, max_w = np.min(widths), np.max(widths)
+	hists = ndimage.measurements.histogram(widths, min_w, max_w, num_bins)
 
 # --------------
 # -- Plotting --
@@ -346,7 +363,7 @@ def test5(n):
 		plt.plot(zs[prev], flux_data[prev], color = 'k', marker = '<', markersize = 4.0)
 		plt.plot(zs[next], flux_data[next], color = 'k', marker = '>', markersize = 4.0)
 	plt.show()
-	
+
 # Check inputs are as expected
 def check1(n):
 	print("HI fraction: {}".format(fHIss[0, n]))
