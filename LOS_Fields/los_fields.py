@@ -86,8 +86,12 @@ ta_HIss = np.transpose(spec_obj.tau_HI)
 # Number of elements in a sightline
 count = len(fHIss[:, 0])
 
-# The number of points away before we consider a trough to have ended
-max_dist = count // 100
+# The minimum number of points away before we consider two troughs to be a
+# single one
+min_dist = count // 100
+
+# The maximum number of points away before we consider a trough to have ended
+max_dist = count // 25
 
 # Convert temperature to b as defined in Choudhury et al. (2001) [C2001],
 # equation 31, for the nth sightline
@@ -186,7 +190,7 @@ def extrema(n, hydrogen, minima):
 	flux_data = fluxes(n, hydrogen)
 	if minima:
 		flux_data = 1.0 - flux_data
-	peaks, _ = spsig.find_peaks(flux_data, distance = count // 100)
+	peaks, _ = spsig.find_peaks(flux_data, distance = min_dist)
 	return peaks
 
 # Force the value to fit within the indices of the data
@@ -231,9 +235,9 @@ def equiv_widths(n, hydrogen):
 	widths = np.zeros(num)
 	for j in range(0, num):
 		prev, next = trough_boundaries(mins[j], mins, maxes)
-		integral = si.simps(fluxes(n, hydrogen)[prev : next], zs[prev : next])
 		# The area above the trough equals its equivalent width
-		widths[j] = mins[j], 1.0 - integral
+		width = si.simps(1.0 - fluxes(n, hydrogen)[prev : next], zs[prev : next])
+		widths[j] = mins[j], width
 		
 
 # --------------
@@ -329,6 +333,7 @@ def test4(n):
 def test5(n):
 	flux_data = fluxes(n, False)
 	plt.plot(zs, flux_data)
+	plt.title("Trough detection in an Oxygen I spectrum")
 	plt.ylim([0.0, 1.1])
 	plt.xlabel("$z$")
 	plt.ylabel(fluxLabel)
@@ -338,8 +343,8 @@ def test5(n):
 	plt.scatter(zs[maxes], flux_data[maxes], c = 'g')
 	for i in mins:
 		prev, next = trough_boundaries(i, mins, maxes)
-		plt.plot(zs[prev], flux_data[prev], marker = '<')
-		plt.plot(zs[next], flux_data[next], marker = '>')
+		plt.plot(zs[prev], flux_data[prev], color = 'k', marker = '<')
+		plt.plot(zs[next], flux_data[next], color = 'k', marker = '>')
 	plt.show()
 	
 # Check inputs are as expected
