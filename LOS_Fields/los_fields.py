@@ -67,6 +67,9 @@ Z_solar = 0.0134
 # Helium fraction
 Y = 0.2485
 
+# The number of points away before we consider a trough to have ended
+max_dist = count // 100
+
 # ------------
 # --- Data ---
 # ------------
@@ -183,8 +186,55 @@ def extrema(n, hydrogen, minima):
 	flux_data = fluxes(n, hydrogen)
 	if minima:
 		flux_data = 1.0 - flux_data
-	peaks, _ = spsig.find_peaks(flux_data, distance = 3)
+	peaks, _ = spsig.find_peaks(flux_data, distance = count // 100)
 	return peaks
+
+# Force the value to fit within the indices of the data
+def clamp(i):
+	return max(0, min(count, i))
+
+# Find the next or previous element present in an array of indices
+def adjacent(i, xs, prev):
+	comp = np.less if prev else np.greater
+	op = np.subtract if prev else np.add
+	filtereds = list(filter(lambda x: comp(x, i), xs))
+	if len(filtereds) == 0:
+		return clamp(op(i, max_dist))
+	else:
+		if prev:
+			return np.max(filtereds)
+		else:
+			return np.min(filtereds)
+
+# Find the indices of the positions where an absorber starts and ends
+def trough_boundaries(i, mins, maxes):
+	prev_min = adjacent(i, mins, True)
+	prev_max = adjacent(i, mins, True)
+	next_min = adjacent(i, mins, False)
+	next_max = adjacent(i, mins, False)
+	prev = max(prev_min, prev_max)
+	next = min(next_min, next_max)
+	if prev_min > prev_max:
+		prev = (i + prev_min) // 2
+	if next_min < next_max:
+		next = (i + next_min) // 2 + 1
+	prev = max(prev, i - max_dist)
+	next = min(next, i + max_dist)
+	return prev, next
+
+# Find the equivalent widths of all absorbers in the spectrum. Returns pairs
+# of the form (index, width).
+def equiv_widths(n, hydrogen):
+	mins = extrema(n, hydrogen, True)
+	maxes = extrema(n, hydrogen, False)
+	num = len(mins)
+	widths = np.zeros(num)
+	for j in range(0, num):
+		prev, next = trough_boundaries(mins[j], mins, maxes)
+		integral = si.simps(fluxes(n, hydrogen)[prev : next], zs[prev : next])
+		# The area above the trough equals its equivalent width
+		widths[j] = mins[j], 1.0 - integral
+		
 
 # --------------
 # -- Plotting --
@@ -282,10 +332,14 @@ def test5(n):
 	plt.ylim([0.0, 1.1])
 	plt.xlabel("$z$")
 	plt.ylabel(fluxLabel)
-	mins = extrema(n, False, False)
-	maxes = extrema(n, False, True)
+	mins = extrema(n, False, True)
+	maxes = extrema(n, False, False)
 	plt.scatter(zs[mins], flux_data[mins], c = 'r')
 	plt.scatter(zs[maxes], flux_data[maxes], c = 'g')
+	for i in mins:
+		prev, next = trough_boundaries(i, mins, maxes)
+		plt.plot(zs[prev], fluxes[prev], markers = '<')
+		plt.plot(zs[next], fluxes[next], markers = '>')
 	plt.show()
 	
 # Check inputs are as expected
