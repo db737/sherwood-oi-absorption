@@ -183,7 +183,7 @@ def extrema(n, hydrogen, minima):
 	flux_data = fluxes(n, hydrogen)
 	if minima:
 		flux_data = 1.0 - flux_data
-	return spsig.find_peaks(flux_data, distance = 3)
+	return spsig.find_peaks(flux_data, distance = 3).peaks
 
 # --------------
 # -- Plotting --
