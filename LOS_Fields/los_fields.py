@@ -276,15 +276,15 @@ def test4(n):
 
 # Plot positions of peaks
 def test5(n):
-	fluxes = fluxes(n, False)
-	plt.plot(zs, fluxes)
+	flux_data = fluxes(n, False)
+	plt.plot(zs, flux_data)
 	plt.ylim([0.0, 1.1])
 	plt.xlabel("$z$")
 	plt.ylabel(fluxLabel)
 	mins = extrema(n, False, False)
 	maxes = extrema(n, False, True)
-	plt.scatter(zs[mins], fluxes[mins], c = 'r')
-	plt.scatter(zs[maxes], fluxes[maxes], c = 'g')
+	plt.scatter(zs[mins], flux_data[mins], c = 'r')
+	plt.scatter(zs[maxes], flux_data[maxes], c = 'g')
 	
 # Check inputs are as expected
 def check1(n):
