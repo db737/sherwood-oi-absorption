@@ -272,7 +272,7 @@ def plot2():
 	plt.title('Cumulative incidence rate of $' + oiLabel + '$ absorbers at $z = 5.6$')
 	widths = np.array([])
 	for n in range(0, num_sightlines):
-		np.append(equiv_widths(n, False), widths)
+		widths = np.append(equiv_widths(n, False), widths)
 		print(n)
 	plt.hist(widths, num_bins, density = True, histtype = "step", cumulative = -1)
 	plt.xlabel('$' + oiLabel + '$ equivalent width')
@@ -408,4 +408,4 @@ def check5(n):
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-check5(n)
+plot2()
