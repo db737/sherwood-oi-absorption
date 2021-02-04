@@ -248,14 +248,6 @@ def equiv_widths(n, hydrogen):
 		width = si.simps(1.0 - fluxes(n, hydrogen)[prev : next], zs[prev : next])
 		widths[j] = width
 	return widths
-		
-# The average number of absorbers in each redshift interval per sightline
-def average_absorbers(hydrogen):
-	widths = np.array([])
-	for n in range(0, num_sightlines):
-		np.append(equiv_widths(n, hydrogen), widths)
-	min_w, max_w = np.min(widths), np.max(widths)
-	hists = ndimage.measurements.histogram(widths, min_w, max_w, num_bins)
 
 # --------------
 # -- Plotting --
@@ -273,6 +265,17 @@ def plot1(n):
 	plt.ylim([0.0, 1.1])
 	plt.xlabel("$z$")
 	plt.ylabel(fluxLabel)
+	plt.show()
+
+# dN/dz equivalent width plot
+def plot2():
+	plt.title('Cumulative incidence rate of $' + oiLabel + '$ absorbers at $z = 5.6$')
+	widths = np.array([])
+	for n in range(0, num_sightlines):
+		np.append(equiv_widths(n, False), widths)
+	plt.hist(widths, num_bins, density = True, histtype = "step", cumulative = -1)
+	plt.xlabel('$' + oiLabel + '$ equivalent width')
+	plt.ylabel('$\\frac{dN}{dX}$')
 	plt.show()
 
 # Check that overdensity averages to 1 for a given redshift
@@ -398,4 +401,4 @@ def check4(n):
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-test5(n)
+plot2()
