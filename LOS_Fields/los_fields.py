@@ -427,7 +427,7 @@ def check5(n):
 def output1():
 	ns = [2369, 3231, 251, 2188, 2514]
 	for n in ns:
-		np.savetxt(f"data {n}.csv", (zs, vss[:, n], Tss[:, n], DeHss[:, n], nOIs(n) / nHIs(n) * fHIss[:, n]), delimiter = ',')
+		np.savetxt(f"data {n}.csv", (zs, vss[:, n], Tss[:, n], DeHss[:, n], nOIs(n) / nHIs(n) * fHIss[:, n], opticalDepths(n, False)), delimiter = ',')
 
 # Main
 n = 0
