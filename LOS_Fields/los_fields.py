@@ -428,4 +428,4 @@ def check5(n):
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-test6()
+test6(n)
