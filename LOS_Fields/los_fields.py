@@ -374,7 +374,7 @@ def test6(n):
 	fig, axes = plt.subplots(5, 1, sharex = True)
 	axes[0].set_title(f"Oxygen properties for sightline {n + 1}, using $\\Gamma_{{12}}={Ga_12}$ and $z={z_mid}$")
 	axes[0].semilogy(zs, nOIs(n) / nHIs(n) * fHIss[:, n])
-	axes[0].set_ylabel('$n_{$' + oiLabel + '}/n_H$')
+	axes[0].set_ylabel('$n_{' + oiLabel + '}/n_H$')
 	axes[1].plot(zs, DeHss[:, n])
 	axes[1].set_ylabel('$\Delta$')
 	axes[2].plot(zs, vss[:, n] / 1.0e3)
