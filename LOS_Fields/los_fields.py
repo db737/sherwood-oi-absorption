@@ -424,8 +424,13 @@ def check5(n):
 	for w in widths:
 		print(w)
 
+def output1():
+	ns = [2369, 3231, 251, 2188, 2514]
+	for n in ns:
+		np.savetxt(f"data {n}.csv", zs, vss[:, n], Tss[:, n], DeHss[:, n], nOIs(n) / nHIs(n) * fHIss[:, n], delimiter = ',')
+
 # Main
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-test6(n)
+output1(n)
