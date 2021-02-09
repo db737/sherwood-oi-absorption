@@ -129,9 +129,11 @@ for i in range(middleIndex + 1, count):
 	z = zs[i - 1]
 	zs[i] = z + dz_by_dx(z) * box / count
 
+# Compute baryon number densities
+rh_bars = rh_crit0 * Om_b0 * (1.0 + zs) ** 3.0
+
 # Neutral hydrogen number density
 def nHIs(n):
-	rh_bars = rh_crit0 * Om_b0 * (1.0 + zs) ** 3.0
 	nHs = DeHss[:, n] * rh_bars / m_HI # Number density from mass density
 	return nHs * fHIss[:, n] * (1.0 - Y)
 
@@ -169,7 +171,7 @@ def cutoffsSS(n):
 # The number density of neutral oxygen at a point, for the nth sightline
 def nOIs(n):
 	fOI = np.heaviside(DeHss[:, n] - cutoffsSS(n), 1.0)
-	return fOI * Zs(n)
+	return fOI * Zs(n) * DeHss[:, n] * rh_bars
 
 # The integrand as in [C2001] equation 30 except with a change of variables to
 # be an integral over z, for the nth sightline; 'hydrogen' is a boolean setting
@@ -368,6 +370,24 @@ def test5(n):
 		plt.plot(zs[next], flux_data[next], color = 'k', marker = '>', markersize = 4.0)
 	plt.show()
 
+def test6(n):
+	fig, axes = plt.subplots(5, 1, sharex = True)
+	axes[0].set_title(f"Oxygen properties for sightline {n + 1}, using $\\Gamma_{{12}}={Ga_12}$ and $z={z_mid}$")
+	axes[0].semilogy(zs, nOIs(n) / nHIs(n) * fHIss[:, n])
+	axes[0].set_ylabel('$n_{$' + oiLabel + '}/n_H$')
+	axes[1].plot(zs, DeHss[:, n])
+	axes[1].set_ylabel('$\Delta$')
+	axes[2].plot(zs, vss[:, n] / 1.0e3)
+	axes[2].set_ylabel('$v / kms^{-1}$')
+	axes[3].semilogy(zs, Tss[:, n])
+	axes[3].set_ylabel('$T/K$')
+	axes[4].plot(zs, opticalDepths(n, False))
+	axes[4].set_xlabel("$z$")
+	axes[4].set_ylabel('$\\tau_{' + oiLabel + '}$')
+	plt.subplots_adjust(hspace = 0)
+	fig.align_ylabels()
+	plt.show()
+
 # Check inputs are as expected
 def check1(n):
 	print("HI fraction: {}".format(fHIss[0, n]))
@@ -408,4 +428,4 @@ def check5(n):
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-plot2()
+test6()
