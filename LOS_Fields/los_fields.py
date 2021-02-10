@@ -433,4 +433,4 @@ def output1():
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-output4(n)
+test4(n)
