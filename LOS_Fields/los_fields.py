@@ -166,7 +166,7 @@ def nOIs(n):
 	ss = np.heaviside(DeHss[:, n] - cutoffsSS(n), 1.0)
 	# Shift and scale the step function to get the unshielded neutral fraction
 	fOI = fHIss[:, n] + (1.0 - fHIss[:, n]) * ss
-	return fOI * Zs(n) * DeHss[:, n] * rh_bars
+	return fOI * Zs(n) * DeHss[:, n] * rh_bars / m_OI
 
 # The integrand as in [C2001] equation 30 except with a change of variables to
 # be an integral over z, for the nth sightline; 'hydrogen' is a boolean setting
