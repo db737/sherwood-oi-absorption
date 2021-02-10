@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.lines as ml
 import matplotlib
+import sys
 
 import los_fields
 

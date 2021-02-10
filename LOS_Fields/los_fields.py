@@ -4,7 +4,6 @@ import scipy.special as ss
 import scipy.constants as consts
 import scipy.signal as spsig
 import math
-import sys
 
 from numpy import pi
 from scipy import ndimage
