@@ -63,8 +63,8 @@ I_al_HI = 4.45e-22
 I_al_OI = 5.5e-23
 # Ionising background in units of 10^{-12}s^{-1}
 Ga_12 = 0.158
-# Solar metallicity
-Z_solar = 0.0134
+# Solar metallicity from Keating et al. (2014) [K2014]
+Z_solar_oxygen = 10.0**-3.13
 # Helium fraction
 Y = 0.2485
 
@@ -154,7 +154,7 @@ def als(n, hydrogen):
 def vArg2s(n, z0, mass):
 	return (vss[:, n] + c * (zs - z0) / (1.0 + z0)) / bs(n, mass)
 
-# Metallicity using formula 5 from Keating et al. (2014) [K2014]
+# Metallicity using formula 5 from [K2014]
 def Zs(n):
 	Z_80 = Z_solar * 10.0 ** -2.65
 	return Z_80 * (DeHss[:, n] / 80.0) ** 1.3
@@ -433,4 +433,4 @@ def output1():
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-output1()
+output4(n)
