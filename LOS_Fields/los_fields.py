@@ -149,7 +149,7 @@ def vArg2s(n, z0, mass):
 
 # Metallicity using formula 5 from [K2014]
 def Zs(n):
-	Z_80 = Z_solar * 10.0 ** -2.65
+	Z_80 = Z_solar_oxygen * 10.0 ** -2.65
 	return Z_80 * (DeHss[:, n] / 80.0) ** 1.3
 
 # The overdensity at which a region becomes 'self-shielded' (Keating et al.
