@@ -163,7 +163,9 @@ def cutoffsSS(n):
 
 # The number density of neutral oxygen at a point, for the nth sightline
 def nOIs(n):
-	fOI = np.heaviside(DeHss[:, n] - cutoffsSS(n), 1.0)
+	ss = np.heaviside(DeHss[:, n] - cutoffsSS(n), 1.0)
+	# Shift and scale the step function
+	fOI = fHIss[:, n] + (1.0 - fHIss[:, n]) * ss
 	return fOI * Zs(n) * DeHss[:, n] * rh_bars
 
 # The integrand as in [C2001] equation 30 except with a change of variables to
