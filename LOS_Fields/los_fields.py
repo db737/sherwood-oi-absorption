@@ -164,7 +164,7 @@ def cutoffsSS(n):
 # The number density of neutral oxygen at a point, for the nth sightline
 def nOIs(n):
 	ss = np.heaviside(DeHss[:, n] - cutoffsSS(n), 1.0)
-	# Shift and scale the step function
+	# Shift and scale the step function to get the unshielded neutral fraction
 	fOI = fHIss[:, n] + (1.0 - fHIss[:, n]) * ss
 	return fOI * Zs(n) * DeHss[:, n] * rh_bars
 
