@@ -3,9 +3,6 @@ import scipy.integrate as si
 import scipy.special as ss
 import scipy.constants as consts
 import scipy.signal as spsig
-import matplotlib.pyplot as plt
-import matplotlib.lines as ml
-import matplotlib
 import math
 import sys
 

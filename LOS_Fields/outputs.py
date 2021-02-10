@@ -1,3 +1,7 @@
+import matplotlib.pyplot as plt
+import matplotlib.lines as ml
+import matplotlib
+
 import los_fields
 
 matplotlib.rcParams["text.usetex"] = True
