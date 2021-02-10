@@ -3,7 +3,7 @@ import matplotlib.lines as ml
 import matplotlib
 import sys
 
-import los_fields
+from los_fields import *
 
 matplotlib.rcParams["text.usetex"] = True
 plt.style.use("custom_plot_style.py")
