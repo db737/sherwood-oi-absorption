@@ -192,4 +192,4 @@ def output1():
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-plot2()
+test5(n)
