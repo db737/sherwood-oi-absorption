@@ -196,7 +196,7 @@ def extrema(n, hydrogen, minima):
 
 # Force the value to fit within the indices of the data
 def clamp(i):
-	return max(0, min(count, i))
+	return max(0, min(count - 1, i))
 
 # Find the next or previous element present in an array of indices
 def adjacent(i, xs, prev):
