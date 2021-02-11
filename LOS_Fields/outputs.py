@@ -193,3 +193,4 @@ n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
 test5(n)
+plot2()

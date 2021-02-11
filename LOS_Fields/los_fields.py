@@ -40,9 +40,10 @@ x_H = spec_obj.xh
 # (https://physics.nist.gov/PhysRefData/ASD/lines_form.html) [NIST]
 nu_12_HI = 2.4661e15
 nu_12_OI = 2.3023e15
-# Quantum-mechanical damping constants [NIST]
+# Quantum-mechanical damping constants from the 'atom.dat' data file of
+# VPFIT 10.4 [atom.dat]
 Ga_HI = 6.265e8
-Ga_OI = 3.41e8
+Ga_OI = 5.65e8
 # HI mass
 m_HI = consts.value("proton mass") + consts.value("electron mass")
 # OI mass
@@ -51,7 +52,7 @@ k_B = consts.value("Boltzmann constant")
 c = consts.value("speed of light in vacuum")
 # Prefactors I_{\alpha} to the integral, calculated using above constants and
 # https://www.astro.ncu.edu.tw/~wchen/Courses/ISM/04.EinsteinCoefficients.pdf
-# and the 'atom.dat' data file of VPFIT 10.4 
+# and [atom.dat]
 I_al_HI = 4.45e-22
 I_al_OI = 5.5e-23
 # Ionising background in units of 10^{-12}s^{-1}
