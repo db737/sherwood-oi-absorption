@@ -246,6 +246,6 @@ def equiv_widths(n, hydrogen):
 		print(f"simpson {n + 1}, {j}")
 		# Use units of angstroms
 		nu = nu_12_HI if hydrogen else nu_12_OI
-		widths[j] = width * c / nu
+		widths[j] = width * c * 1.0e10 * / nu 
 	print(f"EW {n + 1}")
 	return widths
