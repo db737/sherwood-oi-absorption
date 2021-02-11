@@ -90,6 +90,9 @@ min_dist = count // 100
 # The maximum number of points away before we consider a trough to have ended
 max_dist = count // 40
 
+# The threshold distance between neighbouring points to count as a peak
+thresh = 1.0e-4
+
 # Convert temperature to b as defined in Choudhury et al. (2001) [C2001],
 # equation 31, for the nth sightline
 def bs(n, mass):
@@ -191,7 +194,7 @@ def extrema(n, hydrogen, minima):
 	flux_data = fluxes(n, hydrogen)
 	if minima:
 		flux_data = 1.0 - flux_data
-	peaks, _ = spsig.find_peaks(flux_data, distance = min_dist)
+	peaks, _ = spsig.find_peaks(flux_data, distance = min_dist, threshold = thresh)
 	return peaks
 
 # Force the value to fit within the indices of the data
