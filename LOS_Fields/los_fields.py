@@ -231,6 +231,7 @@ def trough_boundaries(i, mins, maxes):
 def equiv_widths(n, hydrogen):
 	mins = extrema(n, hydrogen, True)
 	maxes = extrema(n, hydrogen, False)
+	print(f"mins, maxes {n + 1}")
 	num_mins = len(mins)
 	widths = np.zeros(num_mins)
 	for j in range(0, num_mins):

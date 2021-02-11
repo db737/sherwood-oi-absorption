@@ -9,7 +9,7 @@ matplotlib.rcParams["text.usetex"] = True
 plt.style.use("custom_plot_style.py")
 
 # Number of sightlines to average over
-num_sightlines = 100
+num_sightlines = 10
 
 # Number of bins
 num_bins = 128
