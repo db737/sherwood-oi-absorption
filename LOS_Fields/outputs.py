@@ -8,9 +8,6 @@ from los_fields import *
 matplotlib.rcParams["text.usetex"] = True
 plt.style.use("custom_plot_style.py")
 
-# Number of sightlines to average over
-num_sightlines = 10
-
 # Number of bins
 num_bins = 128
 
@@ -29,12 +26,12 @@ def plot1(n):
 	plt.show()
 
 # dN/dz equivalent width plot
-def plot2():
+def plot2(num_sightlines):
 	plt.title('Cumulative incidence rate of $' + oiLabel + '$ absorbers at $z = 5.6$')
 	widths = np.array([])
 	for n in range(0, num_sightlines):
 		widths = np.append(equiv_widths(n, False), widths)
-		print(n)
+		print(n + 1)
 	plt.hist(widths, num_bins, density = True, histtype = "step", cumulative = -1)
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
