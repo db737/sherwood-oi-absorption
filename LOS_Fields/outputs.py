@@ -36,7 +36,7 @@ def plot2():
 		widths = np.append(equiv_widths(n, False), widths)
 		print(n)
 	plt.hist(widths, num_bins, density = True, histtype = "step", cumulative = -1)
-	plt.xlabel('$' + oiLabel + '$ equivalent width')
+	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
 	plt.show()
 
@@ -192,5 +192,4 @@ def output1():
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-test5(n)
 plot2()
