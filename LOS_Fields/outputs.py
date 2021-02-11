@@ -8,6 +8,12 @@ from los_fields import *
 matplotlib.rcParams["text.usetex"] = True
 plt.style.use("custom_plot_style.py")
 
+# Number of sightlines to average over
+num_sightlines = 100
+
+# Number of bins
+num_bins = 128
+
 hiLabel = 'HI'
 oiLabel = 'OI'
 depthLabel = '$\\tau_{' + oiLabel + "}$"
@@ -186,5 +192,4 @@ def output1():
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-test4(n)
-test6(n)
+plot2()

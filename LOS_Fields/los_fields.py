@@ -83,12 +83,6 @@ num = len(fHIss[0, :])
 # Number of elements in a sightline
 count = len(fHIss[:, 0])
 
-# Number of sightlines to average over
-num_sightlines = 100
-
-# Number of bins
-num_bins = 128
-
 # The minimum number of points away before we consider two troughs to be a
 # single one
 min_dist = count // 100
