@@ -236,8 +236,10 @@ def equiv_widths(n, hydrogen):
 	widths = np.zeros(num_mins)
 	for j in range(0, num_mins):
 		prev, next = trough_boundaries(mins[j], mins, maxes)
+		print(f"boundaries {n + 1}, {j}")
 		# The area above the trough equals its equivalent width
 		width = si.simps(1.0 - fluxes(n, hydrogen)[prev : next], zs[prev : next])
+		print(f"simpson {n + 1}, {j}")
 		widths[j] = width
 	print(f"EW {n + 1}")
 	return widths
