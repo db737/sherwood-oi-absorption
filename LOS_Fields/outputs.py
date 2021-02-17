@@ -26,11 +26,11 @@ def plot1(n):
 	plt.show()
 
 # dN/dz equivalent width plot
-def plot2(num_sightlines):
+def plot2(num_sightlines, ssOnly):
 	plt.title('Cumulative incidence rate of $' + oiLabel + '$ absorbers at $z = 5.6$')
 	widths = np.array([])
 	for n in range(0, num_sightlines):
-		widths = np.append(equiv_widths(n, False), widths)
+		widths = np.append(equiv_widths(n, ssOnly), widths)
 		print(n + 1)
 	plt.hist(widths, num_bins, density = True, histtype = "step", cumulative = -1)
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
@@ -81,7 +81,7 @@ def test2(n):
 def test3(n):
 	plt.title(f"Comparison of simulation output and computed neutral hydrogen optical depths for sightline {n + 1}")
 	plt.plot(zs, ta_HIss[:, n], "k")
-	plt.plot(zs, opticalDepths(n, True), "b--")
+	plt.plot(zs, opticalDepths(n, True, False), "b--")
 	measured = ml.Line2D([], [], color = "k", label = "from simulation")
 	computed = ml.Line2D([], [], color = "b", ls = "--", label = "computed")
 	plt.legend(handles = [measured, computed])
@@ -98,9 +98,9 @@ def test4(n):
 	axes[2].plot(zs, np.heaviside(DeHss[:, n] - cutoffsSS(n), 1.0))
 	axes[2].set_ylabel("Self-shielding", fontsize = 12, rotation = "horizontal")
 	axes[2].set_yticklabels([])
-	axes[3].semilogy(zs, nOIs(n) / 1.0e6)
+	axes[3].semilogy(zs, nOIs(n, False) / 1.0e6)
 	axes[3].set_ylabel("$n_{" + oiLabel + '} / \mathrm{cm^{-3}}$')
-	axes[4].plot(zs, fluxes(n, False))
+	axes[4].plot(zs, fluxes(n, False, False))
 	axes[4].set_xlabel("$z$")
 	axes[4].set_ylabel("$F$")
 	axes[4].set_ylim([0.0, 1.1])
@@ -116,8 +116,8 @@ def test5(n):
 	plt.ylim([0.0, 1.1])
 	plt.xlabel("$z$")
 	plt.ylabel(fluxLabel)
-	mins = extrema(n, False, True)
-	maxes = extrema(n, False, False)
+	mins = extrema(n, False, False, True)
+	maxes = extrema(n, False, False, False)
 	plt.scatter(zs[mins], flux_data[mins], c = 'r')
 	plt.scatter(zs[maxes], flux_data[maxes], c = 'g')
 	for i in mins:
@@ -129,7 +129,7 @@ def test5(n):
 def test6(n):
 	fig, axes = plt.subplots(5, 1, sharex = True)
 	axes[0].set_title(f"Oxygen properties for sightline {n + 1}, using $\\Gamma_{{12}}={Ga_12}$ and $z={z_mid}$")
-	axes[0].semilogy(zs, nOIs(n) / nHIs(n) * fHIss[:, n])
+	axes[0].semilogy(zs, nOIs(n, False) / nHIs(n) * fHIss[:, n])
 	axes[0].set_ylabel('$n_{' + oiLabel + '}/n_H$', fontsize = 18, rotation = "horizontal")
 	axes[1].semilogy(zs, DeHss[:, n])
 	axes[1].set_ylabel('$\Delta$', fontsize = 18, rotation = "horizontal")
@@ -137,7 +137,7 @@ def test6(n):
 	axes[2].set_ylabel('$v / \mathrm{kms}^{-1}$', fontsize = 18, rotation = "horizontal")
 	axes[3].semilogy(zs, Tss[:, n])
 	axes[3].set_ylabel('$T/K$', fontsize = 18, rotation = "horizontal")
-	axes[4].semilogy(zs, opticalDepths(n, False))
+	axes[4].semilogy(zs, opticalDepths(n, False, False))
 	axes[4].set_xlabel("$z$")
 	axes[4].set_ylabel('$\\tau_{' + oiLabel + '}$', fontsize = 18, rotation = "horizontal")
 	plt.subplots_adjust(hspace = 0)
@@ -162,12 +162,12 @@ def check2(n):
 	print("alpha (OI): {}".format(als(n, False)[0]))
 	print("V arg 2: {}".format(vArg2s(n, 3.0, m_HI)[0]))
 	print("V(..., ...): {}".format(voigt(als(n, True), vArg2s(n, 3.0, m_HI))[0]))
-	print("integrand: {}".format(integrand1s(n, 3.0, True)[0]))
+	print("integrand: {}".format(integrand1s(n, 3.0, True, False)[0]))
 
 # Compare hydrogen outputs directly
 def check3(n):
 	print("from data: {}".format(ta_HIss[0, n]))
-	print("computed: {}".format(opticalDepth(n, zs[0], True)))
+	print("computed: {}".format(opticalDepth(n, zs[0], True, False)))
 
 # Check oxygen stuff
 def check4(n):
@@ -185,8 +185,17 @@ def output1():
 	for n in ns:
 		np.savetxt(f"data {n}.csv", (zs, vss[:, n], Tss[:, n], DeHss[:, n], nOIs(n) / nHIs(n) * fHIss[:, n], opticalDepths(n, False)), delimiter = ',')
 
+def input1():
+	tass = np.loadtxt('../../Optical_Depth.txt')
+	Fss = np.exp(-tass)
+	ns = [2188, 2369, 2514, 251, 3231]
+	for i in range(0, 5):
+		plt.plot(zs, Fss[:, i])
+		plt.plot(zs, fluxes(ns[i], False))
+		plt.show()
+
 # Main
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-plot2(n)
+input1()

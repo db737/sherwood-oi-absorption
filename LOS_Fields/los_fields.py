@@ -159,18 +159,23 @@ def cutoffsSS(n):
 	zFactors = ((1.0 + zs) / 7.0) ** -3.0
 	return 54.0 * (Ga_12 ** p1) * (T4s ** p2) * zFactors
 
-# The number density of neutral oxygen at a point, for the nth sightline
-def nOIs(n):
+# The number density of neutral oxygen at a point, for the nth sightline; the
+# second argument, if True, will assume OI is only present in self-shielded
+# regions and nowhere else
+def nOIs(n, ssOnly):
 	ss = np.heaviside(DeHss[:, n] - cutoffsSS(n), 1.0)
 	# Shift and scale the step function to get the unshielded neutral fraction
-	fOI = fHIss[:, n] + (1.0 - fHIss[:, n]) * ss
+	if ssOnly:
+		fOI = fHIss[:, n] + (1.0 - fHIss[:, n]) * ss
+	else:
+		fOI = ss
 	return fOI * Zs(n) * DeHss[:, n] * rh_bars / m_OI
 
 # The integrand as in [C2001] equation 30 except with a change of variables to
 # be an integral over z, for the nth sightline; 'hydrogen' is a boolean setting
-def integrand1s(n, z0, hydrogen):
+def integrand1s(n, z0, hydrogen, ssOnly):
 	mass = m_HI if hydrogen else m_OI
-	ns = nHIs(n) if hydrogen else nOIs(n)
+	ns = nHIs(n) if hydrogen else nOIs(n, ssOnly)
 	I_al = I_al_HI if hydrogen else I_al_OI
 	prefactor = c * I_al * math.pi ** -0.5
 	voigtFn = voigt(als(n, hydrogen), vArg2s(n, z0, mass))
@@ -180,19 +185,19 @@ def integrand1s(n, z0, hydrogen):
 # Optical depth of the nth sightline from the farthest redshift up to z0, for
 # the nth sightline; we integrate using Simpson's rule over all the points that
 # fall in the region and assume the redshifts are in increasing order
-def opticalDepth(n, z0, hydrogen):
-	return si.simps(integrand1s(n, z0, hydrogen), zs)
+def opticalDepth(n, z0, hydrogen, ssOnly):
+	return si.simps(integrand1s(n, z0, hydrogen, ssOnly), zs)
 
 def opticalDepths(n, hydrogen):
-	return np.array([opticalDepth(n, z0, hydrogen) for z0 in zs])
+	return np.array([opticalDepth(n, z0, hydrogen, ssOnly) for z0 in zs])
 
 # Attenuation coefficient
-def fluxes(n, hydrogen):
-	return np.exp(-opticalDepths(n, hydrogen))
+def fluxes(n, hydrogen, ssOnly):
+	return np.exp(-opticalDepths(n, hydrogen, ssOnly))
 
 # Find minima or maxima in the flux
-def extrema(n, hydrogen, minima):
-	flux_data = fluxes(n, hydrogen)
+def extrema(n, hydrogen, ssOnly, minima):
+	flux_data = fluxes(n, hydrogen, ssOnly)
 	if minima:
 		flux_data = 1.0 - flux_data
 	peaks, _ = spsig.find_peaks(flux_data, distance = min_dist, threshold = thresh)
@@ -232,9 +237,9 @@ def trough_boundaries(i, mins, maxes):
 	return prev, next
 
 # Find the equivalent widths of all absorbers in the spectrum.
-def equiv_widths(n, hydrogen):
-	mins = extrema(n, hydrogen, True)
-	maxes = extrema(n, hydrogen, False)
+def equiv_widths(n, ssOnly):
+	mins = extrema(n, False, ssOnly, True)
+	maxes = extrema(n, False, ssOnly, False)
 	print(f"mins, maxes {n + 1}")
 	num_mins = len(mins)
 	widths = np.zeros(num_mins)
