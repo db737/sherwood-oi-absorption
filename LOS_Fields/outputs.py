@@ -189,10 +189,10 @@ def input1(n):
 	tass = np.loadtxt('../../Optical_Depth.txt')
 	ns = [2188, 2369, 2514, 251, 3231]
 	for i in range(0, 5):
-		plt.plot(zs, tass[:, i])
-		plt.plot(zs, opticalDepths(ns[i], False, n == 0))
+		plt.plot(zs, tass[:, i], color = 'k')
+		plt.plot(zs, opticalDepths(ns[i], False, n == 0), color = 'b')
 		plt.show()
 
 # Main
 n = int(sys.argv[1]) - 1
-plot1(n)
+input1(n)
