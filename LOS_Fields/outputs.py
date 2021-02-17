@@ -19,7 +19,7 @@ fluxLabel = "$F=e^{-" + depthLabel[1 : len(depthLabel) - 1] + "}$"
 # Optical depth and flux
 def plot1(n):
 	plt.title(f"Optical depth for sightline {n + 1}")
-	plt.plot(zs, fluxes(n, False))
+	plt.plot(zs, fluxes(n, False, False))
 	plt.ylim([0.0, 1.1])
 	plt.xlabel("$z$")
 	plt.ylabel(fluxLabel)
@@ -110,7 +110,7 @@ def test4(n):
 
 # Plot positions of peaks
 def test5(n):
-	flux_data = fluxes(n, False)
+	flux_data = fluxes(n, False, False)
 	plt.plot(zs, flux_data)
 	plt.title("Trough detection in an Oxygen I spectrum")
 	plt.ylim([0.0, 1.1])
