@@ -194,7 +194,5 @@ def input1(n):
 		plt.show()
 
 # Main
-n = 0
-if len(sys.argv) > 0:
-	n = int(sys.argv[1]) - 1
-input1(n)
+n = int(sys.argv[1]) - 1
+plot1(n)
