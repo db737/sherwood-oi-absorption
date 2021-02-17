@@ -185,17 +185,16 @@ def output1():
 	for n in ns:
 		np.savetxt(f"data {n}.csv", (zs, vss[:, n], Tss[:, n], DeHss[:, n], nOIs(n) / nHIs(n) * fHIss[:, n], opticalDepths(n, False)), delimiter = ',')
 
-def input1():
+def input1(n):
 	tass = np.loadtxt('../../Optical_Depth.txt')
-	Fss = np.exp(-tass)
 	ns = [2188, 2369, 2514, 251, 3231]
 	for i in range(0, 5):
-		plt.plot(zs, Fss[:, i])
-		plt.plot(zs, fluxes(ns[i], False))
+		plt.plot(zs, tass[:, i])
+		plt.plot(zs, opticalDepths(ns[i], False, n == 0))
 		plt.show()
 
 # Main
 n = 0
 if len(sys.argv) > 0:
 	n = int(sys.argv[1]) - 1
-input1()
+input1(n)

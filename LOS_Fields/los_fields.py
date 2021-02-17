@@ -188,7 +188,7 @@ def integrand1s(n, z0, hydrogen, ssOnly):
 def opticalDepth(n, z0, hydrogen, ssOnly):
 	return si.simps(integrand1s(n, z0, hydrogen, ssOnly), zs)
 
-def opticalDepths(n, hydrogen):
+def opticalDepths(n, hydrogen, ssOnly):
 	return np.array([opticalDepth(n, z0, hydrogen, ssOnly) for z0 in zs])
 
 # Attenuation coefficient
