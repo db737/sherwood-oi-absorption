@@ -247,7 +247,7 @@ def equiv_widths(n, ssOnly):
 		prev, next = trough_boundaries(mins[j], mins, maxes)
 		print(f"boundaries {n + 1}, {j}")
 		# The area above the trough equals its equivalent width
-		width = si.simps(1.0 - fluxes(n, False)[prev : next], zs[prev : next])
+		width = si.simps(1.0 - fluxes(n, False, ssOnly)[prev : next], zs[prev : next])
 		print(f"simpson {n + 1}, {j}")
 		# Use units of angstroms
 		widths[j] = width * c * 1.0e10 / nu_12_OI
