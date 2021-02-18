@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.lines as ml
 import matplotlib
+import scipy.integrate as si
 import sys
 
 from los_fields import *
@@ -32,8 +33,7 @@ def plot2(num_sightlines, ssOnly):
 	for n in range(0, num_sightlines):
 		widths = np.append(equiv_widths(n, ssOnly), widths)
 		print(n + 1)
-	Dez = (zs[count - 1] - zs[0]) * num_sightlines
-	DeX = Dez / dz_by_dX(zs)
+	DeX = num_sightlines * box
 	counts, bin_edges = np.histogram(widths, num_bins)
 	dN_by_dXs = np.flip(np.cumsum(np.flip(counts / DeX)))
 	midpoints = np.array([(bin_edges[i] + bin_edges[i + 1]) / 2.0 for i in range(0, num_bins)])
