@@ -66,7 +66,7 @@ def plot3(num_sightlines):
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
 	ss = ml.Line2D([], [], color = 'k', label = 'OI only in SS regions')
-	notss = ml.Line2D([], [], color = 'b', ls = '--' label = 'OI everywhere')
+	notss = ml.Line2D([], [], color = 'b', ls = '--', label = 'OI everywhere')
 	plt.legend(handles = [ss, notss])
 	plt.show()
 
