@@ -189,7 +189,7 @@ def check5(n):
 
 # Check optical depth
 def check6(n):
-	plt.plot(zs, opticalDepths(n, False, False)
+	plt.plot(zs, opticalDepths(n, False, False))
 	plt.show()
 
 def output1():
