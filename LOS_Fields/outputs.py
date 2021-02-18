@@ -61,7 +61,7 @@ def plot3(num_sightlines):
 	count2s, bin_edge2s = np.histogram(width2s, num_bins)
 	dN_by_dX2s = np.flip(np.cumsum(np.flip(count2s / DeX)))
 	midpoint2s = np.array([(bin_edge2s[i] + bin_edge2s[i + 1]) / 2.0 for i in range(0, num_bins)])
-	plt.step(midpoint2s, dN_by_dX2s, 'b--')
+	plt.step(midpoint2s, dN_by_dX2s, 'b', linestyle = '--')
 	#plt.hist(widths, num_bins, density = True, histtype = "step", cumulative = -1)
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
