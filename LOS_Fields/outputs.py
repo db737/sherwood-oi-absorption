@@ -33,7 +33,8 @@ def plot2(num_sightlines, ssOnly):
 	for n in range(0, num_sightlines):
 		widths = np.append(equiv_widths(n, ssOnly), widths)
 		print(n + 1)
-	DeX = num_sightlines * spec_obj.box
+	# spec_obj.box is in units of h^{-1} ckPc
+	DeX = num_sightlines * spec_obj.box / 1.0e3
 	counts, bin_edges = np.histogram(widths, num_bins)
 	dN_by_dXs = np.flip(np.cumsum(np.flip(counts / DeX)))
 	midpoints = np.array([(bin_edges[i] + bin_edges[i + 1]) / 2.0 for i in range(0, num_bins)])
