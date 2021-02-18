@@ -233,5 +233,4 @@ def input1():
 
 # Main
 n = int(sys.argv[1]) - 1
-plot2(n, False)
-plot2(n, True)
+plot3(n)
