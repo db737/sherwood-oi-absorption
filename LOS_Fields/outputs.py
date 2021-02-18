@@ -44,6 +44,32 @@ def plot2(num_sightlines, ssOnly):
 	plt.ylabel('$\\frac{dN}{dX}$')
 	plt.show()
 
+# Compare the effect of the self-shielding prescription
+def plot3(num_sightlines):
+	plt.title('Cumulative incidence rate of $' + oiLabel + '$ absorbers at $z = 5.6$')
+	width1s = np.array([])
+	width2s = np.array([])
+	for n in range(0, num_sightlines):
+		width1s = np.append(equiv_widths(n, True), width1s)
+		width2s = np.append(equiv_widths(n, False), width2s)
+	# spec_obj.box is in units of h^{-1} ckPc
+	DeX = num_sightlines * spec_obj.box / 1.0e3
+	count1s, bin_edge1s = np.histogram(width1s, num_bins)
+	dN_by_dX1s = np.flip(np.cumsum(np.flip(count1s / DeX)))
+	midpoint1s = np.array([(bin_edge1s[i] + bin_edge1s[i + 1]) / 2.0 for i in range(0, num_bins)])
+	plt.step(midpoint1s, dN_by_dX1s, color = 'k')
+	count2s, bin_edge2s = np.histogram(width2s, num_bins)
+	dN_by_dX2s = np.flip(np.cumsum(np.flip(count2s / DeX)))
+	midpoint2s = np.array([(bin_edge2s[i] + bin_edge2s[i + 1]) / 2.0 for i in range(0, num_bins)])
+	plt.step(midpoint2s, dN_by_dX2s, color = 'b')
+	#plt.hist(widths, num_bins, density = True, histtype = "step", cumulative = -1)
+	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
+	plt.ylabel('$\\frac{dN}{dX}$')
+	ss = ml.Line2D([], [], color = 'k', label = 'OI only in SS regions')
+	notss = ml.Line2D([], [], color = 'b', label = 'OI everywhere')
+	plt.legend(handles = [ss, notss])
+	plt.show()
+
 # Check that overdensity averages to 1 for a given redshift
 def test1():
 	Des = DeHss[middleIndex, :]
@@ -207,4 +233,5 @@ def input1():
 
 # Main
 n = int(sys.argv[1]) - 1
-input1()
+plot2(n, False)
+plot2(n, True)
