@@ -201,4 +201,4 @@ def input1(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot2(n)
+plot2(n, False)
