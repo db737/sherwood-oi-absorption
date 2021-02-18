@@ -187,6 +187,11 @@ def check5(n):
 	for w in widths:
 		print(w)
 
+# Check optical depth
+def check6(n):
+	plt.plot(zs, opticalDepths(n, False, False)
+	plt.show()
+
 def output1():
 	ns = [2369, 3231, 251, 2188, 2514]
 	for n in ns:
