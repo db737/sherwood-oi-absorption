@@ -32,7 +32,7 @@ def plot2(num_sightlines, ssOnly):
 	for n in range(0, num_sightlines):
 		widths = np.append(equiv_widths(n, ssOnly), widths)
 		print(n + 1)
-	Dez = (zs[count] - zs[0]) * num_sightlines
+	Dez = (zs[count - 1] - zs[0]) * num_sightlines
 	Dex = Dez / dz_by_dX(zs)
 	count_by_dXs, bin_edges = np.histogram(widths, num_bins) / DeX
 	dN_by_dXs = np.flip(np.cumsum(np.flip(count_by_dXs)))
