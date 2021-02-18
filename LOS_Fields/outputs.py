@@ -34,8 +34,8 @@ def plot2(num_sightlines, ssOnly):
 		print(n + 1)
 	Dez = (zs[count - 1] - zs[0]) * num_sightlines
 	DeX = Dez / dz_by_dX(zs)
-	count_by_dXs, bin_edges = np.histogram(widths, num_bins) / DeX
-	dN_by_dXs = np.flip(np.cumsum(np.flip(count_by_dXs)))
+	counts, bin_edges = np.histogram(widths, num_bins)
+	dN_by_dXs = np.flip(np.cumsum(np.flip(counts / DeX)))
 	midpoints = np.array([(bin_edges[i] + bin_edges[i + 1]) / 2.0 for i in range(0, num_bins)])
 	plt.step(midpoints, dN_by_dXs)
 	#plt.hist(widths, num_bins, density = True, histtype = "step", cumulative = -1)
