@@ -123,11 +123,6 @@ for i in range(middleIndex + 1, count):
 # Compute baryon number densities
 rh_bars = rh_crit0 * Om_b0 * (1.0 + zs) ** 3.0
 
-# Neutral hydrogen number density
-def nHIs(n):
-	nHs = DeHss[:, n] * rh_bars / m_HI # Number density from mass density
-	return nHs * fHIss[:, n] * (1.0 - Y)
-
 # Voigt function computed from the Faddeeva function
 def voigt(As, Bs):
 	return ss.wofz(Bs + As * 1.0j).real
@@ -144,6 +139,11 @@ def als(n, hydrogen):
 # the nth sightline
 def vArg2s(n, z0, mass):
 	return (vss[:, n] + c * (zs - z0) / (1.0 + z0)) / bs(n, mass)
+
+# Neutral hydrogen number density
+def nHIs(n):
+	nHs = DeHss[:, n] * rh_bars / m_HI # Number density from mass density
+	return nHs * fHIss[:, n] * (1.0 - Y)
 
 # Metallicity using formula 5 from [K2014]
 def Zs(n):
