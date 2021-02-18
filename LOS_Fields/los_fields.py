@@ -236,7 +236,7 @@ def trough_boundaries(i, mins, maxes):
 	next = min(next, i + max_dist)
 	return prev, next
 
-# Find the equivalent widths of all absorbers in the spectrum.
+# Find the equivalent widths of all OI absorbers in the spectrum.
 def equiv_widths(n, ssOnly):
 	mins = extrema(n, False, ssOnly, True)
 	maxes = extrema(n, False, ssOnly, False)
@@ -247,10 +247,9 @@ def equiv_widths(n, ssOnly):
 		prev, next = trough_boundaries(mins[j], mins, maxes)
 		print(f"boundaries {n + 1}, {j}")
 		# The area above the trough equals its equivalent width
-		width = si.simps(1.0 - fluxes(n, hydrogen)[prev : next], zs[prev : next])
+		width = si.simps(1.0 - fluxes(n, False)[prev : next], zs[prev : next])
 		print(f"simpson {n + 1}, {j}")
 		# Use units of angstroms
-		nu = nu_12_HI if hydrogen else nu_12_OI
-		widths[j] = width * c * 1.0e10 / nu 
+		widths[j] = width * c * 1.0e10 / nu_12_OI
 	print(f"EW {n + 1}")
 	return widths
