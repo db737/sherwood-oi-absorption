@@ -32,7 +32,13 @@ def plot2(num_sightlines, ssOnly):
 	for n in range(0, num_sightlines):
 		widths = np.append(equiv_widths(n, ssOnly), widths)
 		print(n + 1)
-	plt.hist(widths, num_bins, density = True, histtype = "step", cumulative = -1)
+	Dez = (zs[count] - zs[0]) * num_sightlines
+	Dex = Dez / dz_by_dX(zs)
+	count_by_dXs, bin_edges = np.histogram(widths, num_bins) / DeX
+	dN_by_dXs = np.flip(np.cumsum(np.flip(count_by_dXs)))
+	midpoints = np.array([(bin_edges[i] + bin_edges[i + 1]) / 2.0 for i in range(0, num_bins)])
+	plt.step(midpoints, dN_by_dXs)
+	#plt.hist(widths, num_bins, density = True, histtype = "step", cumulative = -1)
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
 	plt.show()
@@ -157,7 +163,7 @@ def check1(n):
 def check2(n):
 	print("b: {}".format(bs(n, m_HI)[0]))
 	print("z: {}".format(zs[0]))
-	print("dz/dx: {}".format(dz_by_dx(zs)[0]))
+	print("dz/dx: {}".format(dz_by_dX(zs)[0]))
 	print("alpha (HI): {}".format(als(n, True)[0]))
 	print("alpha (OI): {}".format(als(n, False)[0]))
 	print("V arg 2: {}".format(vArg2s(n, 3.0, m_HI)[0]))
@@ -195,4 +201,4 @@ def input1(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-input1(n)
+plot2(n)

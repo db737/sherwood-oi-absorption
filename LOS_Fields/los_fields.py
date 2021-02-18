@@ -107,7 +107,7 @@ box = spec_obj.box * 1.0e3 * consts.parsec / spec_obj.h
 # -----------------
 
 # See [C2001] equation 30; assume no radiation or curvature contributions
-def dz_by_dx(z):
+def dz_by_dX(z):
 	return (H_0 / c) * (Om_La + Om_m0 * (1.0 + z) ** 3.0) ** 0.5
 
 # Compute redshift axis
@@ -115,10 +115,10 @@ zs = np.full(count, float(z_mid))
 middleIndex = (count - 1) // 2
 for i in range(middleIndex - 1, -1, -1):
 	z = zs[i + 1]
-	zs[i] = z - dz_by_dx(z) * box / count
+	zs[i] = z - dz_by_dX(z) * box / count
 for i in range(middleIndex + 1, count):
 	z = zs[i - 1]
-	zs[i] = z + dz_by_dx(z) * box / count
+	zs[i] = z + dz_by_dX(z) * box / count
 
 # Compute baryon number densities
 rh_bars = rh_crit0 * Om_b0 * (1.0 + zs) ** 3.0
@@ -179,7 +179,7 @@ def integrand1s(n, z0, hydrogen, ssOnly):
 	I_al = I_al_HI if hydrogen else I_al_OI
 	prefactor = c * I_al * math.pi ** -0.5
 	voigtFn = voigt(als(n, hydrogen), vArg2s(n, z0, mass))
-	measure = 1.0 / dz_by_dx(zs)
+	measure = 1.0 / dz_by_dX(zs)
 	return prefactor * measure * voigtFn * ns / (bs(n, mass) * (1.0 + zs))
 
 # Optical depth of the nth sightline from the farthest redshift up to z0, for
