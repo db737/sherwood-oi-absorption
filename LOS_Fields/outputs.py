@@ -221,7 +221,7 @@ def check6(n):
 def output1():
 	ns = [2369, 3231, 251, 2188, 2514]
 	for n in ns:
-		np.savetxt(f"data {n}.csv", (zs, vss[:, n], Tss[:, n], DeHss[:, n], nOIs(n) / nHIs(n) * fHIss[:, n], opticalDepths(n, False)), delimiter = ',')
+		np.savetxt(f"data {n}.csv", (zs, vss[:, n], Tss[:, n], DeHss[:, n], nOIs(n, False) / nHIs(n) * fHIss[:, n], opticalDepths(n, False)), delimiter = ',')
 
 def input1():
 	tass = np.loadtxt('../../Optical_Depth.txt')
@@ -233,4 +233,4 @@ def input1():
 
 # Main
 n = int(sys.argv[1]) - 1
-plot3(n)
+input1()
