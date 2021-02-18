@@ -227,8 +227,8 @@ def input1():
 	tass = np.loadtxt('../../Optical_Depth.txt')
 	ns = [2188, 2369, 2514, 251, 3231]
 	for i in range(0, 5):
-		plt.plot(zs, tass[:, i], color = 'k')
-		plt.plot(zs, opticalDepths(ns[i], False, False), color = 'b--')
+		plt.plot(zs, tass[:, i], 'k')
+		plt.plot(zs, opticalDepths(ns[i], False, False), 'b--')
 		pr = ml.Line2D([], [], color = "k", label = "Prakash's calculation")
 		da = ml.Line2D([], [], color = "b", ls = "--", label = "Daniel's calculation")
 		plt.legend(handles = [pr, da])
