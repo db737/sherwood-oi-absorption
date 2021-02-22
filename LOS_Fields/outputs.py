@@ -27,11 +27,11 @@ def plot1(n):
 	plt.show()
 
 # dN/dz equivalent width plot
-def plot2(num_sightlines, ssOnly):
+def plot2(num_sightlines):
 	plt.title('Cumulative incidence rate of $' + oiLabel + '$ absorbers at $z = 5.6$')
 	widths = np.array([])
 	for n in range(0, num_sightlines):
-		widths = np.append(equiv_widths(n, ssOnly), widths)
+		widths = np.append(equiv_widths(n, False), widths)
 		print(n + 1)
 	# spec_obj.box is in units of h^{-1} ckPc; convert to physical distance from
 	# comoving distance and use units of h^{-1} MPc
