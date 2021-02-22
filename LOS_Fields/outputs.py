@@ -181,7 +181,7 @@ def test6(n):
 def test7(n):
 	flux_data = fluxes(n, False, True)
 	plt.plot(zs, flux_data)
-	plt.title("Trough detection in an Oxygen I spectrum")
+	plt.title("Extrema detection and EW calculation in an exaggerated spectrum")
 	plt.ylim([0.0, 1.1])
 	plt.xlabel("$z$")
 	plt.ylabel(fluxLabel)

@@ -70,7 +70,7 @@ Y = 0.2485
 # Neutral hydrogen fraction
 fHIss = np.transpose(spec_obj.nHI_frac)
 # Hydrogen overdensity
-DeHss = np.transpose(spec_obj.rhoH2rhoHmean) * 100 # TODO fudge
+DeHss = np.transpose(spec_obj.rhoH2rhoHmean) * 50 # TODO fudge
 # Temperature
 Tss = np.transpose(spec_obj.temp_HI) * 100# TODO fudge
 # Peculiar velocity along the line of sight
@@ -238,8 +238,8 @@ def trough_boundaries(i, mins, maxes):
 def equiv_widths(n, ssOnly):
 	mins = extrema(n, False, ssOnly, True)
 	maxes = extrema(n, False, ssOnly, False)
-	print(f"mins, maxes {n + 1}")
 	num_mins = len(mins)
+	print(f"mins, maxes {n + 1}, count: {num}")
 	widths = np.zeros(num_mins)
 	for j in range(0, num_mins):
 		prev, next = trough_boundaries(mins[j], mins, maxes)
