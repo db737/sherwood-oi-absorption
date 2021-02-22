@@ -195,6 +195,7 @@ def fluxes(n, hydrogen, ssOnly):
 # Find minima or maxima in the flux
 def extrema(n, hydrogen, ssOnly, minima):
 	flux_data = fluxes(n, hydrogen, ssOnly)
+	hmin = thresh
 	if minima:
 		flux_data = 1.0 - flux_data
 		hmin = 1.0 - hmin
