@@ -129,8 +129,8 @@ def test4(n):
 	axes[0].set_ylabel('$Z$')
 	axes[1].plot(zs, cutoffsSS(n))
 	axes[1].set_ylabel('$\Delta_{ss}$')
-	axes[2].plot(zs, np.heaviside(DeHss[:, n] - cutoffsSS(n), 1.0))
-	axes[2].set_ylabel("Self-shielding", fontsize = 12, rotation = "horizontal")
+	axes[2].plot(zs, DeHss[:, n])
+	axes[2].set_ylabel('$\Delta_H$')
 	axes[2].set_yticklabels([])
 	axes[3].semilogy(zs, nOIs(n, False) / 1.0e6)
 	axes[3].set_ylabel("$n_{" + oiLabel + '} / \mathrm{cm^{-3}}$')
@@ -255,4 +255,4 @@ def input1():
 
 # Main
 n = int(sys.argv[1]) - 1
-test7(n)
+test4(n)
