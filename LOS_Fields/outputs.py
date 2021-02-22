@@ -234,6 +234,8 @@ def input1():
 		da = ml.Line2D([], [], color = "b", ls = "--", label = "Daniel's calculation")
 		plt.legend(handles = [pr, da])
 		plt.show()
+		plt.semilogy(zs, tass[:, i] / opticalDepths(ns[i], False, False))
+		plt.show()
 
 # Main
 n = int(sys.argv[1]) - 1
