@@ -178,6 +178,22 @@ def test6(n):
 	fig.align_ylabels()
 	plt.show()
 
+# Plot positions and widths of peaks
+def test7(n):
+	flux_data = fluxes(n, False, False)
+	plt.plot(zs, flux_data)
+	plt.title("Trough detection in an Oxygen I spectrum")
+	plt.ylim([0.0, 1.1])
+	plt.xlabel("$z$")
+	plt.ylabel(fluxLabel)
+	mins = extrema(n, False, False, True)
+	maxes = extrema(n, False, False, False)
+	plt.scatter(zs[mins], flux_data[mins], c = 'r')
+	plt.scatter(zs[maxes], flux_data[maxes], c = 'g')
+	ews = equiv_widths(n, False) * nu_12_OI * 1.0e-10 / c
+	plt.errbar(zs[mins], flux_data[mins], xErr = ews / 2, 'k')
+	plt.show()
+
 # Check inputs are as expected
 def check1(n):
 	print("HI fraction: {}".format(fHIss[0, n]))
@@ -239,4 +255,4 @@ def input1():
 
 # Main
 n = int(sys.argv[1]) - 1
-input1()
+test7(n)
