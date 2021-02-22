@@ -198,7 +198,7 @@ def extrema(n, hydrogen, ssOnly, minima):
 	if minima:
 		peaks, _ = spsig.find_peaks(1.0 - flux_data, height = thresh)
 	else:
-		spsig.find_peaks(flux_data, threshold = thresh)
+		peaks, _ = spsig.find_peaks(flux_data, threshold = thresh)
 	return peaks
 
 # Force the value to fit within the indices of the data
