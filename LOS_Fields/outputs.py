@@ -190,7 +190,7 @@ def test7(n):
 	plt.scatter(zs[mins], flux_data[mins], c = 'r')
 	plt.scatter(zs[maxes], flux_data[maxes], c = 'g')
 	ews = equiv_widths(n, False) * nu_12_OI * 1.0e-10 / c
-	plt.errorbar(zs[mins], flux_data[mins], xerr = ews / 2, fmt = 'none')
+	plt.errorbar(zs[mins], flux_data[mins], xerr = ews / 2, fmt = 'none', capsize = 10.0)
 	plt.show()
 
 # Check inputs are as expected
