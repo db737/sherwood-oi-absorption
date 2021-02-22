@@ -68,11 +68,11 @@ Y = 0.2485
 
 # All in SI units
 # Neutral hydrogen fraction
-fHIss = np.transpose(spec_obj.nHI_frac)
+fHIss = np.transpose(spec_obj.nHI_frac) * 1000 # TODO fudge
 # Hydrogen overdensity
 DeHss = np.transpose(spec_obj.rhoH2rhoHmean)
 # Temperature
-Tss = np.transpose(spec_obj.temp_HI)
+Tss = np.transpose(spec_obj.temp_HI) * 100# TODO fudge
 # Peculiar velocity along the line of sight
 vss = np.transpose(spec_obj.vel_HI) * 1.0e3
 # HI optical depths
@@ -166,7 +166,7 @@ def nOIs(n, ssOnly):
 	ss = np.heaviside(DeHss[:, n] - cutoffsSS(n), 1.0)
 	# Shift and scale the step function to get the unshielded neutral fraction
 	fOI = ss if ssOnly else fHIss[:, n] + (1.0 - fHIss[:, n]) * ss
-	return 100000 * fOI * Zs(n) * DeHss[:, n] * rh_bars / m_OI #Z_solar_oxygen * nHIs(n)
+	return fOI * Zs(n) * DeHss[:, n] * rh_bars / m_OI #Z_solar_oxygen * nHIs(n)
 
 # The integrand as in [C2001] equation 30 except with a change of variables to
 # be an integral over z, for the nth sightline; 'hydrogen' is a boolean setting
