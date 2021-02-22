@@ -254,4 +254,4 @@ def input1():
 
 # Main
 n = int(sys.argv[1]) - 1
-plot3(n)
+test7(n)
