@@ -239,7 +239,7 @@ def equiv_widths(n, ssOnly):
 	mins = extrema(n, False, ssOnly, True)
 	maxes = extrema(n, False, ssOnly, False)
 	num_mins = len(mins)
-	print(f"mins, maxes {n + 1}, count: {num}")
+	print(f"mins, maxes {n + 1}, count: {num_mins}")
 	widths = np.zeros(num_mins)
 	for j in range(0, num_mins):
 		prev, next = trough_boundaries(mins[j], mins, maxes)
