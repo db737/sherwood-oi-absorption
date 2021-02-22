@@ -166,7 +166,7 @@ def nOIs(n, ssOnly):
 	ss = np.heaviside(DeHss[:, n] - cutoffsSS(n), 1.0)
 	# Shift and scale the step function to get the unshielded neutral fraction
 	fOI = ss if ssOnly else fHIss[:, n] + (1.0 - fHIss[:, n]) * ss
-	return 100 * fOI * Zs(n) * DeHss[:, n] * rh_bars / m_OI #Z_solar_oxygen * nHIs(n)
+	return 10000 * fOI * Zs(n) * DeHss[:, n] * rh_bars / m_OI #Z_solar_oxygen * nHIs(n)
 
 # The integrand as in [C2001] equation 30 except with a change of variables to
 # be an integral over z, for the nth sightline; 'hydrogen' is a boolean setting
@@ -197,7 +197,8 @@ def extrema(n, hydrogen, ssOnly, minima):
 	flux_data = fluxes(n, hydrogen, ssOnly)
 	if minima:
 		flux_data = 1.0 - flux_data
-	peaks, _ = spsig.find_peaks(flux_data, distance = min_dist, height = thresh)
+		hmin = 1.0 - hmin
+	peaks, _ = spsig.find_peaks(flux_data, distance = min_dist, height = 1.0 - hmin)
 	return peaks
 
 # Force the value to fit within the indices of the data
