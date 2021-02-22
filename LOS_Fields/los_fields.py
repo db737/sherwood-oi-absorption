@@ -68,9 +68,9 @@ Y = 0.2485
 
 # All in SI units
 # Neutral hydrogen fraction
-fHIss = np.transpose(spec_obj.nHI_frac) * 1000000 # TODO fudge
+fHIss = np.transpose(spec_obj.nHI_frac) * 100000 # TODO fudge
 # Hydrogen overdensity
-DeHss = np.transpose(spec_obj.rhoH2rhoHmean)
+DeHss = np.transpose(spec_obj.rhoH2rhoHmean) * 10 # TODO fudge
 # Temperature
 Tss = np.transpose(spec_obj.temp_HI) * 100# TODO fudge
 # Peculiar velocity along the line of sight
