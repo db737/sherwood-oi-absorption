@@ -56,7 +56,7 @@ c = consts.value("speed of light in vacuum")
 I_al_HI = 4.45e-22
 I_al_OI = 5.5e-23
 # Ionising background in units of 10^{-12}s^{-1}
-Ga_12 = 0.158
+Ga_12 = 0.36
 # Solar metallicity from Keating et al. (2014) [K2014]
 Z_solar_oxygen = 10.0**-3.13
 # Helium fraction
@@ -142,13 +142,13 @@ def vArg2s(n, z0, mass):
 
 # Neutral hydrogen number density
 def nHIs(n):
-	nHs = DeHss[:, n] * rh_bars / m_HI # Number density from mass density
-	return nHs * fHIss[:, n] * (1.0 - Y)
+	ns = DeHss[:, n] * rh_bars / m_HI # Number density from mass density
+	return ns * fHIss[:, n] * (1.0 - Y)
 
 # Metallicity using formula 5 from [K2014]
 def Zs(n):
 	Z_80 = Z_solar_oxygen * 10.0 ** -2.65
-	return Z_solar_oxygen# Z_80 * (DeHss[:, n] / 80.0) ** 1.3
+	return Z_80 * (DeHss[:, n] / 80.0) ** 1.3
 
 # The overdensity at which a region becomes 'self-shielded' (Keating et al.
 # (2016) [K2016]), computed for the nth sightline.
@@ -166,7 +166,7 @@ def nOIs(n, ssOnly):
 	ss = np.heaviside(DeHss[:, n] - cutoffsSS(n), 1.0)
 	# Shift and scale the step function to get the unshielded neutral fraction
 	fOI = ss if ssOnly else fHIss[:, n] + (1.0 - fHIss[:, n]) * ss
-	return fOI * Zs(n) * DeHss[:, n] * rh_bars / m_OI
+	return Z_solar_oxygen * nHIs(n) #fOI * Zs(n) * DeHss[:, n] * rh_bars / m_OI
 
 # The integrand as in [C2001] equation 30 except with a change of variables to
 # be an integral over z, for the nth sightline; 'hydrogen' is a boolean setting
