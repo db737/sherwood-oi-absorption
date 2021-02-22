@@ -166,7 +166,7 @@ def nOIs(n, ssOnly):
 	ss = np.heaviside(DeHss[:, n] - cutoffsSS(n), 1.0)
 	# Shift and scale the step function to get the unshielded neutral fraction
 	fOI = ss if ssOnly else fHIss[:, n] + (1.0 - fHIss[:, n]) * ss
-	return fOI * Zs(n) * DeHss[:, n] * rh_bars / m_OI #Z_solar_oxygen * nHIs(n)
+	return Z_solar_oxygen * nHIs(n)#fOI * Zs(n) * DeHss[:, n] * rh_bars / m_OI #
 
 # The integrand as in [C2001] equation 30 except with a change of variables to
 # be an integral over z, for the nth sightline; 'hydrogen' is a boolean setting
@@ -220,17 +220,17 @@ def adjacent(i, xs, prev):
 # Find the indices of the positions where an absorber starts and ends
 def trough_boundaries(i, mins, maxes):
 	prev_min = adjacent(i, mins, True)
-	prev_max = adjacent(i, maxes, True)
+#	prev_max = adjacent(i, maxes, True)
 	next_min = adjacent(i, mins, False)
-	next_max = adjacent(i, maxes, False)
-	prev = clamp(max(prev_min, prev_max) - 1)
-	next = clamp(min(next_min, next_max) + 1)
-	if prev_min > prev_max:
-		prev = (i + prev_min) // 2
-	if next_min < next_max:
-		next = (i + next_min) // 2 + 1
-	prev = max(prev, i - max_dist)
-	next = min(next, i + max_dist)
+#	next_max = adjacent(i, maxes, False)
+	prev = clamp(prev_min) #clamp(max(prev_min, prev_max) - 1)
+	next = clamp(next_min) #clamp(min(next_min, next_max) + 1)
+#	if prev_min > prev_max:
+#		prev = (i + prev_min) // 2
+#	if next_min < next_max:
+#		next = (i + next_min) // 2 + 1
+#	prev = max(prev, i - max_dist)
+#	next = min(next, i + max_dist)
 	return prev, next
 
 # Find the equivalent widths of all OI absorbers in the spectrum.
