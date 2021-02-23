@@ -137,6 +137,7 @@ def test4(n):
 	axes[4].set_xlabel("$z$")
 	axes[4].set_ylabel("$F$")
 	axes[4].set_ylim([0.0, 1.1])
+	axes[4].set_yticks([0.0, 0.25, 0.5, 0.75, 1.0])
 	plt.subplots_adjust(hspace = 0)
 	fig.align_ylabels()
 	plt.show()
