@@ -4,6 +4,7 @@ import scipy.special as ss
 import scipy.constants as consts
 import scipy.signal as spsig
 import math
+import operator
 
 from numpy import pi
 from scipy import ndimage
@@ -70,9 +71,9 @@ Y = 0.2485
 # Neutral hydrogen fraction
 fHIss = np.transpose(spec_obj.nHI_frac)
 # Hydrogen overdensity
-DeHss = np.transpose(spec_obj.rhoH2rhoHmean) #* 50
+DeHss = np.transpose(spec_obj.rhoH2rhoHmean)
 # Temperature
-Tss = np.transpose(spec_obj.temp_HI) #* 100
+Tss = np.transpose(spec_obj.temp_HI)
 # Peculiar velocity along the line of sight
 vss = np.transpose(spec_obj.vel_HI) * 1.0e3
 # HI optical depths
@@ -84,15 +85,8 @@ num = len(fHIss[0, :])
 # Number of elements in a sightline
 count = len(fHIss[:, 0])
 
-# The minimum number of points away before we consider two troughs to be a
-# single one
-min_dist = count // 100
-
-# The maximum number of points away before we consider a trough to have ended
-max_dist = count // 40
-
 # The threshold height to count as a peak
-thresh = 1.0e-4
+min_height = 0.01
 
 # Convert temperature to b as defined in Choudhury et al. (2001) [C2001],
 # equation 31, for the nth sightline
@@ -193,56 +187,47 @@ def fluxes(n, hydrogen, ssOnly):
 	return np.exp(-opticalDepths(n, hydrogen, ssOnly))
 
 # Find minima or maxima in the flux
-def extrema(n, hydrogen, ssOnly, minima):
-	flux_data = fluxes(n, hydrogen, ssOnly)
+def extrema(flux_data, minima):
 	if minima:
-		peaks, _ = spsig.find_peaks(1.0 - flux_data, height = thresh)
+		peaks, _ = spsig.find_peaks(1.0 - flux_data, height = min_height)
 	else:
-		peaks, _ = spsig.find_peaks(flux_data, threshold = thresh)
+		peaks, _ = spsig.find_peaks(flux_data)
 	return peaks
 
-# Force the value to fit within the indices of the data
-def clamp(i):
-	return max(0, min(count - 1, i))
-
-# Find the next or previous element present in an array of indices
-def adjacent(i, xs, prev):
-	comp = np.less if prev else np.greater
-	op = np.subtract if prev else np.add
-	filtereds = list(filter(lambda x: comp(x, i), xs))
-	if len(filtereds) == 0:
-		return clamp(op(i, max_dist))
-	else:
-		if prev:
-			return np.max(filtereds)
-		else:
-			return np.min(filtereds)
+# Find the next and previous element present in an array of indices
+def adjacent(i, xs):
+	prevs = list(filter(lambda x: x < i, xs))
+	nexts = list(filter(lambda x: x > i, xs))
+	prev = 0 if len(prevs) == 0 else np.max(prevs)
+	next = count - 1 if len(nexts) == 0 else np.min(nexts)
+	return prev, next
 
 # Find the indices of the positions where an absorber starts and ends
-def trough_boundaries(i, mins, maxes):
-	prev_min = adjacent(i, mins, True)
-#	prev_max = adjacent(i, maxes, True)
-	next_min = adjacent(i, mins, False)
-#	next_max = adjacent(i, maxes, False)
-	prev = clamp(prev_min) #clamp(max(prev_min, prev_max) - 1)
-	next = clamp(next_min) #clamp(min(next_min, next_max) + 1)
-#	if prev_min > prev_max:
-#		prev = (i + prev_min) // 2
-#	if next_min < next_max:
-#		next = (i + next_min) // 2 + 1
-#	prev = max(prev, i - max_dist)
-#	next = min(next, i + max_dist)
-	return prev, next
+def trough_boundaries(i, maxes, cuts):
+	prev_max, next_max = adjacent(i, maxes)
+	prev_cut, next_cut = adjacent(i, cuts)
+	return max(prev_max, prev_cut), min(next_max, next_cut)
+
+# The points where the spectrum dips above or below the peak height cutoff
+def hcuts(flux_data):
+	was_above = False
+	outs = []
+	for i in range(0, count):
+		above = flux_data[i] + min_height > 1.0
+		if operator.xor(was_above, above):
+			outs.append(i)
+	return outs
 
 # Find the equivalent widths of all OI absorbers in the spectrum.
 def equiv_widths(n, ssOnly):
-	mins = extrema(n, False, ssOnly, True)
-	maxes = extrema(n, False, ssOnly, False)
+	flux_data = fluxes(n, False, ssOnly)
+	mins = extrema(flux_data, True)
+	maxes = extrema(flux_data, False)
 	num_mins = len(mins)
 	print(f"mins, maxes {n + 1}, count: {num_mins}")
 	widths = np.zeros(num_mins)
 	for j in range(0, num_mins):
-		prev, next = trough_boundaries(mins[j], mins, maxes)
+		prev, next = trough_boundaries(mins[j], maxes, hcuts(flux_data))
 		print(f"boundaries {n + 1}, {j}")
 		# The area above the trough equals its equivalent width
 		width = si.simps(1.0 - fluxes(n, False, ssOnly)[prev : next], zs[prev : next])

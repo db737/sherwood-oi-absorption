@@ -150,8 +150,8 @@ def test5(n):
 	plt.ylim([0.0, 1.1])
 	plt.xlabel("$z$")
 	plt.ylabel(fluxLabel)
-	mins = extrema(n, False, False, True)
-	maxes = extrema(n, False, False, False)
+	mins = extrema(flux_data, True)
+	maxes = extrema(flux_data, False)
 	plt.scatter(zs[mins], flux_data[mins], c = 'r')
 	plt.scatter(zs[maxes], flux_data[maxes], c = 'g')
 	for i in mins:
@@ -180,14 +180,17 @@ def test6(n):
 
 # Plot positions and widths of peaks
 def test7(n):
+	# Exaggerate the spectrum
+	DeHss *= 50
+	Tss *= 100
 	flux_data = fluxes(n, False, True)
 	plt.plot(zs, flux_data)
 	plt.title("Extrema detection and EW calculation in an exaggerated spectrum")
 	plt.ylim([0.0, 1.1])
 	plt.xlabel("$z$")
 	plt.ylabel(fluxLabel)
-	mins = extrema(n, False, True, True)
-	maxes = extrema(n, False, True, False)
+	mins = extrema(flux_data, True)
+	maxes = extrema(flux_data, False)
 	plt.scatter(zs[mins], flux_data[mins], c = 'r')
 	plt.scatter(zs[maxes], flux_data[maxes], c = 'g')
 	ews = equiv_widths(n, True) * nu_12_OI * 1.0e-10 / c
@@ -256,4 +259,4 @@ def input1():
 
 # Main
 n = int(sys.argv[1]) - 1
-test4(n)
+test7(n)
