@@ -54,7 +54,7 @@ def plot3(num_sightlines):
 		width1s = np.append(equiv_widths(n, True), width1s)
 		width2s = np.append(equiv_widths(n, False), width2s)
 	# spec_obj.box is in units of h^{-1} ckPc
-	DeX = num_sightlines * spec_obj.box / 1.0e3
+	DeX = num_sightlines * spec_obj.box / (1.0e3 * spec_obj.h)
 	count1s, bin_edge1s = np.histogram(width1s, num_bins)
 	dN_by_dX1s = np.flip(np.cumsum(np.flip(count1s / DeX)))
 	midpoint1s = np.array([(bin_edge1s[i] + bin_edge1s[i + 1]) / 2.0 for i in range(0, num_bins)])
@@ -137,7 +137,7 @@ def test4(n):
 	axes[4].set_xlabel("$z$")
 	axes[4].set_ylabel("$F$")
 	axes[4].set_ylim([0.0, 1.1])
-	axes[4].set_yticks([0.0, 0.25, 0.5, 0.75, 1.0])
+	axes[4].set_yticks([0.0, 0.5, 1.0])
 	plt.subplots_adjust(hspace = 0)
 	fig.align_ylabels()
 	plt.show()
