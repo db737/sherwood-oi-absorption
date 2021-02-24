@@ -63,6 +63,8 @@ Z_solar_oxygen = 10.0**-3.13
 # Helium fraction
 Y = 0.2485
 
+exaggerate = True
+
 # ------------
 # --- Data ---
 # ------------
@@ -78,6 +80,10 @@ Tss = np.transpose(spec_obj.temp_HI)
 vss = np.transpose(spec_obj.vel_HI) * 1.0e3
 # HI optical depths
 ta_HIss = np.transpose(spec_obj.tau_HI)
+
+if exaggerate:
+	DeHss *= 50
+	Tss *= 100
 
 # Number of sightlines
 num = len(fHIss[0, :])
