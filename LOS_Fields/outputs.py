@@ -35,8 +35,8 @@ def plot2(num_sightlines):
 # Compare the effect of the self-shielding prescription
 def plot3(num_sightlines):
 	plt.title('Cumulative incidence rate of $' + oiLabel + '$ absorbers at $z = 5.6$')
-	midpoints1, dN_by_dX1s = cumulative_EW(num_sightlines, True)
-	midpoints2, dN_by_dX2s = cumulative_EW(num_sightlines, False)
+	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, True)
+	midpoint1s, dN_by_dX2s = cumulative_EW(num_sightlines, False)
 	plt.step(midpoint1s, dN_by_dX1s, 'k')
 	plt.step(midpoint2s, dN_by_dX2s, 'b', linestyle = '--')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
