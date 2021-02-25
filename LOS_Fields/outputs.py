@@ -9,9 +9,6 @@ from los_fields import *
 matplotlib.rcParams["text.usetex"] = True
 plt.style.use("custom_plot_style.py")
 
-# Number of bins
-num_bins = 128
-
 hiLabel = 'HI'
 oiLabel = 'OI'
 depthLabel = '$\\tau_{' + oiLabel + "}$"
@@ -158,6 +155,7 @@ def test6(n):
 
 # Plot positions and widths of peaks
 def test7(n):
+	exaggerate()
 	flux_data = fluxes(n, False, True)
 	plt.plot(zs, flux_data)
 	plt.title("Extrema detection and EW calculation in an exaggerated spectrum")

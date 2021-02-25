@@ -65,6 +65,9 @@ Y = 0.2485
 
 exaggerate = False
 
+# Number of bins
+num_bins = 128
+
 # ------------
 # --- Data ---
 # ------------
@@ -80,10 +83,6 @@ Tss = np.transpose(spec_obj.temp_HI)
 vss = np.transpose(spec_obj.vel_HI) * 1.0e3
 # HI optical depths
 ta_HIss = np.transpose(spec_obj.tau_HI)
-
-if exaggerate:
-	DeHss *= 50
-	Tss *= 100
 
 # Number of sightlines
 num = len(fHIss[0, :])
@@ -243,6 +242,7 @@ def equiv_widths(n, ssOnly):
 	print(f"EW {n + 1}")
 	return widths
 
+# Cumulative dN/dX data
 def cumulative_EW(num_sightlines, ssOnly):
 	widths = np.array([])
 	for n in range(0, num_sightlines):
@@ -254,3 +254,8 @@ def cumulative_EW(num_sightlines, ssOnly):
 	dN_by_dXs = np.flip(np.cumsum(np.flip(counts / DeX)))
 	midpoints = np.array([(bin_edges[i] + bin_edges[i + 1]) / 2.0 for i in range(0, num_bins)])
 	return midpoints, dN_by_dXs
+
+# Imperative function to exaggerate the spectrum
+def exaggerate():
+	DeHss *= 50
+	Tss *= 100
