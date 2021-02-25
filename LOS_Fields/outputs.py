@@ -218,6 +218,7 @@ def output1():
 
 def output2(n):
 	DeX = spec_obj.box / (1.0e3 * (1 + float(z_mid)) * spec_obj.h)
+	print(f"Box size: {spec_obj.box}")
 	print(f"Box path length: {DeX}")
 	pzs, widths = equiv_widths(n, False)
 	print(f"Peak positions: {pzs}")
