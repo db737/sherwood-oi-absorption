@@ -63,7 +63,7 @@ Z_solar_oxygen = 10.0**-3.13
 # Helium fraction
 Y = 0.2485
 
-exaggerate = True
+exaggerate = False
 
 # ------------
 # --- Data ---
