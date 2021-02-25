@@ -36,7 +36,7 @@ def plot2(num_sightlines):
 def plot3(num_sightlines):
 	plt.title('Cumulative incidence rate of $' + oiLabel + '$ absorbers at $z = 5.6$')
 	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, True)
-	midpoint1s, dN_by_dX2s = cumulative_EW(num_sightlines, False)
+	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False)
 	plt.step(midpoint1s, dN_by_dX1s, 'k')
 	plt.step(midpoint2s, dN_by_dX2s, 'b', linestyle = '--')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
