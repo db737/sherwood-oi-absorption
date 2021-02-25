@@ -231,6 +231,7 @@ def equiv_widths(n, ssOnly):
 	num_mins = len(mins)
 	print(f"mins, maxes {n + 1}, count: {num_mins}")
 	widths = np.zeros(num_mins)
+	peak_zs = zs[mins]
 	for j in range(0, num_mins):
 		prev, next = trough_boundaries(mins[j], maxes, hcuts(flux_data))
 		print(f"boundaries {n + 1}, {j}")
@@ -240,13 +241,14 @@ def equiv_widths(n, ssOnly):
 		# Use units of angstroms
 		widths[j] = width * c * 1.0e10 / nu_12_OI
 	print(f"EW {n + 1}")
-	return widths
+	return peak_zs, widths
 
 # Cumulative dN/dX data
 def cumulative_EW(num_sightlines, ssOnly):
 	widths = np.array([])
 	for n in range(0, num_sightlines):
-		widths = np.append(equiv_widths(n, ssOnly), widths)
+		pzs, ews = equiv_widths(n, ssOnly)
+		widths = np.append(ews, widths)
 	# spec_obj.box is in units of h^{-1} ckPc; convert to physical distance from
 	# comoving distance and use units of h^{-1} MPc
 	DeX = num_sightlines * spec_obj.box / (1.0e3 * (1 + float(z_mid)) * spec_obj.h)

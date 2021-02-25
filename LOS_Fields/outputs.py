@@ -166,7 +166,7 @@ def test7(n):
 	maxes = extrema(flux_data, False)
 	plt.scatter(zs[mins], flux_data[mins], c = 'r')
 	plt.scatter(zs[maxes], flux_data[maxes], c = 'g')
-	ews = equiv_widths(n, True) * nu_12_OI * 1.0e-10 / c
+	pzs, ews = equiv_widths(n, True) * nu_12_OI * 1.0e-10 / c
 	plt.errorbar(zs[mins], flux_data[mins], xerr = ews / 2, fmt = 'none', capsize = 10.0)
 	plt.show()
 
@@ -202,7 +202,7 @@ def check4(n):
 
 # Check equivalent widths
 def check5(n):
-	widths = equiv_widths(n, False)
+	pzs, widths = equiv_widths(n, False)
 	for w in widths:
 		print(w)
 
@@ -215,6 +215,14 @@ def output1():
 	ns = [2369, 3231, 251, 2188, 2514]
 	for n in ns:
 		np.savetxt(f"data {n}.csv", (zs, vss[:, n], Tss[:, n], DeHss[:, n], nOIs(n, False) / nHIs(n) * fHIss[:, n], opticalDepths(n, False)), delimiter = ',')
+
+def output2(n):
+	DeX = spec_obj.box / (1.0e3 * (1 + float(z_mid)) * spec_obj.h)
+	print(f"Box path length: {DeX}")
+	pzs, widths = equiv_widths(n, False)
+	print(f"Peak positions: {pzs}")
+	print(f"EWs: {widths}")
+	np.savetxt(f"flux {n}.txt", (zs, fluxes(n, False, False)))
 
 def input1():
 	tass = np.loadtxt('../../Optical_Depth.txt')
@@ -231,4 +239,4 @@ def input1():
 
 # Main
 n = int(sys.argv[1]) - 1
-plot3(n)
+output2(n)
