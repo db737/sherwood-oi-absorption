@@ -242,3 +242,15 @@ def equiv_widths(n, ssOnly):
 		widths[j] = width * c * 1.0e10 / nu_12_OI
 	print(f"EW {n + 1}")
 	return widths
+
+def cumulative_EW(num_sightlines, ssOnly):
+	widths = np.array([])
+	for n in range(0, num_sightlines):
+		widths = np.append(equiv_widths(n, ssOnly), widths)
+	# spec_obj.box is in units of h^{-1} ckPc; convert to physical distance from
+	# comoving distance and use units of h^{-1} MPc
+	DeX = num_sightlines * spec_obj.box / (1.0e3 * (1 + float(z_mid)) * spec_obj.h)
+	counts, bin_edges = np.histogram(widths, num_bins)
+	dN_by_dXs = np.flip(np.cumsum(np.flip(counts / DeX)))
+	midpoints = np.array([(bin_edges[i] + bin_edges[i + 1]) / 2.0 for i in range(0, num_bins)])
+	return midpoints, dN_by_dXs

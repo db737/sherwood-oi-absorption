@@ -29,18 +29,8 @@ def plot1(n):
 # dN/dz equivalent width plot
 def plot2(num_sightlines):
 	plt.title('Cumulative incidence rate of $' + oiLabel + '$ absorbers at $z = 5.6$')
-	widths = np.array([])
-	for n in range(0, num_sightlines):
-		widths = np.append(equiv_widths(n, False), widths)
-		print(n + 1)
-	# spec_obj.box is in units of h^{-1} ckPc; convert to physical distance from
-	# comoving distance and use units of h^{-1} MPc
-	DeX = num_sightlines * spec_obj.box / (1.0e3 * (1 + float(z_mid)))
-	counts, bin_edges = np.histogram(widths, num_bins)
-	dN_by_dXs = np.flip(np.cumsum(np.flip(counts / DeX)))
-	midpoints = np.array([(bin_edges[i] + bin_edges[i + 1]) / 2.0 for i in range(0, num_bins)])
+	midpoints, dN_by_dXs = cumulative_EW(num_sightlines, False)
 	plt.step(midpoints, dN_by_dXs)
-	#plt.hist(widths, num_bins, density = True, histtype = "step", cumulative = -1)
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
 	plt.show()
@@ -48,22 +38,10 @@ def plot2(num_sightlines):
 # Compare the effect of the self-shielding prescription
 def plot3(num_sightlines):
 	plt.title('Cumulative incidence rate of $' + oiLabel + '$ absorbers at $z = 5.6$')
-	width1s = np.array([])
-	width2s = np.array([])
-	for n in range(0, num_sightlines):
-		width1s = np.append(equiv_widths(n, True), width1s)
-		width2s = np.append(equiv_widths(n, False), width2s)
-	# spec_obj.box is in units of h^{-1} ckPc
-	DeX = num_sightlines * spec_obj.box / (1.0e3 * spec_obj.h)
-	count1s, bin_edge1s = np.histogram(width1s, num_bins)
-	dN_by_dX1s = np.flip(np.cumsum(np.flip(count1s / DeX)))
-	midpoint1s = np.array([(bin_edge1s[i] + bin_edge1s[i + 1]) / 2.0 for i in range(0, num_bins)])
+	midpoints1, dN_by_dX1s = cumulative_EW(num_sightlines, True)
+	midpoints2, dN_by_dX2s = cumulative_EW(num_sightlines, False)
 	plt.step(midpoint1s, dN_by_dX1s, 'k')
-	count2s, bin_edge2s = np.histogram(width2s, num_bins)
-	dN_by_dX2s = np.flip(np.cumsum(np.flip(count2s / DeX)))
-	midpoint2s = np.array([(bin_edge2s[i] + bin_edge2s[i + 1]) / 2.0 for i in range(0, num_bins)])
 	plt.step(midpoint2s, dN_by_dX2s, 'b', linestyle = '--')
-	#plt.hist(widths, num_bins, density = True, histtype = "step", cumulative = -1)
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
 	ss = ml.Line2D([], [], color = 'k', label = 'OI only in SS regions')
