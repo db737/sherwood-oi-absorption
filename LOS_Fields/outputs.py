@@ -170,6 +170,13 @@ def test7(n):
 	plt.errorbar(zs[mins], flux_data[mins], xerr = ews / 2, fmt = 'none', capsize = 10.0)
 	plt.show()
 
+# Test effect of SS
+def test8(n):
+	plt.semilogy(OpticalDepths(n, False, None), 'r')
+	plt.semilogy(opticalDepths(n, False, False), 'g')
+	plt.semilogy(opticalDepths(n, False, True), 'b')
+	plt.show()
+
 # Check inputs are as expected
 def check1(n):
 	print("HI fraction: {}".format(fHIss[0, n]))
