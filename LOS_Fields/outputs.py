@@ -35,7 +35,7 @@ def plot2(num_sightlines):
 	plt.xscale('log')
 	plt.yscale('log')
 	da = ml.Line2D([], [], color = 'k', label = 'This work')
-	ke = ml.Line2D([], [], color = 'b', ls = '--', label = 'Keating et al. 2014')
+	ke = ml.Line2D([], [], color = 'b', ls = '--', label = 'Becker et al. 2011')
 	plt.legend(handles = [da, ke])
 	plt.show()
 
