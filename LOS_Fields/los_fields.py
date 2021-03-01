@@ -245,15 +245,17 @@ def equiv_widths(n, ssOnly):
 	print(f"EW {n + 1}")
 	return peak_zs, widths
 
+# Calculate the absorption path length as defined in [K2014]
+abs_length_X(z):
+	return 2.0 * np.sqrt(Om_La + Om_m0 * (1.0 + z) ^ 3) / (3.0 * Om_m0)
+
 # Cumulative dN/dX data
 def cumulative_EW(num_sightlines, ssOnly):
 	widths = np.array([])
 	for n in range(0, num_sightlines):
 		pzs, ews = equiv_widths(n, ssOnly)
 		widths = np.append(ews, widths)
-	# spec_obj.box is in units of h^{-1} ckPc; convert to physical distance from
-	# comoving distance and use units of h^{-1} MPc
-	DeX = num_sightlines * spec_obj.box / (1.0e3 * (1 + float(z_mid)) * spec_obj.h)
+	DeX = abs_length_X(zs[count - 1]) - abs_length_X(zs[0])
 	counts, bin_edges = np.histogram(widths, num_bins)
 	dN_by_dXs = np.flip(np.cumsum(np.flip(counts / DeX)))
 	midpoints = np.array([(bin_edges[i] + bin_edges[i + 1]) / 2.0 for i in range(0, num_bins)])
