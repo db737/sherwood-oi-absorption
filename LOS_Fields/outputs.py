@@ -172,7 +172,7 @@ def test7(n):
 
 # Test effect of SS
 def test8(n):
-	plt.semilogy(OpticalDepths(n, False, None), 'r')
+	plt.semilogy(opticalDepths(n, False, None), 'r')
 	plt.semilogy(opticalDepths(n, False, False), 'g')
 	plt.semilogy(opticalDepths(n, False, True), 'b')
 	plt.show()
