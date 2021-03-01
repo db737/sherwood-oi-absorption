@@ -246,7 +246,7 @@ def equiv_widths(n, ssOnly):
 	return peak_zs, widths
 
 # Calculate the absorption path length as defined in [K2014]
-abs_length_X(z):
+def abs_length_X(z):
 	return 2.0 * np.sqrt(Om_La + Om_m0 * (1.0 + z) ^ 3) / (3.0 * Om_m0)
 
 # Cumulative dN/dX data
