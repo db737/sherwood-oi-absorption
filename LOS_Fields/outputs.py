@@ -27,9 +27,14 @@ def plot1(n):
 def plot2(num_sightlines):
 	plt.title('Cumulative incidence rate of $' + oiLabel + '$ absorbers at $z = 5.6$')
 	midpoints, dN_by_dXs = cumulative_EW(num_sightlines, False)
-	plt.step(midpoints, dN_by_dXs)
+	inp = np.loadtxt("add_data.txt")
+	plt.step(midpoints, dN_by_dXs, 'k')
+	plt.step(inp[:, 0], inp[:, 1], 'b', linestyle = '--')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
+	da = ml.Line2D([], [], color = 'k', label = 'This work')
+	ke = ml.Line2D([], [], color = 'b', ls = '--', label = 'Keating et al. 2014')
+	plt.legend(handles = [da, ke])
 	plt.show()
 
 # Compare the effect of the self-shielding prescription
