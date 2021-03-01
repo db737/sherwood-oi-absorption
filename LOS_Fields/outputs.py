@@ -32,6 +32,8 @@ def plot2(num_sightlines):
 	plt.step(inp[:, 0], inp[:, 1], 'b', linestyle = '--')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
+	plt.xscale('log')
+	plt.yscale('log')
 	da = ml.Line2D([], [], color = 'k', label = 'This work')
 	ke = ml.Line2D([], [], color = 'b', ls = '--', label = 'Keating et al. 2014')
 	plt.legend(handles = [da, ke])
