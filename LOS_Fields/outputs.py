@@ -229,7 +229,7 @@ def output1():
 		np.savetxt(f"data {n}.csv", (zs, vss[:, n], Tss[:, n], DeHss[:, n], nOIs(n, False) / nHIs(n) * fHIss[:, n], opticalDepths(n, False)), delimiter = ',')
 
 def output2(n):
-	DeX = spec_obj.box / (1.0e3 * (1 + float(z_mid)) * spec_obj.h)
+	DeX = abs_length(zs[count - 1]) - abs_length(zs[0])
 	print(f"Box size: {spec_obj.box}")
 	print(f"Box path length: {DeX}")
 	pzs, widths = equiv_widths(n, False)
@@ -252,4 +252,4 @@ def input1():
 
 # Main
 n = int(sys.argv[1]) - 1
-plot2(n)
+output2(n)
