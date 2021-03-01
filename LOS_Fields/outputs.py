@@ -172,9 +172,14 @@ def test7(n):
 
 # Test effect of SS
 def test8(n):
-	plt.semilogy(opticalDepths(n, False, None), 'r')
-	plt.semilogy(opticalDepths(n, False, False), 'g')
-	plt.semilogy(opticalDepths(n, False, True), 'b')
+	plt.semilogy(zs, opticalDepths(n, False, None), 'r')
+	plt.semilogy(zs, opticalDepths(n, False, False), 'g')
+	plt.semilogy(zs, opticalDepths(n, False, True), 'b--')
+	plt.title(f"Effect of self-shielding at $z={z_mid}$ for sightline {n + 1}")
+	red = ml.Line2D([], [], color = 'r', label = 'No self-shielding')
+	green = ml.Line2D([], [], color = 'g', label = 'SS with OI also present elsewhere')
+	blue = ml.Line2D([], [], color = 'b', ls = '--', label = 'OI only present in SS regions')
+	plt.legend(handles = [red, green, blue])
 	plt.show()
 
 # Check inputs are as expected
