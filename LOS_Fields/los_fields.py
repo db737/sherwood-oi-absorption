@@ -68,6 +68,12 @@ exaggerate = False
 # Number of bins
 num_bins = 128
 
+# The threshold height to count as a peak
+min_height = 0.01
+
+# The minimum number of points away for 2 peaks to count as separate
+min_dist = 6
+
 # ------------
 # --- Data ---
 # ------------
@@ -89,9 +95,6 @@ num = len(fHIss[0, :])
 
 # Number of elements in a sightline
 count = len(fHIss[:, 0])
-
-# The threshold height to count as a peak
-min_height = 0.01
 
 # Convert temperature to b as defined in Choudhury et al. (2001) [C2001],
 # equation 31, for the nth sightline
@@ -196,7 +199,7 @@ def fluxes(n, hydrogen, ssOnly):
 # Find minima or maxima in the flux
 def extrema(flux_data, minima):
 	if minima:
-		peaks, _ = spsig.find_peaks(1.0 - flux_data, height = min_height)
+		peaks, _ = spsig.find_peaks(1.0 - flux_data, height = min_height, distance = min_dist)
 	else:
 		peaks, _ = spsig.find_peaks(flux_data)
 	return peaks
