@@ -247,4 +247,4 @@ def input1():
 
 # Main
 n = int(sys.argv[1]) - 1
-output2(n)
+test8(n)
