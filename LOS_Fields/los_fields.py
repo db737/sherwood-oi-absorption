@@ -255,9 +255,9 @@ def cumulative_EW(num_sightlines, ssOnly):
 	for n in range(0, num_sightlines):
 		pzs, ews = equiv_widths(n, ssOnly)
 		widths = np.append(ews, widths)
-	DeX = abs_length(zs[count - 1]) - abs_length(zs[0])
+	DeX = (abs_length(zs[count - 1]) - abs_length(zs[0])) * num_sightlines
 	counts, bin_edges = np.histogram(widths, num_bins)
-	dN_by_dXs = np.flip(np.cumsum(np.flip(counts)))
+	dN_by_dXs = np.flip(np.cumsum(np.flip(counts / DeX)))
 	midpoints = np.array([(bin_edges[i] + bin_edges[i + 1]) / 2.0 for i in range(0, num_bins)])
 	return midpoints, dN_by_dXs
 
