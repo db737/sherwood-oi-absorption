@@ -78,7 +78,7 @@ def plot4(num_sightlines):
 	plt.show()
 
 # Vary metallicity
-def plot4(num_sightlines):
+def plot5(num_sightlines):
 	plt.title('Cumulative incidence rate of $' + oiLabel + '$ absorbers at $z = 5.6$')
 	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False)
 	plt.step(midpoint1s, dN_by_dX1s, 'r')
@@ -308,4 +308,4 @@ def input1():
 
 # Main
 n = int(sys.argv[1]) - 1
-plot4(n)
+plot5(n)
