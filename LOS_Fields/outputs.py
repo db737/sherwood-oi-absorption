@@ -106,7 +106,7 @@ def plot5(num_sightlines):
 def plot6(num_sightlines):
 	plt.title('Cumulative incidence rate of $' + oiLabel + '$ absorbers at $z = 5.6$')
 	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False)
-	data = np.loadtxt("completeness_data.txt", skip_rows = 1)
+	data = np.loadtxt("completeness_data.txt", skiprows = 1)
 	inp = np.loadtxt("add_data.txt")
 	dN_by_dX2s = np.interp(midpoint1s, data[:, 2], data[:, 0]) * dN_by_dX1s / 100.0
 	plt.step(inp[:, 0], inp[:, 1], 'k')
