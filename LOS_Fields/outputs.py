@@ -77,6 +77,30 @@ def plot4(num_sightlines):
 	plt.legend(handles = [l1, l2, l3, be])
 	plt.show()
 
+# Vary metallicity
+def plot4(num_sightlines):
+	plt.title('Cumulative incidence rate of $' + oiLabel + '$ absorbers at $z = 5.6$')
+	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False)
+	plt.step(midpoint1s, dN_by_dX1s, 'r')
+	l1 = ml.Line2D([], [], color = 'r', label = f"$Z/Z_{\\odot}={Z_solar_oxygen}$")
+	rescale_Z(0.1)
+	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False)
+	plt.step(midpoint2s, dN_by_dX2s, 'g')
+	l2 = ml.Line2D([], [], color = 'g', label = f"$Z/Z_{\\odot}={0.1 * Z_solar_oxygen}$")
+	rescale_Z(100.0)
+	midpoint3s, dN_by_dX3s = cumulative_EW(num_sightlines, False)
+	plt.step(midpoint3s, dN_by_dX3s, 'b')
+	l3 = ml.Line2D([], [], color = 'b', label = f"$Z/Z_{\\odot}={10.0 * Z_solar_oxygen}$")
+	inp = np.loadtxt("add_data.txt")
+	plt.step(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
+	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
+	plt.ylabel('$\\frac{dN}{dX}$')
+	plt.xscale('log')
+	plt.yscale('log')
+	be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
+	plt.legend(handles = [l1, l2, l3, be])
+	plt.show()
+
 # Check that overdensity averages to 1 for a given redshift
 def test1():
 	Des = DeHss[middleIndex, :]
