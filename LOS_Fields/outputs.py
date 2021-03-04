@@ -108,7 +108,9 @@ def plot6(num_sightlines):
 	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False)
 	data = np.loadtxt("completeness_data.txt", skiprows = 1)
 	inp = np.loadtxt("add_data.txt")
-	dN_by_dX2s = np.interp(midpoint1s, data[:, 2], data[:, 0]) * dN_by_dX1s / 100.0
+	N1s = -np.diff(dN_by_dX1s)
+	N2s = np.interp(midpoint1s, data[:, 2], data[:, 0]) * N1s / 100.0
+	dN_by_dX2s = np.flip(np.cumsum(np.flip(N2s)))
 	plt.step(inp[:, 0], inp[:, 1], 'k')
 	plt.step(midpoint1s, dN_by_dX1s, 'b')
 	plt.step(midpoint1s, dN_by_dX2s, 'b', linestyle = '--')
