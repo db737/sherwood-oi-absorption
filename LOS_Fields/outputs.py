@@ -35,8 +35,8 @@ def plot2(num_sightlines):
 	plt.xscale('log')
 	plt.yscale('log')
 	da = ml.Line2D([], [], color = 'k', label = 'This work')
-	ke = ml.Line2D([], [], color = 'b', ls = '--', label = 'Becker et al. 2011')
-	plt.legend(handles = [da, ke])
+	be = ml.Line2D([], [], color = 'b', ls = '--', label = 'Becker et al. 2011')
+	plt.legend(handles = [da, be])
 	plt.show()
 
 # Compare the effect of the self-shielding prescription
@@ -51,6 +51,30 @@ def plot3(num_sightlines):
 	ss = ml.Line2D([], [], color = 'k', label = 'OI only in SS regions')
 	notss = ml.Line2D([], [], color = 'b', ls = '--', label = 'OI everywhere')
 	plt.legend(handles = [ss, notss])
+	plt.show()
+
+# Vary Gamma
+def plot4(num_sightlines):
+	plt.title('Cumulative incidence rate of $' + oiLabel + '$ absorbers at $z = 5.6$')
+	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False)
+	plt.step(midpoint1s, dN_by_dX1s, 'r')
+	l1 = ml.Line2D([], [], color = 'r', label = f"$\\Gamma_{{12}}={Gamma_12}$")
+	rescale_Gamma_12(0.1)
+	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False)
+	plt.step(midpoint2s, dN_by_dX2s, 'g')
+	l2 = ml.Line2D([], [], color = 'g', label = f"$\\Gamma_{{12}}={Gamma_12}$")
+	rescale_Gamma_12(100.0)
+	midpoint3s, dN_by_dX3s = cumulative_EW(num_sightlines, False)
+	plt.step(midpoint3s, dN_by_dX3s, 'b')
+	l3 = ml.Line2D([], [], color = 'b', label = f"$\\Gamma_{{12}}={Gamma_12}$")
+	inp = np.loadtxt("add_data.txt")
+	plt.step(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
+	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
+	plt.ylabel('$\\frac{dN}{dX}$')
+	plt.xscale('log')
+	plt.yscale('log')
+	be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
+	plt.legend(handles = [l1, l2, l3, be])
 	plt.show()
 
 # Check that overdensity averages to 1 for a given redshift
@@ -259,4 +283,4 @@ def input1():
 
 # Main
 n = int(sys.argv[1]) - 1
-plot2(n)
+plot4(n)

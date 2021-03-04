@@ -63,8 +63,6 @@ Z_solar_oxygen = 10.0**-3.13
 # Helium fraction
 Y = 0.2485
 
-exaggerate = False
-
 # Number of bins
 num_bins = 128
 
@@ -268,3 +266,10 @@ def cumulative_EW(num_sightlines, ssOnly):
 def exaggerate():
 	DeHss *= 50
 	Tss *= 100
+
+# Imperative function to rescale the UV background
+def rescale_Gamma_12(f):
+	Gamma_12 *= f
+
+def rescale_Z(f):
+	Z_solar_oxygen *= f
