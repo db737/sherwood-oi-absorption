@@ -269,7 +269,9 @@ def exaggerate():
 
 # Imperative function to rescale the UV background
 def rescale_Ga_12(f):
+	global Ga_12
 	Ga_12 *= f
 
 def rescale_Z(f):
+	global Z_solar_oxygen
 	Z_solar_oxygen *= f
