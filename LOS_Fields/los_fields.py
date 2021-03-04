@@ -268,8 +268,8 @@ def exaggerate():
 	Tss *= 100
 
 # Imperative function to rescale the UV background
-def rescale_Gamma_12(f):
-	Gamma_12 *= f
+def rescale_Ga_12(f):
+	Ga_12 *= f
 
 def rescale_Z(f):
 	Z_solar_oxygen *= f
