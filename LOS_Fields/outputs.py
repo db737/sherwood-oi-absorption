@@ -113,7 +113,7 @@ def plot6(num_sightlines):
 	dN_by_dX2s = np.flip(np.cumsum(np.flip(N2s)))
 	plt.step(inp[:, 0], inp[:, 1], 'k')
 	plt.step(midpoint1s, dN_by_dX1s, 'b')
-	plt.step(midpoint1s, dN_by_dX2s, 'b', linestyle = '--')
+	plt.step(midpoint1s[1 : 128], dN_by_dX2s, 'b', linestyle = '--')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
 	plt.xscale('log')
