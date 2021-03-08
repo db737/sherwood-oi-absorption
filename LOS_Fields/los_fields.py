@@ -251,15 +251,18 @@ def abs_length(z):
 	return 2.0 * np.sqrt(Om_La + Om_m0 * (1.0 + z) ** 3.0) / (3.0 * Om_m0)
 
 # Cumulative dN/dX data
-def cumulative_EW(num_sightlines, ssOnly):
+def cumulative_EW(num_sightlines, ssOnly, incomplete = False):
 	widths = np.array([])
 	for n in range(0, num_sightlines):
 		pzs, ews = equiv_widths(n, ssOnly)
 		widths = np.append(ews, widths)
 	DeX = (abs_length(zs[count - 1]) - abs_length(zs[0])) * num_sightlines
 	counts, bin_edges = np.histogram(widths, num_bins)
-	dN_by_dXs = np.flip(np.cumsum(np.flip(counts / DeX)))
 	midpoints = np.array([(bin_edges[i] + bin_edges[i + 1]) / 2.0 for i in range(0, num_bins)])
+	if incomplete:
+		data = np.loadtxt("completeness_data.txt", skiprows = 1)
+		counts *= np.interp(midpoints, data[:, 2], data[:, 0]) / 100.0
+	dN_by_dXs = np.flip(np.cumsum(np.flip(counts / DeX)))
 	return midpoints, dN_by_dXs
 
 # Imperative function to exaggerate the spectrum
