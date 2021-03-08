@@ -80,24 +80,21 @@ def plot4(num_sightlines):
 # Vary metallicity
 def plot5(num_sightlines):
 	plt.title('Cumulative incidence rate of $' + oiLabel + '$ absorbers at $z = 5.6$')
-	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False)
+	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
 	plt.step(midpoint1s, dN_by_dX1s, 'r')
-	
 	l1 = ml.Line2D([], [], color = 'r', label = f"$Z/Z_{{\\odot}}$=1.0")
 	rescale_Z(0.1)
-	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False)
+	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
 	plt.step(midpoint2s, dN_by_dX2s, 'g')
 	l2 = ml.Line2D([], [], color = 'g', label = f"$Z/Z_{{\\odot}}$=0.1")
 	rescale_Z(100.0)
-	midpoint3s, dN_by_dX3s = cumulative_EW(num_sightlines, False)
+	midpoint3s, dN_by_dX3s = cumulative_EW(num_sightlines, False, incomplete = True)
 	plt.step(midpoint3s, dN_by_dX3s, 'b')
 	l3 = ml.Line2D([], [], color = 'b', label = f"$Z/Z_{{\\odot}}$=10.0")
 	inp = np.loadtxt("add_data.txt")
 	plt.step(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
-	plt.xscale('log')
-	plt.yscale('log')
 	be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
 	plt.legend(handles = [l1, l2, l3, be])
 	plt.show()
@@ -327,4 +324,4 @@ def input1():
 
 # Main
 n = int(sys.argv[1]) - 1
-plot6(n)
+plot5(n)
