@@ -116,6 +116,19 @@ def plot6(num_sightlines):
 	plt.legend(handles = [complete, incomplete, be])
 	plt.show()
 
+# Compare hydrogen and oxygen
+def plot7(n):
+	fig, axes = plt.subplots(2, 1, sharex = True)
+	axes[0].plot(zs, fluxes(n, True, False))
+	axes[0].legend("Hydrogen")
+	axes[0].set_ylim([0.0, 1.1])
+	axes[1].plot(zs, fluxes(n, False, False))
+	axes[1].legend("Oxygen")
+	axes[1].set_ylim([0.0, 1.1])
+	plt.subplots_adjust(hspace = 0)
+	fig.align_ylabels()
+	plt.show()
+ 
 # Check that overdensity averages to 1 for a given redshift
 def test1():
 	Des = DeHss[middleIndex, :]
@@ -322,4 +335,4 @@ def input1():
 
 # Main
 n = int(sys.argv[1]) - 1
-plot3(n)
+plot7(n)
