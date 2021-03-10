@@ -262,7 +262,7 @@ def cumulative_EW(num_sightlines, ssOnly, incomplete = False):
 	midpoints = np.array([(bin_edges[i] + bin_edges[i + 1]) / 2.0 for i in range(0, num_bins)])
 	if incomplete:
 		data = np.loadtxt("completeness_data.txt", skiprows = 1)
-		rates *= np.interp(midpoints, data[:, 2], data[:, 0]) / 100.0
+		rates *= np.interp(midpoints, data[:, 2], data[:, 0], left = 0.0) / 100.0
 	dN_by_dXs = np.flip(np.cumsum(np.flip(rates)))
 	return midpoints, dN_by_dXs
 
