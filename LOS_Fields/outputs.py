@@ -55,7 +55,6 @@ def plot3(num_sightlines):
 
 # Vary Gamma
 def plot4(num_sightlines):
-	plt.title('Cumulative incidence rate of $' + oiLabel + '$ absorbers at $z = 5.6$')
 	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
 	plt.step(midpoint1s, dN_by_dX1s, 'r')
 	l1 = ml.Line2D([], [], color = 'r', label = f"$\\Gamma_{{12}}={Ga_12}$")
@@ -77,7 +76,6 @@ def plot4(num_sightlines):
 
 # Vary metallicity
 def plot5(num_sightlines):
-	plt.title('Cumulative incidence rate of $' + oiLabel + '$ absorbers at $z = 5.6$')
 	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
 	plt.step(midpoint1s, dN_by_dX1s, 'r')
 	l1 = ml.Line2D([], [], color = 'r', label = f"$Z/Z_{{\\odot}}$=1.0")
@@ -99,7 +97,6 @@ def plot5(num_sightlines):
 
 # Completeness comparison
 def plot6(num_sightlines):
-	plt.title('Cumulative incidence rate of $' + oiLabel + '$ absorbers at $z = 5.6$')
 	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False)
 	inp = np.loadtxt("add_data.txt")
 	midpoint2, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
@@ -335,4 +332,4 @@ def input1():
 
 # Main
 n = int(sys.argv[1]) - 1
-plot5(n)
+plot4(n)

@@ -11,7 +11,7 @@ from scipy import ndimage
 from read_spec_ewald_script import spectra
 
 # Middle z value
-z_mid = "5.600"
+z_mid = "6.000"
 
 def filename(x):
 	return "../../los/" + x + "2048_n5000_z" + z_mid + ".dat"
