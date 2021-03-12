@@ -347,6 +347,7 @@ def example2(n):
 	noise = 0.01 * nrand.normal(0.0, 1.0, 200)
 	plt.plot(xs, ys + noise)
 	plt.ylim([0.0, 1.1])
+	plt.xticks([])
 	plt.show()
 	
 # Fake trough example
@@ -356,6 +357,8 @@ def example3(n):
 	y1s = 1.0 - scale * np.exp(-0.5 * (xs / sigma) ** 2.0)
 	ew = scale * sigma * np.sqrt(2.0 * pi)
 	y2s = np.heaviside(xs - ew / 2.0, 1.0) + np.heaviside(xs + ew / 2.0, 1.0)
+	plt.ylim([0.0, 1.1])
+	plt.xticks([])
 	plt.plot(xs, y1s, 'k')
 	plt.plot(xs, y2s, 'b')
 	plt.show()
