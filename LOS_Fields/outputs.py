@@ -343,15 +343,16 @@ def example1(n):
 # Fake trough example
 def example2(n):
 	xs = np.linspace(-1.0, 1.0, 200)
-	ys = 1.0 - 0.3 * np.exp(-0.5 * (xs / 0.4) ** 2.0)
+	ys = 1.0 - 0.3 * np.exp(-0.5 * (xs / 0.2) ** 2.0)
 	noise = 0.01 * nrand.normal(0.0, 1.0, 200)
 	plt.plot(xs, ys + noise)
+	plt.ylim([0.0, 1.1])
 	plt.show()
 	
 # Fake trough example
 def example3(n):
 	xs = np.linspace(-1.0, 1.0, 200)
-	sigma, scale = 0.4, 0.3
+	sigma, scale = 0.2, 0.3
 	y1s = 1.0 - scale * np.exp(-0.5 * (xs / sigma) ** 2.0)
 	ew = scale * sigma * np.sqrt(2.0 * pi)
 	y2s = np.heaviside(xs - ew / 2.0, 1.0) + np.heaviside(xs + ew / 2.0, 1.0)
