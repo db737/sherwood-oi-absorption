@@ -132,6 +132,7 @@ def plot8(n):
 	plt.plot(data[:, 2], data[:, 0])
 	plt.xlabel('Equivalent width / \AA')
 	plt.ylabel('Completeness / %')
+	plt.xscale('log')
 	plt.show()
 
 # Check that overdensity averages to 1 for a given redshift
