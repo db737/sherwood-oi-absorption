@@ -2,9 +2,9 @@ import matplotlib.pyplot as plt
 import matplotlib.lines as ml
 import matplotlib
 import scipy.integrate as si
-import numpy.random as nr
 import sys
 
+from numpy.random import default_rng
 from los_fields import *
 
 matplotlib.rcParams["text.usetex"] = True
@@ -344,7 +344,7 @@ def example1(n):
 def example2(n):
 	xs = np.linspace(-1.0, 1.0, 200)
 	ys = 1.0 - 0.3 * np.exp(-0.5 * (xs / 0.4) ** 2.0)
-	rng = nr.default_rng()
+	rng = default_rng()
 	noise = 0.01 * rng.normal(0.0, 1.0, 200)
 	plt.plot(xs, ys + noise)
 	
