@@ -31,9 +31,6 @@ def plot2(num_sightlines):
 	plt.step(midpoints, dN_by_dXs, 'k', where = 'mid')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
-	plt.xscale('log')
-	plt.yscale('log')
-	plt.legend(handles = [da, be])
 	plt.show()
 
 # Compare the effect of the self-shielding prescription
