@@ -127,7 +127,7 @@ def plot7(n):
 	plt.show()
 
 # Show completeness
-def plot8():
+def plot8(n):
 	data = np.loadtxt("completeness_data.txt", skiprows = 1)
 	plt.plot(data[:, 2], data[:, 0])
 	plt.xlabel('Equivalent width / \AA')
