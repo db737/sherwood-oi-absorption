@@ -365,4 +365,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-example2(n)
+example3(n)
