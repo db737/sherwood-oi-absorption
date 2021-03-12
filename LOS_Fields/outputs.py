@@ -346,6 +346,7 @@ def example2(n):
 	ys = 1.0 - 0.3 * np.exp(-0.5 * (xs / 0.4) ** 2.0)
 	noise = 0.01 * nrand.normal(0.0, 1.0, 200)
 	plt.plot(xs, ys + noise)
+	plt.show()
 	
 # Fake trough example
 def example3(n):
@@ -356,6 +357,7 @@ def example3(n):
 	y2s = np.heaviside(xs - ew / 2.0, 1.0) + np.heaviside(xs + ew / 2.0, 1.0)
 	plt.plot(xs, y1s, 'k')
 	plt.plot(xs, y2s, 'b')
+	plt.show()
 
 # Main
 n = int(sys.argv[1]) - 1
