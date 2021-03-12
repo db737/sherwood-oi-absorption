@@ -3,6 +3,7 @@ import matplotlib.lines as ml
 import matplotlib
 import scipy.integrate as si
 import sys
+import numpy.random as nrand
 
 from los_fields import *
 
@@ -341,11 +342,9 @@ def example1(n):
 
 # Fake trough example
 def example2(n):
-	import numpy.random as nr
 	xs = np.linspace(-1.0, 1.0, 200)
 	ys = 1.0 - 0.3 * np.exp(-0.5 * (xs / 0.4) ** 2.0)
-	rng = nr.default_rng()
-	noise = 0.01 * rng.normal(0.0, 1.0, 200)
+	noise = 0.01 * nrand.normal(0.0, 1.0, 200)
 	plt.plot(xs, ys + noise)
 	
 # Fake trough example
