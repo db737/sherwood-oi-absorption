@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.lines as ml
 import matplotlib
 import scipy.integrate as si
+import numpy.random as nr
 import sys
 
 from los_fields import *
@@ -242,23 +243,6 @@ def test6(n):
 	fig.align_ylabels()
 	plt.show()
 
-# Plot positions and widths of peaks
-def test7(n):
-	exaggerate()
-	flux_data = fluxes(n, False, True)
-	plt.plot(zs, flux_data)
-	plt.title("Extrema detection and EW calculation in an exaggerated spectrum")
-	plt.ylim([0.0, 1.1])
-	plt.xlabel("$z$")
-	plt.ylabel(fluxLabel)
-	mins = extrema(flux_data, True)
-	maxes = extrema(flux_data, False)
-	plt.scatter(zs[mins], flux_data[mins], c = 'r')
-	plt.scatter(zs[maxes], flux_data[maxes], c = 'g')
-	pzs, ews = equiv_widths(n, True) * nu_12_OI * 1.0e-10 / c
-	plt.errorbar(zs[mins], flux_data[mins], xerr = ews / 2, fmt = 'none', capsize = 10.0)
-	plt.show()
-
 # Test effect of SS
 def test8(n):
 	plt.semilogy(zs, opticalDepths(n, False, None), 'r')
@@ -339,6 +323,41 @@ def input1():
 		plt.semilogy(zs, tass[:, i] / opticalDepths(ns[i], False, False))
 		plt.show()
 
+# Plot positions and widths of peaks
+def example1(n):
+	exaggerate()
+	flux_data = fluxes(n, False, True)
+	plt.plot(zs, flux_data)
+	plt.title("Extrema detection and EW calculation in an exaggerated spectrum")
+	plt.ylim([0.0, 1.1])
+	plt.xlabel("$z$")
+	plt.ylabel(fluxLabel)
+	mins = extrema(flux_data, True)
+	maxes = extrema(flux_data, False)
+	plt.scatter(zs[mins], flux_data[mins], c = 'r')
+	plt.scatter(zs[maxes], flux_data[maxes], c = 'g')
+	pzs, ews = equiv_widths(n, True) * nu_12_OI * 1.0e-10 / c
+	plt.errorbar(zs[mins], flux_data[mins], xerr = ews / 2, fmt = 'none', capsize = 10.0)
+	plt.show()
+
+# Fake trough example
+def example2(n):
+	xs = np.linspace(-1.0, 1.0, 200)
+	ys = 1.0 - 0.3 * np.exp(-0.5 * (xs / 0.4) ** 2.0)
+	rng = nr.default_rng()
+	noise = 0.01 * rng.normal(0.0, 1.0, 200)
+	plt.plot(xs, ys + noise)
+	
+# Fake trough example
+def example3(n):
+	xs = np.linspace(-1.0, 1.0, 200)
+	sigma, scale = 0.4, 0.3
+	y1s = 1.0 - scale * np.exp(-0.5 * (xs / sigma) ** 2.0)
+	ew = scale * sigma * np.sqrt(2.0 * pi)
+	y2s = np.heaviside(xs - ew / 2.0, 1.0) + np.heaviside(xs + ew / 2.0, 1.0)
+	plt.plot(xs, y1s, 'k')
+	plt.plot(xs, y2s, 'b')
+
 # Main
 n = int(sys.argv[1]) - 1
-plot8(n)
+exmaple2(n)
