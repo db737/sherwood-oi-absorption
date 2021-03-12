@@ -356,7 +356,7 @@ def example3(n):
 	sigma, scale = 0.2, 0.3
 	y1s = 1.0 - scale * np.exp(-0.5 * (xs / sigma) ** 2.0)
 	hwidth = scale * sigma * np.sqrt(2.0 * pi) / 2.0
-	y2s = 1.0 + np.heaviside(xs + hwidth, 1.0) - np.heaviside(xs - hwidth, 1.0)
+	y2s = 1.0 + np.heaviside(xs - hwidth, 1.0) - np.heaviside(xs + hwidth, 1.0)
 	plt.ylim([0.0, 1.1])
 	plt.xticks([])
 	plt.plot(xs, y1s, 'k')
