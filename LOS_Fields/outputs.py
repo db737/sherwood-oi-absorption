@@ -28,15 +28,11 @@ def plot1(n):
 def plot2(num_sightlines):
 	plt.title('Cumulative incidence rate of $' + oiLabel + '$ absorbers at $z = 5.6$')
 	midpoints, dN_by_dXs = cumulative_EW(num_sightlines, False)
-	inp = np.loadtxt("add_data.txt")
 	plt.step(midpoints, dN_by_dXs, 'k', where = 'mid')
-	plt.step(inp[:, 0], inp[:, 1], 'b', linestyle = '--', where = 'mid')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
 	plt.xscale('log')
 	plt.yscale('log')
-	da = ml.Line2D([], [], color = 'k', label = 'This work')
-	be = ml.Line2D([], [], color = 'b', ls = '--', label = 'Becker et al. 2011')
 	plt.legend(handles = [da, be])
 	plt.show()
 
@@ -365,4 +361,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-example3(n)
+plot2(n)
