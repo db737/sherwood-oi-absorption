@@ -125,7 +125,15 @@ def plot7(n):
 	plt.subplots_adjust(hspace = 0)
 	fig.align_ylabels()
 	plt.show()
- 
+
+# Show completeness
+def plot8():
+	data = np.loadtxt("completeness_data.txt", skiprows = 1)
+	plt.plot(data[:, 2], data[:, 0])
+	plt.xlabel('Equivalent width / \AA')
+	plt.ylabel('Completeness / %')
+	plt.show()
+
 # Check that overdensity averages to 1 for a given redshift
 def test1():
 	Des = DeHss[middleIndex, :]
@@ -332,4 +340,4 @@ def input1():
 
 # Main
 n = int(sys.argv[1]) - 1
-plot5(n)
+plot8(n)
