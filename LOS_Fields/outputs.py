@@ -360,4 +360,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-exmaple2(n)
+example2(n)
