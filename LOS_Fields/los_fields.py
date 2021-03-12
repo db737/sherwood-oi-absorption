@@ -6,7 +6,6 @@ import scipy.signal as spsig
 import math
 import operator
 
-from numpy.random import default_rng
 from numpy import pi
 from scipy import ndimage
 from read_spec_ewald_script import spectra
