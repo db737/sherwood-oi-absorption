@@ -27,7 +27,7 @@ def plot1(n):
 # dN/dz equivalent width plot
 def plot2(num_sightlines):
 	plt.title('Cumulative incidence rate of $' + oiLabel + '$ absorbers at $z = 5.6$')
-	midpoints, dN_by_dXs = cumulative_EW(num_sightlines, False)
+	midpoints, dN_by_dXs = cumulative_EW(num_sightlines, False, incomplete = True)
 	plt.step(midpoints, dN_by_dXs, 'k', where = 'mid')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
