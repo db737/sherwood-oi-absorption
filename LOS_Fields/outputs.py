@@ -47,8 +47,29 @@ def plot3(num_sightlines):
 	plt.legend(handles = [ss, notss])
 	plt.show()
 
-# Vary Gamma
+# Vary metallicity
 def plot4(num_sightlines):
+	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
+	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
+	l1 = ml.Line2D([], [], color = 'r', label = f"$Z/Z_0$=1.0")
+	rescale_Z(0.5)
+	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
+	plt.step(midpoint2s, dN_by_dX2s, 'g', where = 'mid')
+	l2 = ml.Line2D([], [], color = 'g', label = f"$Z/Z_0$=0.5")
+	rescale_Z(10.0)
+	midpoint3s, dN_by_dX3s = cumulative_EW(num_sightlines, False, incomplete = True)
+	plt.step(midpoint3s, dN_by_dX3s, 'b', where = 'mid')
+	l3 = ml.Line2D([], [], color = 'b', label = f"$Z/Z_0$=5.0")
+	inp = np.loadtxt("add_data_mid.txt")
+	plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
+	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
+	plt.ylabel('$\\frac{dN}{dX}$')
+	be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
+	plt.legend(handles = [l1, l2, l3, be])
+	plt.show()
+
+# Vary Gamma
+def plot5(num_sightlines):
 	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
 	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
 	l1 = ml.Line2D([], [], color = 'r', label = f"$\\Gamma_{{12}}={Ga_12}$")
@@ -60,27 +81,6 @@ def plot4(num_sightlines):
 	midpoint3s, dN_by_dX3s = cumulative_EW(num_sightlines, False, incomplete = True)
 	plt.step(midpoint3s, dN_by_dX3s, 'b', where = 'mid')
 	l3 = ml.Line2D([], [], color = 'b', label = f"$\\Gamma_{{12}}={10.0*Ga_12}$")
-	inp = np.loadtxt("add_data_mid.txt")
-	plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
-	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
-	plt.ylabel('$\\frac{dN}{dX}$')
-	be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
-	plt.legend(handles = [l1, l2, l3, be])
-	plt.show()
-
-# Vary metallicity
-def plot5(num_sightlines):
-	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
-	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
-	l1 = ml.Line2D([], [], color = 'r', label = f"$Z/Z_{{\\odot}}$=1.0")
-	rescale_Z(0.2)
-	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
-	plt.step(midpoint2s, dN_by_dX2s, 'g', where = 'mid')
-	l2 = ml.Line2D([], [], color = 'g', label = f"$Z/Z_{{\\odot}}$=0.2")
-	rescale_Z(25.0)
-	midpoint3s, dN_by_dX3s = cumulative_EW(num_sightlines, False, incomplete = True)
-	plt.step(midpoint3s, dN_by_dX3s, 'b', where = 'mid')
-	l3 = ml.Line2D([], [], color = 'b', label = f"$Z/Z_{{\\odot}}$=5.0")
 	inp = np.loadtxt("add_data_mid.txt")
 	plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
@@ -358,4 +358,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot2(n)
+plot4(n)
