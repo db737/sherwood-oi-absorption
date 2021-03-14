@@ -275,7 +275,9 @@ def exaggerate():
 def rescale_Ga_12(f):
 	global Ga_12
 	Ga_12 *= f
+	print(Ga_12)
 
 def rescale_Z(f):
 	global Z_solar_oxygen
 	Z_solar_oxygen *= f
+	print(Ga_12)
