@@ -86,7 +86,6 @@ def plot5(num_sightlines):
 	midpoint3s, dN_by_dX3s = cumulative_EW(num_sightlines, False, incomplete = True)
 	midpoint3s = np.append(0.0, midpoint3s)
 	dN_by_dX3s = np.append(dN_by_dX3s[0], dN_by_dX3s)
-	print(midpoint
 	plt.step(midpoint3s, dN_by_dX3s, 'b', where = 'mid')
 	l3 = ml.Line2D([], [], color = 'b', label = f"$\\Gamma_{{12}}={3.6}$")
 	inp = np.loadtxt("add_data_mid.txt")
