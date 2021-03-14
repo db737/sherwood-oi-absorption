@@ -71,16 +71,23 @@ def plot4(num_sightlines):
 # Vary Gamma
 def plot5(num_sightlines):
 	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
+	np.append(0.0, midpoint1s)
+	np.append(dN_by_dX1s[0], dN_by_dX1s)
 	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
-	l1 = ml.Line2D([], [], color = 'r', label = f"$\\Gamma_{{12}}={Ga_12}$")
+	rescale_Z(0.5)
+	l1 = ml.Line2D([], [], color = 'r', label = f"$\\Gamma_{{12}}={0.36}$")
 	rescale_Ga_12(0.1)
 	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
+	np.append(0.0, midpoint2s)
+	np.append(dN_by_dX2s[0], dN_by_dX2s)
 	plt.step(midpoint2s, dN_by_dX2s, 'g', where = 'mid')
-	l2 = ml.Line2D([], [], color = 'g', label = f"$\\Gamma_{{12}}={0.1*Ga_12}$")
+	l2 = ml.Line2D([], [], color = 'g', label = f"$\\Gamma_{{12}}={0.036}$")
 	rescale_Ga_12(100.0)
 	midpoint3s, dN_by_dX3s = cumulative_EW(num_sightlines, False, incomplete = True)
+	np.append(0.0, midpoint3s)
+	np.append(dN_by_dX3s[0], dN_by_dX3s)
 	plt.step(midpoint3s, dN_by_dX3s, 'b', where = 'mid')
-	l3 = ml.Line2D([], [], color = 'b', label = f"$\\Gamma_{{12}}={10.0*Ga_12}$")
+	l3 = ml.Line2D([], [], color = 'b', label = f"$\\Gamma_{{12}}={3.6}$")
 	inp = np.loadtxt("add_data_mid.txt")
 	plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
@@ -358,4 +365,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot4(n)
+plot5(n)
