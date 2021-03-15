@@ -348,9 +348,11 @@ def example2(n):
 	plt.plot(xs, ys + noise)
 	plt.ylim([0.0, 1.1])
 	plt.xticks([])
+	plt.xlabel('$z$')
+	plt.ylabel('Flux')
 	plt.show()
 	
-# Fake trough example
+# Fake trough EW example
 def example3(n):
 	xs = np.linspace(-1.0, 1.0, 200)
 	sigma, scale = 0.2, 0.3
@@ -359,10 +361,13 @@ def example3(n):
 	y2s = 1.0 + np.heaviside(xs - hwidth, 1.0) - np.heaviside(xs + hwidth, 1.0)
 	plt.ylim([0.0, 1.1])
 	plt.xticks([])
+	plt.xlabel('$z$')
+	plt.ylabel('Flux')
 	plt.plot(xs, y1s, 'k')
 	plt.plot(xs, y2s, 'b')
 	plt.show()
 
 # Main
 n = int(sys.argv[1]) - 1
-plot5(n)
+example2(n)
+example3(n)
