@@ -101,12 +101,12 @@ count = len(fHIss[:, 0])
 
 # Imperative function to switch to patchy data
 def enable_bubbles():
+	global x_H, fHIss, DeHss, Tss, vss
 	x_H = spec_obj_patchy.xh
 	fHIss = np.transpose(spec_obj_patchy.nHI_frac)
 	DeHss = np.transpose(spec_obj_patchy.rhoH2rhoHmean)
 	Tss = np.transpose(spec_obj_patchy.temp_HI)
 	vss = np.transpose(spec_obj_patchy.vel_HI) * 1.0e3
-	ta_HIss = np.transpose(spec_obj_patchy.tau_HI)
 
 # Convert temperature to b as defined in Choudhury et al. (2001) [C2001],
 # equation 31, for the nth sightline
