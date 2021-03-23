@@ -13,15 +13,16 @@ from read_spec_ewald_script import spectra
 # Middle z value
 z_mid = "6.000"
 
-def filename(x, bubbles = True):
-	if bubbles:
+def filename(x, patchy = True):
+	if patchy:
 		return "/data/emergence12/prace_relics/planck1_40_2048_patchy/los/" + x + "2048_n5000_z" + z_mid + ".dat"
 	else:
 		return "../../los/" + x + "2048_n5000_z" + z_mid + ".dat"
 
 flag_spectype = "se_onthefly"
 # TODO warn if trying to use non-existent tau data for bubbles
-spec_obj = spectra(flag_spectype, filename("los"), taufilename = filename("tau", bubbles = False))
+spec_obj = spectra(flag_spectype, filename("los", patchy = False), taufilename = filename("tau", patchy = False))
+spec_obj_patchy = spectra(flag_spectype, filename("los"), taufilename = filename("tau", patchy = False))
 
 # -----------------
 # --- Constants ---
@@ -97,6 +98,15 @@ num = len(fHIss[0, :])
 
 # Number of elements in a sightline
 count = len(fHIss[:, 0])
+
+# Imperative function to switch to patchy data
+def enable_bubbles():
+	x_H = spec_obj_patchy.xh
+	fHIss = np.transpose(spec_obj_patchy.nHI_frac)
+	DeHss = np.transpose(spec_obj_patchy.rhoH2rhoHmean)
+	Tss = np.transpose(spec_obj_patchy.temp_HI)
+	vss = np.transpose(spec_obj_patchy.vel_HI) * 1.0e3
+	ta_HIss = np.transpose(spec_obj_patchy.tau_HI)
 
 # Convert temperature to b as defined in Choudhury et al. (2001) [C2001],
 # equation 31, for the nth sightline

@@ -369,4 +369,5 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot5(n)
+enable_bubbles()
+plot4(n)
