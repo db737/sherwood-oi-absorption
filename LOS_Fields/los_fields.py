@@ -13,8 +13,11 @@ from read_spec_ewald_script import spectra
 # Middle z value
 z_mid = "6.000"
 
-def filename(x):
-	return "../../los/" + x + "2048_n5000_z" + z_mid + ".dat"
+def filename(x, bubbles = True):
+	if bubbles:
+		return "/data/emergence12/prace_relics/planck1_40_2048_patchy/los/" + x + "2048_n5000_z" + z_mid + ".dat"
+	else:
+		return "../../los/" + x + "2048_n5000_z" + z_mid + ".dat"
 
 flag_spectype = "se_onthefly"
 spec_obj = spectra(flag_spectype, filename("los"), taufilename = filename("tau"))
