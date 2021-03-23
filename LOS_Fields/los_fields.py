@@ -20,7 +20,8 @@ def filename(x, bubbles = True):
 		return "../../los/" + x + "2048_n5000_z" + z_mid + ".dat"
 
 flag_spectype = "se_onthefly"
-spec_obj = spectra(flag_spectype, filename("los"), taufilename = filename("tau"))
+# TODO warn if trying to use non-existent tau data for bubbles
+spec_obj = spectra(flag_spectype, filename("los"), taufilename = filename("tau", bubbles = False))
 
 # -----------------
 # --- Constants ---
