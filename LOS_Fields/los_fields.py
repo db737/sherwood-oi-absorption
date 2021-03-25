@@ -99,14 +99,18 @@ num = len(fHIss[0, :])
 # Number of elements in a sightline
 count = len(fHIss[:, 0])
 
+# Overall flag for whether we are using patchy or homogeneous data
+patchy = false
+
 # Imperative function to switch to patchy data
 def enable_bubbles():
-	global x_H, fHIss, DeHss, Tss, vss
+	global x_H, fHIss, DeHss, Tss, vss, patchy
 	x_H = spec_obj_patchy.xh
 	fHIss = np.transpose(spec_obj_patchy.nHI_frac)
 	DeHss = np.transpose(spec_obj_patchy.rhoH2rhoHmean)
 	Tss = np.transpose(spec_obj_patchy.temp_HI)
 	vss = np.transpose(spec_obj_patchy.vel_HI) * 1.0e3
+	patchy = True
 
 # Convert temperature to b as defined in Choudhury et al. (2001) [C2001],
 # equation 31, for the nth sightline
@@ -179,7 +183,7 @@ def cutoffsSS(n):
 def nOIs(n, ssOnly):
 	ss = np.heaviside(DeHss[:, n] - cutoffsSS(n), 1.0)
 	# Shift and scale the step function to get the unshielded neutral fraction
-	if ssOnly is None:
+	if ssOnly is None or patchy:
 		ss = np.zeros(count)
 	fOI = ss if ssOnly else fHIss[:, n] + (1.0 - fHIss[:, n]) * ss
 	return fOI * Zs(n) * DeHss[:, n] * rh_bars / m_OI #Z_solar_oxygen * nHIs(n)
@@ -241,7 +245,7 @@ def hcuts(flux_data):
 	return outs
 
 # Find the equivalent widths of all OI absorbers in the spectrum.
-def equiv_widths(n, ssOnly):
+def equiv_widths(n, ssOnly, tracking = None):
 	flux_data = fluxes(n, False, ssOnly)
 	mins = extrema(flux_data, True)
 	maxes = extrema(flux_data, False)
@@ -257,6 +261,9 @@ def equiv_widths(n, ssOnly):
 		print(f"EW {n + 1}, {j}")
 		# Use units of angstroms
 		widths[j] = width * c * 1.0e10 / nu_12_OI
+		if tracking is not None:
+			if widths[j] >= tracking:
+				print(f"Strong absorber: sightline {n + 1} with EW {widths[j]}")
 	print(f"EW {n + 1}")
 	return peak_zs, widths
 
@@ -265,10 +272,10 @@ def abs_length(z):
 	return 2.0 * np.sqrt(Om_La + Om_m0 * (1.0 + z) ** 3.0) / (3.0 * Om_m0)
 
 # Cumulative dN/dX data
-def cumulative_EW(num_sightlines, ssOnly, incomplete = False, cumulative = True):
+def cumulative_EW(num_sightlines, ssOnly, incomplete = False, cumulative = True, tracking = None):
 	widths = np.array([])
 	for n in range(0, num_sightlines):
-		pzs, ews = equiv_widths(n, ssOnly)
+		pzs, ews = equiv_widths(n, ssOnly, tracking)
 		widths = np.append(ews, widths)
 	DeX = (abs_length(zs[count - 1]) - abs_length(zs[0])) * num_sightlines
 	counts, bin_edges = np.histogram(widths, num_bins)

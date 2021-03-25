@@ -49,7 +49,7 @@ def plot3(num_sightlines):
 
 # Vary metallicity
 def plot4(num_sightlines):
-	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
+	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True, tracking = 0.4)
 	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
 	l1 = ml.Line2D([], [], color = 'r', label = f"$Z/Z_0$=1.0")
 	rescale_Z(0.5)
