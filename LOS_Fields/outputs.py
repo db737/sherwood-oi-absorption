@@ -17,7 +17,7 @@ fluxLabel = "$F=e^{-" + depthLabel[1 : len(depthLabel) - 1] + "}$"
 
 # Optical depth and flux
 def plot1(n):
-	plt.title(f"Optical depth for sightline {n + 1}")
+	plt.title(f"Flux for sightline {n + 1}")
 	plt.plot(zs, fluxes(n, False, False))
 	plt.ylim([0.0, 1.1])
 	plt.xlabel("$z$")
@@ -80,14 +80,12 @@ def plot5(num_sightlines):
 	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
 	midpoint2s = np.append(0.0, midpoint2s)
 	dN_by_dX2s = np.append(dN_by_dX2s[0], dN_by_dX2s)
-	print(dN_by_dX2s)
 	plt.step(midpoint2s, dN_by_dX2s, 'g', where = 'mid')
 	l2 = ml.Line2D([], [], color = 'g', label = f"$\\Gamma_{{12}}={0.036}$")
 	rescale_Ga_12(100.0)
 	midpoint3s, dN_by_dX3s = cumulative_EW(num_sightlines, False, incomplete = True)
 	midpoint3s = np.append(0.0, midpoint3s)
 	dN_by_dX3s = np.append(dN_by_dX3s[0], dN_by_dX3s)
-	print(dN_by_dX3s)
 	plt.step(midpoint3s, dN_by_dX3s, 'b', where = 'mid')
 	l3 = ml.Line2D([], [], color = 'b', label = f"$\\Gamma_{{12}}={3.6}$")
 	inp = np.loadtxt("add_data_mid.txt")
@@ -372,4 +370,4 @@ def example3(n):
 # Main
 n = int(sys.argv[1]) - 1
 enable_bubbles()
-plot5(n)
+plot1(n)
