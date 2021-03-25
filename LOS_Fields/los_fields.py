@@ -100,7 +100,7 @@ num = len(fHIss[0, :])
 count = len(fHIss[:, 0])
 
 # Overall flag for whether we are using patchy or homogeneous data
-patchy = false
+patchy = False
 
 # Imperative function to switch to patchy data
 def enable_bubbles():
