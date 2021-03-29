@@ -317,3 +317,7 @@ def rescale_Ga_12(f):
 def rescale_Z(f):
 	global Z_solar_oxygen
 	Z_solar_oxygen *= f
+
+def rescale_cap_Z(f):
+	global cap_Z_frac
+	cap_Z_frac *= f
