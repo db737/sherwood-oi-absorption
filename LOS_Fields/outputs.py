@@ -141,11 +141,8 @@ def plot9(num_sightlines):
 	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True, tracking = 0.4)
 	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
 	l1 = ml.Line2D([], [], color = 'r', label = f"Homogeneous")
-	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
-	global patchy
-	print(patchy)
 	enable_bubbles()
-	print(patchy)
+	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
 	plt.step(midpoint2s, dN_by_dX2s, 'g', where = 'mid')
 	l2 = ml.Line2D([], [], color = 'g', label = f"Patchy")
 	inp = np.loadtxt("add_data_mid.txt")
