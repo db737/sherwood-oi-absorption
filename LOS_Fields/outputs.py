@@ -258,7 +258,7 @@ def test8(n):
 # Plot Becker et al. 2019 data
 def test9(n):
 	inp = np.loadtxt("raw_2019_data.txt", skiprows = 1)
-	plt.errorbar(inp[:, 0], inp[:, 1], inp[:, 2])
+	plt.errorbar(inp[:, 0], inp[:, 1], yerr = inp[:, 2], ls = '')
 	plt.xlabel("z")
 	plt.ylabel("O I EW")
 	plt.show()
@@ -378,4 +378,4 @@ def example3(n):
 # Main
 n = int(sys.argv[1]) - 1
 enable_bubbles()
-plot4(n)
+test9(n)
