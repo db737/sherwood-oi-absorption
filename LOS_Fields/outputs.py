@@ -255,6 +255,14 @@ def test8(n):
 	plt.legend(handles = [red, green, blue])
 	plt.show()
 
+# Plot Becker et al. 2019 data
+def test9(n):
+	inp = np.loadtxt("raw_2019_data.txt", skiprows = 1)
+	plt.errorbar(inp[:, 0], inp[:, 1], inp[:, 2])
+	plt.xlabel("z")
+	plt.ylabel("O I EW")
+	plt.show()
+
 # Check inputs are as expected
 def check1(n):
 	print("HI fraction: {}".format(fHIss[0, n]))

@@ -20,14 +20,15 @@ def filename(x, patchy = True):
 		return "../../los/" + x + "2048_n5000_z" + z_mid + ".dat"
 
 flag_spectype = "se_onthefly"
-# TODO warn if trying to use non-existent tau data for bubbles
 spec_obj, spec_obj_patchy = None, None
-obtain_spec_objs()
 
 def obtain_spec_objs():
+	# TODO warn if trying to use non-existent tau data for bubbles
 	global spec_obj, spec_obj_patchy
 	spec_obj = spectra(flag_spectype, filename("los", patchy = False), taufilename = filename("tau", patchy = False))
 	spec_obj_patchy = spectra(flag_spectype, filename("los"), taufilename = filename("tau", patchy = False))
+
+obtain_spec_objs()
 
 # -----------------
 # --- Constants ---
@@ -135,9 +136,7 @@ box = spec_obj.box * 1.0e3 * consts.parsec / spec_obj.h
 def dz_by_dX(z):
 	return (H_0 / c) * (Om_La + Om_m0 * (1.0 + z) ** 3.0) ** 0.5
 
-# Compute redshift axis
 zs = np.zeros(count)
-compute_redshift_array()
 
 def compute_redshift_array():
 	global zs
@@ -149,6 +148,9 @@ def compute_redshift_array():
 	for i in range(middleIndex + 1, count):
 		z = zs[i - 1]
 		zs[i] = z + dz_by_dX(z) * box / count
+
+# Compute redshift axis
+compute_redshift_array()
 
 # Compute baryon number densities
 rh_bars = rh_crit0 * Om_b0 * (1.0 + zs) ** 3.0
