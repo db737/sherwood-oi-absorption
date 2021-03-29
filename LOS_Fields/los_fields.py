@@ -21,8 +21,13 @@ def filename(x, patchy = True):
 
 flag_spectype = "se_onthefly"
 # TODO warn if trying to use non-existent tau data for bubbles
-spec_obj = spectra(flag_spectype, filename("los", patchy = False), taufilename = filename("tau", patchy = False))
-spec_obj_patchy = spectra(flag_spectype, filename("los"), taufilename = filename("tau", patchy = False))
+spec_obj, spec_obj_patchy = None, None
+obtain_spec_objs()
+
+def obtain_spec_objs():
+	global spec_obj, spec_obj_patchy
+	spec_obj = spectra(flag_spectype, filename("los", patchy = False), taufilename = filename("tau", patchy = False))
+	spec_obj_patchy = spectra(flag_spectype, filename("los"), taufilename = filename("tau", patchy = False))
 
 # -----------------
 # --- Constants ---
@@ -65,6 +70,8 @@ I_al_OI = 5.5e-23
 Ga_12 = 0.36
 # Solar metallicity from Keating et al. (2014) [K2014]
 Z_solar_oxygen = 10.0**-3.13
+# Fraction of the solar metallicity to cap the metallicity at
+cap_Z_frac = 0.01
 # Helium fraction
 Y = 0.2485
 
@@ -129,14 +136,19 @@ def dz_by_dX(z):
 	return (H_0 / c) * (Om_La + Om_m0 * (1.0 + z) ** 3.0) ** 0.5
 
 # Compute redshift axis
-zs = np.full(count, float(z_mid))
-middleIndex = (count - 1) // 2
-for i in range(middleIndex - 1, -1, -1):
-	z = zs[i + 1]
-	zs[i] = z - dz_by_dX(z) * box / count
-for i in range(middleIndex + 1, count):
-	z = zs[i - 1]
-	zs[i] = z + dz_by_dX(z) * box / count
+zs = np.zeros(count)
+compute_redshift_array()
+
+def compute_redshift_array():
+	global zs
+	zs = np.full(count, float(z_mid))
+	middleIndex = (count - 1) // 2
+	for i in range(middleIndex - 1, -1, -1):
+		z = zs[i + 1]
+		zs[i] = z - dz_by_dX(z) * box / count
+	for i in range(middleIndex + 1, count):
+		z = zs[i - 1]
+		zs[i] = z + dz_by_dX(z) * box / count
 
 # Compute baryon number densities
 rh_bars = rh_crit0 * Om_b0 * (1.0 + zs) ** 3.0
@@ -166,7 +178,8 @@ def nHIs(n):
 # Metallicity using formula 5 from [K2014]
 def Zs(n):
 	Z_80 = Z_solar_oxygen * 10.0 ** -2.65
-	return Z_80 * (DeHss[:, n] / 80.0) ** 1.3
+	Z_data = Z_80 * (DeHss[:, n] / 80.0) ** 1.3
+	return np.clip(Z_data, None, Z_solar_oxygen * cap_Z_frac)
 
 # The overdensity at which a region becomes 'self-shielded' (Keating et al.
 # (2016) [K2016]), computed for the nth sightline.
