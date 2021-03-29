@@ -49,18 +49,17 @@ def plot3(num_sightlines):
 
 # Vary metallicity
 def plot4(num_sightlines):
-	rescale_cap_Z(1.0e6)
-	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
+	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True, tracking = 0.4)
 	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
 	l1 = ml.Line2D([], [], color = 'r', label = f"$Z/Z_0$=1.0")
 	rescale_Z(0.5)
 	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
 	plt.step(midpoint2s, dN_by_dX2s, 'g', where = 'mid')
 	l2 = ml.Line2D([], [], color = 'g', label = f"$Z/Z_0$=0.5")
-	rescale_cap_Z(1.0e-6)
+	rescale_Z(10.0)
 	midpoint3s, dN_by_dX3s = cumulative_EW(num_sightlines, False, incomplete = True)
 	plt.step(midpoint3s, dN_by_dX3s, 'b', where = 'mid')
-	l3 = ml.Line2D([], [], color = 'b', label = f"$Z/Z_0$=0.5, $Z_{{max}}=0.01 Z_{{\\odot}}")
+	l3 = ml.Line2D([], [], color = 'b', label = f"$Z/Z_0$=5.0")
 	inp = np.loadtxt("add_data_mid.txt")
 	plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
@@ -135,6 +134,23 @@ def plot8(n):
 	plt.xlabel('Equivalent width / \AA')
 	plt.ylabel('Completeness / \%')
 	plt.xscale('log')
+	plt.show()
+
+# Compare patchy vs. homogeneous Z
+def plot9(num_sightlines):
+	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True, tracking = 0.4)
+	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
+	l1 = ml.Line2D([], [], color = 'r', label = f"Homogeneous")
+	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
+	enable_bubbles()
+	plt.step(midpoint2s, dN_by_dX2s, 'g', where = 'mid')
+	l2 = ml.Line2D([], [], color = 'g', label = f"Patchy")
+	inp = np.loadtxt("add_data_mid.txt")
+	plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
+	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
+	plt.ylabel('$\\frac{dN}{dX}$')
+	be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
+	plt.legend(handles = [l1, l2, be])
 	plt.show()
 
 # Check that overdensity averages to 1 for a given redshift
@@ -378,5 +394,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-enable_bubbles()
-plot4(n)
+plot9(n)
