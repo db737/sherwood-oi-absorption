@@ -191,6 +191,20 @@ def plot11(n):
 	plt.ylabel('Completeness')
 	plt.show()
 
+# Compare dN/dX data directly
+def plot12(n):
+	inp = np.loadtxt("add_data_mid.txt")
+	plt.plot(inp[:, 0], inp[:, 1], 'k')
+	be11 = ml.Line2D([], [], color = 'k', label = 'Becker et al. 2011')
+	midpoint2s, dN_by_dX2s = cumulative_EW_2019(num_sightlines, observed = 'mid')
+	plt.step(midpoint2s, dN_by_dX2s, 'k--', where = 'mid')
+	be19 = ml.Line2D([], [], color = 'k', label = 'Becker et al. 2019')
+	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
+	plt.ylabel('$\\frac{dN}{dX}$')
+	plt.title(f"$z={z_mid}$")
+	plt.legend(handles = [be11, be19])
+	plt.show()
+
 # Check that overdensity averages to 1 for a given redshift
 def test1():
 	Des = DeHss[middleIndex, :]
@@ -442,4 +456,4 @@ def example3(n):
 # Main
 n = int(sys.argv[1]) - 1
 enable_bubbles()
-output2(n)
+plot12(n)

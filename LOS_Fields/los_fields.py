@@ -319,7 +319,7 @@ def cumulative_EW_2019(num_sightlines, incomplete = False, observed = None):
 				widths = np.append(inp[i, 1], widths)
 	DeX = (abs_length(zs[count - 1]) - abs_length(zs[0])) * num_sightlines
 	if observed is not None:
-		DeX *= 66.3 / ((abs_length(6.5) - abs_length(5.7)) * num_sightlines)
+		DeX /= (abs_length(6.5) - abs_length(5.7)) * num_sightlines / 66.3
 	counts, bin_edges = np.histogram(widths, num_bins)
 	rates = counts / DeX
 	midpoints = np.array([(bin_edges[i] + bin_edges[i + 1]) / 2.0 for i in range(0, num_bins)])
