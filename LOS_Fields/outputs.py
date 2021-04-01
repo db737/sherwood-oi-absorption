@@ -169,7 +169,15 @@ def plot10(num_sightlines):
 
 # Compare completeness data sets
 def plot11(n):
-	np.loadtxt('5.7-6.5 2019 completeness.txt')
+	new6ss = np.loadtxt('5.7-6.5 2019 completeness.txt')
+	#new5ss = np.loadtxt('4.9-5.7 2019 completeness.txt')
+	#new4ss = np.loadtxt('4.1-4.9 2019 completeness.txt')
+	#new3ss = np.loadtxt('3.2-4.1 2019 completeness.txt')
+	oldss = np.loadtxt("completeness_data.txt", skiprows = 1)
+	newfn = lambda xss, c: plt.plot(np.float_power(10.0, xss[:, 0]), xss[:, 1], c)
+	newfn(new6ss, 'b')
+	plt.plot(oldss[:, 2], oldss[:, 0] / 100.0, 'k--')
+	plt.show()
 
 # Check that overdensity averages to 1 for a given redshift
 def test1():
@@ -422,4 +430,4 @@ def example3(n):
 # Main
 n = int(sys.argv[1]) - 1
 enable_bubbles()
-plot10(n)
+plot11(n)
