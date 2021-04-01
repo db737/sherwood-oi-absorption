@@ -305,7 +305,7 @@ def cumulative_EW(num_sightlines, ssOnly, incomplete = False, cumulative = True,
 # Cumulative dN/dX for 2019 data input
 def cumulative_EW_2019(num_sightlines, incomplete = False, observed = None):
 	# TODO use full set of data
-	assert(float(z_mid) < 6.6 and float(z_mid) > 5.6):
+	assert(float(z_mid) < 6.6 and float(z_mid) > 5.6)
 	widths = np.array([])
 	if observed is None:
 		for n in range(0, num_sightlines):
