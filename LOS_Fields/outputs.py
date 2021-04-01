@@ -336,6 +336,7 @@ def output2(n):
 	np.savetxt(f"flux {n}.txt", (zs, fluxes(n, False, False)))
 
 def output3(n):
+	global z_mid
 	print(zs[0], zs[count - 1])
 	z_mid = "5.900"
 	obtain_spec_objs()
