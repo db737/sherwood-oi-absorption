@@ -184,7 +184,7 @@ def plot11(n):
 	l4 = ml.Line2D([], [], color = 'g', label = 'z = 4.1-4.9')
 	l3 = ml.Line2D([], [], color = 'b', label = 'z = 3.2-4.1')
 	lold = ml.Line2D([], [], color = 'b', ls = '--', label = 'Old data')
-	endpt = len(olds[:, 0]) - 3
+	endpt = len(oldss[:, 0]) - 3
 	plt.plot(oldss[: endpt, 2], oldss[: endpt, 0] / 100.0, 'k--')
 	plt.legend(handles = [l6, l5, l4, l3, lold])
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
