@@ -194,10 +194,10 @@ def plot11(n):
 # Compare dN/dX data directly
 def plot12(num_sightlines):
 	inp = np.loadtxt("add_data_mid.txt")
-	plt.plot(inp[:, 0], inp[:, 1], 'k')
-	be11 = ml.Line2D([], [], color = 'k', label = 'Becker et al. 2011')
+	plt.plot(inp[:, 0], inp[:, 1], 'b')
+	be11 = ml.Line2D([], [], color = 'b', label = 'Becker et al. 2011')
 	midpoint2s, dN_by_dX2s = cumulative_EW_2019(num_sightlines, observed = 'mid')
-	plt.step(midpoint2s, dN_by_dX2s, 'k--', where = 'mid')
+	plt.step(midpoint2s, dN_by_dX2s, 'k', where = 'mid')
 	be19 = ml.Line2D([], [], color = 'k', label = 'Becker et al. 2019')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
@@ -457,4 +457,4 @@ def example3(n):
 n = int(sys.argv[1]) - 1
 enable_bubbles()
 plot12(n)
-plot11(n)
+plot10(n)
