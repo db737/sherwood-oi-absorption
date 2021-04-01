@@ -337,7 +337,7 @@ def output2(n):
 
 # Find which arbsorbers are in which z bin
 def output3(n):
-	zms = [6.0, 5.9, 5.8]
+	zms = [6.0, 5.9, 5.8, 5.7, 5.6, 5.5, 5.4]
 	inp = np.loadtxt("raw_2019_data.txt", skiprows = 1)[:, 0]
 	for zm in zms:
 		zs = redshift_array(zm)
