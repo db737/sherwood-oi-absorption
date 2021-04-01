@@ -342,7 +342,7 @@ def output3(n):
 	for zm in zms:
 		zs = redshift_array(zm)
 		within = lambda x: x >= zs[0] and x <= zs[count - 1]
-		print("{}: {}", zm, len(list(filter(within, inp))))
+		print("{}: {}".format(zm, len(list(filter(within, inp)))))
 
 def input1():
 	tass = np.loadtxt('../../Optical_Depth.txt')
