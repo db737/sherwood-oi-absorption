@@ -285,7 +285,7 @@ def abs_length(z):
 	return 2.0 * np.sqrt(Om_La + Om_m0 * (1.0 + z) ** 3.0) / (3.0 * Om_m0)
 
 # Cumulative dN/dX data
-def cumulative_EW(num_sightlines, ssOnly, incomplete = False, cumulative = True, tracking = None):
+def cumulative_EW(num_sightlines, ssOnly, incomplete = False, cumulative = True, tracking = None, observed = False):
 	widths = np.array([])
 	for n in range(0, num_sightlines):
 		pzs, ews = equiv_widths(n, ssOnly, tracking)
@@ -300,6 +300,33 @@ def cumulative_EW(num_sightlines, ssOnly, incomplete = False, cumulative = True,
 	dN_by_dXs = np.flip(np.cumsum(np.flip(rates)))
 	if not cumulative:
 		dN_by_dXs = rates
+	return midpoints, dN_by_dXs
+
+# Cumulative dN/dX for 2019 data input
+def cumulative_EW_2019(num_sightlines, incomplete = False, observed = None):
+	# TODO use full set of data
+	assert(float(z_mid) < 6.6 and float(z_mid) > 5.6):
+	widths = np.array([])
+	if observed is None:
+		for n in range(0, num_sightlines):
+			pzs, ews = equiv_widths(n, False)
+			widths = np.append(ews, widths)
+	else:
+		inp = np.loadtxt('raw_2019_data.txt', skiprows = 1)
+		for i in range(0, len(inp[:, 0])):
+			if inp[i, 0] <= zs[count - 1] and inp[i, 0] >= zs[0]:
+				# TODO Add error bar
+				widths = np.append(inp[i, 1], widths)
+	DeX = (abs_length(zs[count - 1]) - abs_length(zs[0])) * num_sightlines
+	if observed is not None:
+		DeX *= 66.3 / ((abs_length(6.5) - abs_length(5.7)) * num_sightlines)
+	counts, bin_edges = np.histogram(widths, num_bins)
+	rates = counts / DeX
+	midpoints = np.array([(bin_edges[i] + bin_edges[i + 1]) / 2.0 for i in range(0, num_bins)])
+	if incomplete:
+		data = np.loadtxt('5.7-6.5 2019 completeness.txt')
+		rates *= np.interp(midpoints, np.float_power(10.0, data[:, 0]), data[:, 1], left = 0.0)
+	dN_by_dXs = np.flip(np.cumsum(np.flip(rates)))
 	return midpoints, dN_by_dXs
 
 # Imperative function to exaggerate the spectrum
