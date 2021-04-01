@@ -442,4 +442,4 @@ def example3(n):
 # Main
 n = int(sys.argv[1]) - 1
 enable_bubbles()
-plot11(n)
+output2(n)
