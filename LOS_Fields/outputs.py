@@ -163,6 +163,7 @@ def plot10(num_sightlines):
 	be = ml.Line2D([], [], color = 'k--', label = 'Becker et al. 2019')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
+	plt.title(f"$z={{z_mid}}$")
 	plt.legend(handles = [l, be])
 	plt.show()
 
