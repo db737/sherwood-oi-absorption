@@ -335,17 +335,14 @@ def output2(n):
 	print(f"EWs: {widths}")
 	np.savetxt(f"flux {n}.txt", (zs, fluxes(n, False, False)))
 
+# Find which arbsorbers are in which z bin
 def output3(n):
-	global z_mid
-	print(zs[0], zs[count - 1])
-	z_mid = "5.900"
-	obtain_spec_objs()
-	compute_redshift_array()
-	print(zs[0], zs[count - 1])
-	z_mid = "5.800"
-	obtain_spec_objs()
-	compute_redshift_array()
-	print(zs[0], zs[count - 1])
+	zms = [6.0, 5.9, 5.8]
+	inp = np.loadtxt("raw_2019_data.txt", skiprows = 1)[:, 0]
+	for zm in zms:
+		zs = redshift_array(zm)
+		within = lambda x: x >= zs[0] and x <= zs[count - 1]
+		print("{}: {}", zm, len(list(filter(within, inp))))
 
 def input1():
 	tass = np.loadtxt('../../Optical_Depth.txt')

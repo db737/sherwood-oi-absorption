@@ -136,11 +136,8 @@ box = spec_obj.box * 1.0e3 * consts.parsec / spec_obj.h
 def dz_by_dX(z):
 	return (H_0 / c) * (Om_La + Om_m0 * (1.0 + z) ** 3.0) ** 0.5
 
-zs = np.zeros(count)
-
-def compute_redshift_array():
-	global zs
-	zs = np.full(count, float(z_mid))
+def redshift_array(midpoint):
+	zs = np.full(count, midpoint)
 	middleIndex = (count - 1) // 2
 	for i in range(middleIndex - 1, -1, -1):
 		z = zs[i + 1]
@@ -148,9 +145,10 @@ def compute_redshift_array():
 	for i in range(middleIndex + 1, count):
 		z = zs[i - 1]
 		zs[i] = z + dz_by_dX(z) * box / count
+	return zs
 
 # Compute redshift axis
-compute_redshift_array()
+zs = redshift_array(float(z_mid))
 
 # Compute baryon number densities
 rh_bars = rh_crit0 * Om_b0 * (1.0 + zs) ** 3.0
