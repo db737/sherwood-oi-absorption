@@ -183,7 +183,7 @@ def plot11(n):
 	l5 = ml.Line2D([], [], color = 'r', label = 'z = 4.9-5.7')
 	l4 = ml.Line2D([], [], color = 'g', label = 'z = 4.1-4.9')
 	l3 = ml.Line2D([], [], color = 'b', label = 'z = 3.2-4.1')
-	lold = ml.Line2D([], [], color = 'b', ls = '--', label = 'Old data')
+	lold = ml.Line2D([], [], color = 'k', ls = '--', label = 'Old data')
 	endpt = len(oldss[:, 0]) - 3
 	plt.plot(oldss[: endpt, 2], oldss[: endpt, 0] / 100.0, 'k--')
 	plt.legend(handles = [l6, l5, l4, l3, lold])
