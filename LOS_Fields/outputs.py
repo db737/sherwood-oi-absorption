@@ -335,6 +335,17 @@ def output2(n):
 	print(f"EWs: {widths}")
 	np.savetxt(f"flux {n}.txt", (zs, fluxes(n, False, False)))
 
+def output3(n):
+	print(zs[0], zs[count - 1])
+	z_mid = "5.900"
+	obtain_spec_objs()
+	compute_redshift_array()
+	print(zs[0], zs[count - 1])
+	z_mid = "5.800"
+	obtain_spec_objs()
+	compute_redshift_array()
+	print(zs[0], zs[count - 1])
+
 def input1():
 	tass = np.loadtxt('../../Optical_Depth.txt')
 	ns = [2188, 2369, 2514, 251, 3231]
@@ -394,4 +405,5 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot9(n)
+enable_bubbles()
+output3(n)
