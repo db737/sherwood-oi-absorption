@@ -192,7 +192,7 @@ def plot11(n):
 	plt.show()
 
 # Compare dN/dX data directly
-def plot12(n):
+def plot12(num_sightlines):
 	inp = np.loadtxt("add_data_mid.txt")
 	plt.plot(inp[:, 0], inp[:, 1], 'k')
 	be11 = ml.Line2D([], [], color = 'k', label = 'Becker et al. 2011')
@@ -457,3 +457,4 @@ def example3(n):
 n = int(sys.argv[1]) - 1
 enable_bubbles()
 plot12(n)
+plot11(n)
