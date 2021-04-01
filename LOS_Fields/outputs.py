@@ -159,11 +159,11 @@ def plot10(num_sightlines):
 	plt.step(midpoint1s, dN_by_dX1s, 'b', where = 'mid')
 	l = ml.Line2D([], [], color = 'b', label = "Computed")
 	midpoint2s, dN_by_dX2s = cumulative_EW_2019(num_sightlines, observed = 'mid')
-	plt.step(midpoint2s, dN_by_dX2s, 'k--', where = 'mid')
+	plt.step(midpoint2s, dN_by_dX2s, 'k', ls = '--', where = 'mid')
 	be = ml.Line2D([], [], color = 'k--', label = 'Becker et al. 2019')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
-	plt.title(f"$z={{z_mid}}$")
+	plt.title(f"$z={z_mid}$")
 	plt.legend(handles = [l, be])
 	plt.show()
 
