@@ -158,13 +158,16 @@ def plot10(num_sightlines):
 	midpoint1s, dN_by_dX1s = cumulative_EW_2019(num_sightlines, incomplete = True)
 	plt.step(midpoint1s, dN_by_dX1s, 'b', where = 'mid')
 	l = ml.Line2D([], [], color = 'b', label = "Computed")
-	midpoint2s, dN_by_dX2s = cumulative_EW_2019(num_sightlines, observed = 'mid', fullwidth = True)
-	plt.step(midpoint2s, dN_by_dX2s, 'k--', where = 'mid')
-	be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2019')
+	inp = np.loadtxt("add_data_mid.txt")
+	plt.plot(inp[:, 0], inp[:, 1], 'k.-')
+	be11 = ml.Line2D([], [], color = 'k', ls = '.-' label = 'Becker et al. 2011')
+	midpoint3s, dN_by_dX3s = cumulative_EW_2019(num_sightlines, observed = 'mid', fullwidth = True)
+	plt.step(midpoint3s, dN_by_dX3s, 'k--', where = 'mid')
+	be19 = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2019')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
 	plt.title(f"$z={z_mid}$")
-	plt.legend(handles = [l, be])
+	plt.legend(handles = [l, be11, be19])
 	plt.show()
 
 # Compare completeness data sets
@@ -189,20 +192,6 @@ def plot11(n):
 	plt.legend(handles = [l6, l5, l4, l3, lold])
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('Completeness')
-	plt.show()
-
-# Compare dN/dX data directly
-def plot12(num_sightlines):
-	inp = np.loadtxt("add_data_mid.txt")
-	plt.plot(inp[:, 0], inp[:, 1], 'b')
-	be11 = ml.Line2D([], [], color = 'b', label = 'Becker et al. 2011')
-	midpoint2s, dN_by_dX2s = cumulative_EW_2019(num_sightlines, observed = 'mid', fullwidth = True)
-	plt.step(midpoint2s, dN_by_dX2s, 'k', where = 'mid')
-	be19 = ml.Line2D([], [], color = 'k', label = 'Becker et al. 2019')
-	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
-	plt.ylabel('$\\frac{dN}{dX}$')
-	plt.title(f"$z={z_mid}$")
-	plt.legend(handles = [be11, be19])
 	plt.show()
 
 # Check that overdensity averages to 1 for a given redshift
@@ -456,5 +445,4 @@ def example3(n):
 # Main
 n = int(sys.argv[1]) - 1
 enable_bubbles()
-plot12(n)
 plot10(n)
