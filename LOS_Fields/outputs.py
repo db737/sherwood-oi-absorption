@@ -201,7 +201,7 @@ def plot12(num_sightlines):
 	bew = ml.Line2D([], [], color = 'b', label = 'Wide range')
 	midpoint1s, dN_by_dX1s = cumulative_EW_2019(num_sightlines, observed = 'mid')
 	plt.step(midpoint1s, dN_by_dX1s, 'k', where = 'mid')
-	ben = ml.Line2D([], [], color = 'l', label = 'Narrow range')
+	ben = ml.Line2D([], [], color = 'k', label = 'Narrow range')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
 	plt.legend(handles = [bew, ben])
