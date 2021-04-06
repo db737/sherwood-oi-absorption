@@ -162,7 +162,7 @@ def plot10(num_sightlines):
 	plt.plot(inp[:, 0], inp[:, 1], 'k-.')
 	be11 = ml.Line2D([], [], color = 'k', ls = '-.', label = 'Becker et al. 2011')
 	midpoint3s, dN_by_dX3s = cumulative_EW_2019(num_sightlines, observed = 'mid', fullwidth = True)
-	plt.step(midpoint3s, dN_by_dX3s, 'k--', where = 'mid')
+	plt.step(midpoint3s, dN_by_dX3s, 'k', ls = '--', where = 'mid')
 	be19 = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2019')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
@@ -192,6 +192,19 @@ def plot11(n):
 	plt.legend(handles = [l6, l5, l4, l3, lold])
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('Completeness')
+	plt.show()
+
+# Compare wide vs small range
+def plot12(n):
+	midpoint1s, dN_by_dX1s = cumulative_EW_2019(num_sightlines, observed = 'mid', fullwidth = True)
+	plt.step(midpoint1s, dN_by_dX1s, 'b', where = 'mid')
+	bew = ml.Line2D([], [], color = 'b', label = 'Wide range')
+	midpoint1s, dN_by_dX1s = cumulative_EW_2019(num_sightlines, observed = 'mid')
+	plt.step(midpoint1s, dN_by_dX1s, 'k', where = 'mid')
+	ben = ml.Line2D([], [], color = 'l', label = 'Narrow range')
+	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
+	plt.ylabel('$\\frac{dN}{dX}$')
+	plt.legend(handles = [bew, ben])
 	plt.show()
 
 # Check that overdensity averages to 1 for a given redshift
@@ -445,4 +458,5 @@ def example3(n):
 # Main
 n = int(sys.argv[1]) - 1
 enable_bubbles()
+plot12(n)
 plot10(n)
