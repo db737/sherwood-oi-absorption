@@ -195,7 +195,7 @@ def plot11(n):
 	plt.show()
 
 # Compare wide vs small range
-def plot12(n):
+def plot12(num_sightlines):
 	midpoint1s, dN_by_dX1s = cumulative_EW_2019(num_sightlines, observed = 'mid', fullwidth = True)
 	plt.step(midpoint1s, dN_by_dX1s, 'b', where = 'mid')
 	bew = ml.Line2D([], [], color = 'b', label = 'Wide range')
