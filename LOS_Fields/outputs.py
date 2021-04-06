@@ -458,5 +458,8 @@ def example3(n):
 # Main
 n = int(sys.argv[1]) - 1
 enable_bubbles()
-plot12(n)
 plot10(n)
+z_mid = "6.000"
+obtain_spec_objs()
+enable_bubbles()
+plot12(n)
