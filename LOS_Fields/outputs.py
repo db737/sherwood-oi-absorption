@@ -160,7 +160,7 @@ def plot10(num_sightlines):
 	l = ml.Line2D([], [], color = 'b', label = "Computed")
 	inp = np.loadtxt("add_data_mid.txt")
 	plt.plot(inp[:, 0], inp[:, 1], 'k.-')
-	be11 = ml.Line2D([], [], color = 'k', ls = '.-' label = 'Becker et al. 2011')
+	be11 = ml.Line2D([], [], color = 'k', ls = '.-', label = 'Becker et al. 2011')
 	midpoint3s, dN_by_dX3s = cumulative_EW_2019(num_sightlines, observed = 'mid', fullwidth = True)
 	plt.step(midpoint3s, dN_by_dX3s, 'k--', where = 'mid')
 	be19 = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2019')
