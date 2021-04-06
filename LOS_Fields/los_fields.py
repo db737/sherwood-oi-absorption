@@ -11,7 +11,7 @@ from scipy import ndimage
 from read_spec_ewald_script import spectra
 
 # Middle z value
-z_mid = "6.000"
+z_mid = "6.100"
 
 def filename(x, patchy = True):
 	if patchy:
@@ -303,7 +303,7 @@ def cumulative_EW(num_sightlines, ssOnly, incomplete = False, cumulative = True,
 	return midpoints, dN_by_dXs
 
 # Cumulative dN/dX for 2019 data input
-def cumulative_EW_2019(num_sightlines, incomplete = False, observed = None):
+def cumulative_EW_2019(num_sightlines, incomplete = False, observed = None, fullwidth = False):
 	# TODO use full set of data
 	assert(float(z_mid) < 6.6 and float(z_mid) > 5.6)
 	widths = np.array([])
@@ -313,13 +313,22 @@ def cumulative_EW_2019(num_sightlines, incomplete = False, observed = None):
 			widths = np.append(ews, widths)
 	else:
 		inp = np.loadtxt('raw_2019_data.txt', skiprows = 1)
-		for i in range(0, len(inp[:, 0])):
-			if inp[i, 0] <= zs[count - 1] and inp[i, 0] >= zs[0]:
-				# TODO Add error bar
-				widths = np.append(inp[i, 1], widths)
+		if fullwidth:
+			for i in range(0, len(inp[:, 0])):
+				if inp[i, 0] <= 6.5 and inp[i, 0] >= 5.7:
+					# TODO Add error bar
+					widths = np.append(inp[i, 1], widths)
+		else:
+			for i in range(0, len(inp[:, 0])):
+				if inp[i, 0] <= zs[count - 1] and inp[i, 0] >= zs[0]:
+					# TODO Add error bar
+					widths = np.append(inp[i, 1], widths)
 	DeX = (abs_length(zs[count - 1]) - abs_length(zs[0])) * num_sightlines
 	if observed is not None:
-		DeX /= (abs_length(6.5) - abs_length(5.7)) * num_sightlines / 66.3
+		if fullwidth:
+			DeX = 66.3
+		else:
+			DeX /= (abs_length(6.5) - abs_length(5.7)) * num_sightlines / 66.3
 	counts, bin_edges = np.histogram(widths, num_bins)
 	rates = counts / DeX
 	midpoints = np.array([(bin_edges[i] + bin_edges[i + 1]) / 2.0 for i in range(0, num_bins)])
