@@ -459,6 +459,7 @@ def example3(n):
 n = int(sys.argv[1]) - 1
 enable_bubbles()
 plot10(n)
+global z_mid
 z_mid = "6.000"
 obtain_spec_objs()
 enable_bubbles()
