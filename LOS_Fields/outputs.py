@@ -117,11 +117,12 @@ def plot6(num_sightlines):
 # Compare hydrogen and oxygen
 def plot7(n):
 	fig, axes = plt.subplots(2, 1, sharex = True)
-	axes[0].plot(zs, fluxes(n, True, False), linewidth = 1.0)
+	skipedge = 20
+	axes[0].plot(zs[skipedge : count - skipedge], fluxes(n, True, False)[skipedge : count - skipedge], linewidth = 1.0)
 	axes[0].legend(['Hydrogen'], loc = 'upper right')
 	axes[0].set_ylim([0.0, 1.1])
 	axes[0].set_ylabel('Flux')
-	axes[1].plot(zs, fluxes(n, False, False), 'r', linewidth = 1.0)
+	axes[1].plot(zs[skipedge : count - skipedge], fluxes(n, False, False)[skipedge : count - skipedge], 'r', linewidth = 1.0)
 	ox = ml.Line2D([], [], color = 'r', label = 'Oxygen')
 	axes[1].legend(handles = [ox], loc = 'lower right')
 	axes[1].set_ylim([0.0, 1.1])
