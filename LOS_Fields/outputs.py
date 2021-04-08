@@ -117,7 +117,7 @@ def plot6(num_sightlines):
 # Compare hydrogen and oxygen
 def plot7(n):
 	fig, axes = plt.subplots(2, 1, sharex = True)
-	axes[0].plot(zs, fluxes(n, True, False))
+	axes[0].plot(zs, fluxes(n, True, False), linewidth = 1.0)
 	axes[0].legend(['Hydrogen'], loc = 'upper right')
 	axes[0].set_ylim([0.0, 1.1])
 	axes[0].set_ylabel('Flux')
