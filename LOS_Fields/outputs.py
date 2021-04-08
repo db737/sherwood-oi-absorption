@@ -120,8 +120,9 @@ def plot7(n):
 	axes[0].plot(zs, fluxes(n, True, False))
 	axes[0].legend(['Hydrogen'], loc = 'upper right')
 	axes[0].set_ylim([0.0, 1.1])
-	axes[1].plot(zs, fluxes(n, False, False))
-	axes[1].legend(['Oxygen'], loc = 'upper right')
+	axes[1].plot(zs, fluxes(n, False, False), 'k', linewidth = 2.0)
+	ox = ml.Line2D([], [], color = 'k', label = 'Oxygen')
+	axes[1].legend(handles = [ox], loc = 'lower right')
 	axes[1].set_ylim([0.0, 1.1])
 	plt.subplots_adjust(hspace = 0)
 	fig.align_ylabels()
@@ -457,5 +458,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-enable_bubbles()
-output3(n)
+plot7(n)
