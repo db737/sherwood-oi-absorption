@@ -217,9 +217,10 @@ def plot13(num_sightlines):
 	Ga_12 = 0.16
 	rescale_Z(0.1)
 	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = False)
-	plt.step(midpoint1s, dN_by_dX1s, 'g', where = 'mid')
-	l1 = ml.Line2D([], [], color = 'g', label = f"Sherwood, $\\Gamma_{{12}}=0.16$, $Z=0.1 Z_0$")
+	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
+	l1 = ml.Line2D([], [], color = 'r', label = f"Sherwood, $\\Gamma_{{12}}=0.16$, $Z=0.1 Z_0$")
 	enable_bubbles()
+	rescale_Z(0.3)
 	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = False)
 	plt.step(midpoint2s, dN_by_dX2s, 'g', where = 'mid')
 	l2 = ml.Line2D([], [], color = 'g', label = f"Patchy, Native $\\Gamma_{{12}}$, $Z=0.03 Z_0$")
