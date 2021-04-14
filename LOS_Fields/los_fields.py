@@ -317,12 +317,10 @@ def cumulative_EW_2019(num_sightlines, incomplete = False, observed = None, full
 		if fullwidth:
 			for i in range(0, len(inp[:, 0])):
 				if inp[i, 0] <= 6.5 and inp[i, 0] >= 5.7:
-					# TODO Add error bar
 					widths = np.append(inp[i, 1], widths)
 		else:
 			for i in range(0, len(inp[:, 0])):
 				if inp[i, 0] <= zs[count - 1] and inp[i, 0] >= zs[0]:
-					# TODO Add error bar
 					widths = np.append(inp[i, 1], widths)
 	DeX = (abs_length(zs[count - 1]) - abs_length(zs[0])) * num_sightlines
 	if observed is not None:

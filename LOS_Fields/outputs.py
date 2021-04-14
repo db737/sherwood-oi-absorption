@@ -223,6 +223,7 @@ def plot13(num_sightlines):
 	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
 	plt.step(midpoint2s, dN_by_dX2s, 'r--', where = 'mid')
 	l2 = ml.Line2D([], [], color = 'r', ls = '--', label = f"Sherwood")
+	inp = np.loadtxt("add_data_mid.txt")
 	plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
