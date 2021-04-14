@@ -216,13 +216,13 @@ def plot13(num_sightlines):
 	global Ga_12
 	Ga_12 = 0.16
 	rescale_Z(0.1)
-	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
+	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = False)
 	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
 	l1 = ml.Line2D([], [], color = 'r', label = f"Sherwood")
 	enable_bubbles()
-	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
-	plt.step(midpoint2s, dN_by_dX2s, 'r--', where = 'mid')
-	l2 = ml.Line2D([], [], color = 'r', ls = '--', label = f"Sherwood")
+	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = False)
+	plt.step(midpoint2s, dN_by_dX2s, 'r', ls = '--', where = 'mid')
+	l2 = ml.Line2D([], [], color = 'r', ls = '--', label = f"Patchy")
 	inp = np.loadtxt("add_data_mid.txt")
 	plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
