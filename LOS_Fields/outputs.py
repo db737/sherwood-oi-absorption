@@ -211,6 +211,25 @@ def plot12(num_sightlines):
 	plt.ylabel('$\\frac{dN}{dX}$')
 	plt.legend(handles = [bew, ben])
 	plt.show()
+	
+def plot13(num_sightlines):
+	global Ga_12
+	Ga_12 = 0.16
+	rescale_Z(0.1)
+	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
+	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
+	l1 = ml.Line2D([], [], color = 'r', label = f"Sherwood")
+	enable_bubbles()
+	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
+	plt.step(midpoint2s, dN_by_dX2s, 'r--', where = 'mid')
+	l2 = ml.Line2D([], [], color = 'r', ls = '--', label = f"Sherwood")
+	plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
+	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
+	plt.ylabel('$\\frac{dN}{dX}$')
+	be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
+	plt.legend(handles = [l1, l2, be])
+	plt.show()
+
 
 # Check that overdensity averages to 1 for a given redshift
 def test1():
@@ -462,4 +481,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot7(n)
+plot13(n)

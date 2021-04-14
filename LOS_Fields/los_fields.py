@@ -11,7 +11,7 @@ from scipy import ndimage
 from read_spec_ewald_script import spectra
 
 # Middle z value
-z_mid = "6.100"
+z_mid = "6.000"
 
 def filename(x, patchy = True):
 	if patchy:
@@ -198,6 +198,7 @@ def nOIs(n, ssOnly):
 	# Shift and scale the step function to get the unshielded neutral fraction
 	if ssOnly is None or patchy:
 		ss = np.zeros(count)
+	# Thss ensures that when ss is 0 we get fHIss[:, n] and when ss is 1.0 we get 1.0
 	fOI = ss if ssOnly else fHIss[:, n] + (1.0 - fHIss[:, n]) * ss
 	return fOI * Zs(n) * DeHss[:, n] * rh_bars / m_OI #Z_solar_oxygen * nHIs(n)
 
