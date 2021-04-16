@@ -324,7 +324,7 @@ def test5(n):
 	plt.show()
 
 def test6(n):
-	fig, axes = plt.subplots(5, 1, sharex = True)
+	fig, axes = plt.subplots(6, 1, sharex = True)
 	global Ga_12
 	Ga_12 = 0.16
 	axes[0].set_title(f"Oxygen properties for sightline {n + 1}, using $\\Gamma_{{12}}={Ga_12}$ and $z={z_mid}$")
@@ -336,9 +336,11 @@ def test6(n):
 	axes[2].set_ylabel('$v / \mathrm{kms}^{-1}$', fontsize = 18, rotation = "horizontal")
 	axes[3].semilogy(zs, Tss[:, n])
 	axes[3].set_ylabel('$T/K$', fontsize = 18, rotation = "horizontal")
-	axes[4].semilogy(zs, opticalDepths(n, False, False))
-	axes[4].set_xlabel("$z$")
-	axes[4].set_ylabel('$\\tau_{' + oiLabel + '}$', fontsize = 18, rotation = "horizontal")
+	axes[4].semilogy(zs, Zs(n))
+	axes[4].set_ylabel('$Z$', fontsize = 18, rotation = "horizontal")
+	axes[5].semilogy(zs, opticalDepths(n, False, False))
+	axes[5].set_xlabel("$z$")
+	axes[5].set_ylabel('$\\tau_{' + oiLabel + '}$', fontsize = 18, rotation = "horizontal")
 	plt.subplots_adjust(hspace = 0)
 	fig.align_ylabels()
 	plt.show()
