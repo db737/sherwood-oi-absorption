@@ -200,7 +200,8 @@ def nOIs(n, ssOnly):
 		ss = np.zeros(count)
 	# Thss ensures that when ss is 0 we get fHIss[:, n] and when ss is 1.0 we get 1.0
 	fOI = ss if ssOnly else fHIss[:, n] + (1.0 - fHIss[:, n]) * ss
-	return fOI * Zs(n) * DeHss[:, n] * rh_bars / m_OI #Z_solar_oxygen * nHIs(n)
+	scaled_nHIs = nHIs(n) * 0.36 / Ga_12
+	return fOI * Zs(n) * scaled_nHIs
 
 # The integrand as in [C2001] equation 30 except with a change of variables to
 # be an integral over z, for the nth sightline; 'hydrogen' is a boolean setting
