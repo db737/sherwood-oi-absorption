@@ -427,8 +427,8 @@ def check6(n):
 # Check consistent with Prakash's changes
 def check7(num_sightlines):
 	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = False)
-	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
-	l1 = ml.Line2D([], [], color = 'r', label = f"Prakash's version")
+	plt.step(midpoint1s, dN_by_dX1s, 'r', linestyle = '--', where = 'mid')
+	l1 = ml.Line2D([], [], color = 'r', linestyle = '--', label = f"Prakash's version")
 	global temp_flag
 	temp_flag = True
 	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = False)
