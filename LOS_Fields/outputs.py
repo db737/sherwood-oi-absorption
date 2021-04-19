@@ -424,6 +424,25 @@ def check6(n):
 	plt.plot(zs, opticalDepths(n, False, False))
 	plt.show()
 
+# Check consistent with Prakash's changes
+def check7(num_sightlines):
+	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
+	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
+	global temp_flag
+	temp_flag = True
+	l1 = ml.Line2D([], [], color = 'r', label = f"Prakash's version")
+	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
+	plt.step(midpoint2s, dN_by_dX2s, 'g', where = 'mid')
+	l2 = ml.Line2D([], [], color = 'g', label = f"Old version")
+	inp = np.loadtxt("add_data_mid.txt")
+	plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
+	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
+	plt.ylabel('$\\frac{dN}{dX}$')
+	plt.ylim([0.0, 0.3])
+	be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
+	plt.legend(handles = [l1, l2, be])
+	plt.show()
+
 def output1():
 	ns = [2369, 3231, 251, 2188, 2514]
 	for n in ns:
@@ -506,4 +525,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot14(n)
+check7(n)

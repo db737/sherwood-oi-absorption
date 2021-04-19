@@ -190,6 +190,9 @@ def cutoffsSS(n):
 	zFactors = ((1.0 + zs) / 7.0) ** -3.0
 	return 54.0 * (Ga_12 ** p1) * (T4s ** p2) * zFactors
 
+# TODO delete this
+temp_flag = False
+
 # The number density of neutral oxygen at a point, for the nth sightline; the
 # second argument, if True, will assume OI is only present in self-shielded
 # regions and nowhere else
@@ -201,6 +204,8 @@ def nOIs(n, ssOnly):
 	# Thss ensures that when ss is 0 we get fHIss[:, n] and when ss is 1.0 we get 1.0
 	fOI = ss if ssOnly else fHIss[:, n] + (1.0 - fHIss[:, n]) * ss
 	scaled_nHIs = nHIs(n) * 0.36 / Ga_12
+	if temp_flag:
+		return fOI * Zs(n) * DeHss[:, n] * rh_bars / m_OI
 	return fOI * Zs(n) * scaled_nHIs
 
 # The integrand as in [C2001] equation 30 except with a change of variables to
