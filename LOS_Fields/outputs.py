@@ -231,6 +231,26 @@ def plot13(num_sightlines):
 	plt.legend(handles = [l1, l2, be])
 	plt.show()
 
+# Show degeneracy
+def plot14(num_sightlines):
+	rescale_Z(0.6)
+	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
+	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
+	l1 = ml.Line2D([], [], color = 'r', label = f"Sherwood, $\\Gamma_{{12}}=0.16$, $Z= 0.6 Z_0$")
+	enable_bubbles()
+	rescale_Z(3.0)
+	rescale_Ga_12(2.5)
+	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
+	plt.step(midpoint2s, dN_by_dX2s, 'g', where = 'mid')
+	l2 = ml.Line2D([], [], color = 'g', label = f"Sherwood, $\\Gamma_{{12}}=0.4$, $Z= 1.8 Z_0$")
+	inp = np.loadtxt("add_data_mid.txt")
+	plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
+	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
+	plt.ylabel('$\\frac{dN}{dX}$')
+	plt.ylim([0.0, 0.3])
+	be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
+	plt.legend(handles = [l1, l2, be])
+	plt.show()
 
 # Check that overdensity averages to 1 for a given redshift
 def test1():
@@ -486,4 +506,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot13(n)
+plot14(n)
