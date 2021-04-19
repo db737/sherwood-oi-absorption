@@ -204,6 +204,7 @@ def nOIs(n, ssOnly):
 	# Thss ensures that when ss is 0 we get fHIss[:, n] and when ss is 1.0 we get 1.0
 	fOI = ss if ssOnly else fHIss[:, n] + (1.0 - fHIss[:, n]) * ss
 	scaled_nHIs = nHIs(n) * 0.36 / Ga_12
+	print(temp_flag)
 	if temp_flag:
 		return fOI * Zs(n) * DeHss[:, n] * rh_bars / m_OI
 	else:
