@@ -429,10 +429,7 @@ def check7(num_sightlines):
 	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = False)
 	plt.step(midpoint1s, dN_by_dX1s, 'r', linestyle = '--', where = 'mid')
 	l1 = ml.Line2D([], [], color = 'r', linestyle = '--', label = f"Prakash's version")
-	print(temp_flag)
-	global temp_flag
-	temp_flag = True
-	print(temp_flag)
+	old_mode(True)
 	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = False)
 	plt.step(midpoint2s, dN_by_dX2s, 'g', where = 'mid')
 	l2 = ml.Line2D([], [], color = 'g', label = f"Old version")

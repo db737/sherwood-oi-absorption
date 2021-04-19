@@ -110,6 +110,9 @@ count = len(fHIss[:, 0])
 # Overall flag for whether we are using patchy or homogeneous data
 patchy = False
 
+# TODO delete this
+temp_flag = False
+
 # Imperative function to switch to patchy data
 def enable_bubbles():
 	global x_H, fHIss, DeHss, Tss, vss, patchy
@@ -189,9 +192,6 @@ def cutoffsSS(n):
 	p2 = 2.0 / 15.0
 	zFactors = ((1.0 + zs) / 7.0) ** -3.0
 	return 54.0 * (Ga_12 ** p1) * (T4s ** p2) * zFactors
-
-# TODO delete this
-temp_flag = False
 
 # The number density of neutral oxygen at a point, for the nth sightline; the
 # second argument, if True, will assume OI is only present in self-shielded
@@ -357,3 +357,7 @@ def rescale_Z(f):
 def rescale_cap_Z(f):
 	global cap_Z_frac
 	cap_Z_frac *= f
+
+def old_mode(b):
+	global temp_flag
+	temp_flag = b
