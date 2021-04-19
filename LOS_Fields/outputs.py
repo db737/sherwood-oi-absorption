@@ -426,19 +426,19 @@ def check6(n):
 
 # Check consistent with Prakash's changes
 def check7(num_sightlines):
-	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
+	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = False)
 	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
+	l1 = ml.Line2D([], [], color = 'r', label = f"Prakash's version")
 	global temp_flag
 	temp_flag = True
-	l1 = ml.Line2D([], [], color = 'r', label = f"Prakash's version")
-	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
+	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = False)
 	plt.step(midpoint2s, dN_by_dX2s, 'g', where = 'mid')
 	l2 = ml.Line2D([], [], color = 'g', label = f"Old version")
 	inp = np.loadtxt("add_data_mid.txt")
 	plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
-	plt.ylim([0.0, 0.3])
+	plt.ylim([0.0, 0.4])
 	be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
 	plt.legend(handles = [l1, l2, be])
 	plt.show()

@@ -206,7 +206,8 @@ def nOIs(n, ssOnly):
 	scaled_nHIs = nHIs(n) * 0.36 / Ga_12
 	if temp_flag:
 		return fOI * Zs(n) * DeHss[:, n] * rh_bars / m_OI
-	return fOI * Zs(n) * scaled_nHIs
+	else:
+		return fOI * Zs(n) * scaled_nHIs
 
 # The integrand as in [C2001] equation 30 except with a change of variables to
 # be an integral over z, for the nth sightline; 'hydrogen' is a boolean setting
