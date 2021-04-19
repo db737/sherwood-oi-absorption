@@ -68,7 +68,7 @@ c = consts.value("speed of light in vacuum")
 I_al_HI = 4.45e-22
 I_al_OI = 5.5e-23
 # Ionising background in units of 10^{-12}s^{-1}
-Ga_12 = 0.36
+Ga_12 = 0.16
 # Solar metallicity from Keating et al. (2014) [K2014]
 Z_solar_oxygen = 10.0**-3.13
 # Fraction of the solar metallicity to cap the metallicity at
@@ -269,12 +269,8 @@ def equiv_widths(n, ssOnly, tracking = None):
 	peak_zs = zs[mins]
 	for j in range(0, num_mins):
 		prev, next = trough_boundaries(mins[j], maxes, hcuts(flux_data))
-		print(f"boundaries {n + 1}, {j}")
-		# The area above the trough equals its equivalent width
-		width = si.simps(1.0 - fluxes(n, False, ssOnly)[prev : next], zs[prev : next])
-		print(f"EW {n + 1}, {j}")
-		# Use units of angstroms
-		widths[j] = width * c * 1.0e10 / nu_12_OI
+		# The area above the trough equals its equivalent width, use units of angstroms
+		widths[j] = si.trapz(1.0 - flux_data[prev : next], (zs[prev : next] + 1.0) * c * 1.0e10 / nu_12_OI)
 		if tracking is not None:
 			if widths[j] >= tracking:
 				print(f"Strong absorber: sightline {n + 1} with EW {widths[j]}")

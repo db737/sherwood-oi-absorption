@@ -213,17 +213,15 @@ def plot12(num_sightlines):
 	plt.show()
 	
 def plot13(num_sightlines):
-	global Ga_12
-	Ga_12 = 0.16
-	rescale_Z(0.1)
+	#rescale_Z(0.1)
 	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = False)
 	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
-	l1 = ml.Line2D([], [], color = 'r', label = f"Sherwood, $\\Gamma_{{12}}=0.16$, $Z=0.1 Z_0$")
+	l1 = ml.Line2D([], [], color = 'r', label = f"Sherwood, $\\Gamma_{{12}}=0.16$, $Z= Z_0$")
 	enable_bubbles()
 	#rescale_Z(0.3)
 	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = False)
 	plt.step(midpoint2s, dN_by_dX2s, 'g', where = 'mid')
-	l2 = ml.Line2D([], [], color = 'g', label = f"Patchy, Native $\\Gamma_{{12}}$, $Z=0.1 Z_0$")
+	l2 = ml.Line2D([], [], color = 'g', label = f"Patchy, Native $\\Gamma_{{12}}$, $Z= Z_0$")
 	inp = np.loadtxt("add_data_mid.txt")
 	plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
@@ -488,5 +486,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-enable_bubbles()
-test6(n)
+plot13(n)
