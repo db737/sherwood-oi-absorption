@@ -508,8 +508,9 @@ def example1(n):
 	maxes = extrema(flux_data, False)
 	plt.scatter(zs[mins], flux_data[mins], c = 'r')
 	plt.scatter(zs[maxes], flux_data[maxes], c = 'g')
-	pzs, ews = equiv_widths(n, True) * nu_12_OI * 1.0e-10 / c
-	plt.errorbar(zs[mins], flux_data[mins], xerr = ews / 2, fmt = 'none', capsize = 10.0)
+	pzs, ews = equiv_widths(n, True)
+	ews *= nu_12_OI * 1.0e-10 / c
+	plt.errorbar(zs[mins], flux_data[mins], xerr = ews / 2.0, fmt = 'none', capsize = 10.0)
 	plt.show()
 
 # Fake trough example
