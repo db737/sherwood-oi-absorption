@@ -49,17 +49,18 @@ def plot3(num_sightlines):
 
 # Vary metallicity
 def plot4(num_sightlines):
+	rescale_Z(1.3)
 	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True, tracking = 0.4)
 	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
-	l1 = ml.Line2D([], [], color = 'r', label = f"$Z/Z_0$=1.0")
-	rescale_Z(0.5)
+	l1 = ml.Line2D([], [], color = 'r', label = f"$Z/Z_0$=1.3")
+	rescale_Z(0.5 / 1.3)
 	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
 	plt.step(midpoint2s, dN_by_dX2s, 'g', where = 'mid')
 	l2 = ml.Line2D([], [], color = 'g', label = f"$Z/Z_0$=0.5")
-	rescale_Z(10.0)
+	rescale_Z(6.0)
 	midpoint3s, dN_by_dX3s = cumulative_EW(num_sightlines, False, incomplete = True)
 	plt.step(midpoint3s, dN_by_dX3s, 'b', where = 'mid')
-	l3 = ml.Line2D([], [], color = 'b', label = f"$Z/Z_0$=5.0")
+	l3 = ml.Line2D([], [], color = 'b', label = f"$Z/Z_0$=3.0")
 	inp = np.loadtxt("add_data_mid.txt")
 	plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
@@ -522,4 +523,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot13(n)
+plot4(n)
