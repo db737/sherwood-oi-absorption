@@ -527,4 +527,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot14(n)
+plot6(n)
