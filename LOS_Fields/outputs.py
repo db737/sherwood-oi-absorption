@@ -500,7 +500,7 @@ def example1(n):
 	exaggerate()
 	flux_data = fluxes(n, False, True)
 	plt.plot(zs, flux_data)
-	plt.title("Extrema detection and EW calculation in an exaggerated spectrum")
+	#plt.title("Extrema detection and EW calculation in an exaggerated spectrum")
 	plt.ylim([0.0, 1.1])
 	plt.xlabel("$z$")
 	plt.ylabel(fluxLabel)
@@ -541,4 +541,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot15(n)
+example1(n)
