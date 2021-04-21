@@ -213,12 +213,10 @@ def plot12(num_sightlines):
 	plt.show()
 	
 def plot13(num_sightlines):
-	#rescale_Z(0.1)
 	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
 	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
 	l1 = ml.Line2D([], [], color = 'r', label = f"Sherwood, $\\Gamma_{{12}}=0.16$, $Z= Z_0$")
 	enable_bubbles()
-	#rescale_Z(0.3)
 	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
 	plt.step(midpoint2s, dN_by_dX2s, 'g', where = 'mid')
 	l2 = ml.Line2D([], [], color = 'g', label = f"Patchy, Native $\\Gamma_{{12}}$, $Z= Z_0$")
@@ -524,4 +522,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-check7(n)
+plot13(n)
