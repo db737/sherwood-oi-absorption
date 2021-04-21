@@ -343,8 +343,8 @@ def cumulative_EW_2019(num_sightlines, incomplete = False, observed = None, full
 # Imperative function to exaggerate the spectrum
 def exaggerate():
 	global DeHss, Tss
-	DeHss *= 50
-	Tss *= 100
+	DeHss *= 200
+	Tss *= 200
 
 # Imperative function to rescale the UV background
 def rescale_Ga_12(f):
