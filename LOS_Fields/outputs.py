@@ -255,6 +255,20 @@ def plot14(num_sightlines):
 	plt.legend(handles = [l1, l2, be])
 	plt.show()
 
+# Basic comparison
+def plot15(num_sightlines):
+	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
+	plt.step(midpoint1s, dN_by_dX1s, 'b', where = 'mid')
+	l1 = ml.Line2D([], [], color = 'b', label = f"Sherwood, $\\Gamma_{{12}}=0.16$, $Z=Z_0$")
+	inp = np.loadtxt("add_data_mid.txt")
+	plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
+	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
+	plt.ylabel('$\\frac{dN}{dX}$')
+	plt.ylim([0.0, 0.3])
+	be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
+	plt.legend(handles = [l1, be])
+	plt.show()
+
 # Check that overdensity averages to 1 for a given redshift
 def test1():
 	Des = DeHss[middleIndex, :]
@@ -527,4 +541,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot6(n)
+plot15(n)
