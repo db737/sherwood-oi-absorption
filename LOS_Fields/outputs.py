@@ -268,6 +268,39 @@ def plot15(num_sightlines):
 	be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
 	plt.legend(handles = [l1, be])
 	plt.show()
+	
+# Vary n
+def plot16(num_sightlines):
+	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
+	midpoint1s = np.append(0.0, midpoint1s)
+	dN_by_dX1s = np.append(dN_by_dX1s[0], dN_by_dX1s)
+	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
+	l1 = ml.Line2D([], [], color = 'r', label = f"$n = 1.3$")
+	set_n(0.5)
+	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
+	midpoint2s = np.append(0.0, midpoint2s)
+	dN_by_dX2s = np.append(dN_by_dX2s[0], dN_by_dX2s)
+	plt.step(midpoint2s, dN_by_dX2s, 'g', where = 'mid')
+	l2 = ml.Line2D([], [], color = 'g', label = f"$n = 0.5$")
+	set_n(2.0)
+	midpoint3s, dN_by_dX3s = cumulative_EW(num_sightlines, False, incomplete = True)
+	midpoint3s = np.append(0.0, midpoint3s)
+	dN_by_dX3s = np.append(dN_by_dX3s[0], dN_by_dX3s)
+	plt.step(midpoint3s, dN_by_dX3s, 'b', where = 'mid')
+	l3 = ml.Line2D([], [], color = 'b', label = f"$n = 2.0$")
+	set_n(1.5)
+	midpoint4s, dN_by_dX4s = cumulative_EW(num_sightlines, False, incomplete = True)
+	midpoint4s = np.append(0.0, midpoint4s)
+	dN_by_dX4s = np.append(dN_by_dX4s[0], dN_by_dX4s)
+	plt.step(midpoint4s, dN_by_dX4s, 'k', where = 'mid')
+	l4 = ml.Line2D([], [], color = 'k', label = f"$n = 1.5$")
+	inp = np.loadtxt("add_data_mid.txt")
+	plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
+	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
+	plt.ylabel('$\\frac{dN}{dX}$')
+	be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
+	plt.legend(handles = [l1, l2, l3, l4, be])
+	plt.show()
 
 # Check that overdensity averages to 1 for a given redshift
 def test1():
@@ -542,4 +575,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-example1(n)
+plot16(n)

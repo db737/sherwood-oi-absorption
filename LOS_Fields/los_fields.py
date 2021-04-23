@@ -71,6 +71,8 @@ I_al_OI = 5.5e-23
 Ga_12 = 0.16
 # Solar metallicity from Keating et al. (2014) [K2014]
 Z_solar_oxygen = 10.0**-3.13
+# Exponent in the metallicity-overdensity power law prescription
+Z_exponent = 1.3
 # Fraction of the solar metallicity to cap the metallicity at
 cap_Z_frac = 0.01
 # Helium fraction
@@ -181,7 +183,7 @@ def nHIs(n):
 # Metallicity using formula 5 from [K2014]
 def Zs(n):
 	Z_80 = Z_solar_oxygen * 10.0 ** -2.65
-	Z_data = Z_80 * (DeHss[:, n] / 80.0) ** 1.3
+	Z_data = Z_80 * (DeHss[:, n] / 80.0) ** Z_exponent
 	return np.clip(Z_data, None, Z_solar_oxygen * cap_Z_frac)
 
 # The overdensity at which a region becomes 'self-shielded' (Keating et al.
@@ -362,3 +364,7 @@ def rescale_cap_Z(f):
 def old_mode(b):
 	global temp_flag
 	temp_flag = b
+	
+def set_n(v):
+	global Z_exponent
+	Z_exponent = v
