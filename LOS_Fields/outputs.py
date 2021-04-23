@@ -282,7 +282,7 @@ def plot16(num_sightlines):
 	midpoint2s = np.append(0.0, midpoint2s)
 	dN_by_dX2s = np.append(dN_by_dX2s[0], dN_by_dX2s)
 	plt.step(midpoint2s, dN_by_dX2s, 'g', where = 'mid')
-	l2 = ml.Line2D([], [], color = 'g', label = f"$n = 0.5$, $Z = 1.3 Z_0$")
+	l2 = ml.Line2D([], [], color = 'g', label = f"$n = 0.5$, $Z = 2.0 Z_0$")
 	set_n(2.0)
 	midpoint3s, dN_by_dX3s = cumulative_EW(num_sightlines, False, incomplete = True)
 	midpoint3s = np.append(0.0, midpoint3s)
