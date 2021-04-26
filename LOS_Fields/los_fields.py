@@ -243,6 +243,7 @@ def opticalDepth(n, z0, hydrogen, ssOnly):
 		zs = redshift_array(float(z_mid))
 		fHIss = expanded(fHIss)
 		DeHss = expanded(DeHss)
+		print(DeHss.shape)
 		Tss = expanded(Tss)
 		vss = expanded(vss)
 		out = si.simps(integrand1s(n, z0, hydrogen, ssOnly), zs)
