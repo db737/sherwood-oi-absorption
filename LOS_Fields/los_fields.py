@@ -109,9 +109,6 @@ num = len(fHIss[0, :])
 # Number of elements in a sightline
 count = len(fHIss[:, 0])
 
-# Number of extra points to take for periodic B.C.s
-extra = 100
-
 # Overall flag for whether we are using patchy or homogeneous data
 patchy = False
 
@@ -226,36 +223,11 @@ def integrand1s(n, z0, hydrogen, ssOnly):
 	measure = 1.0 / dz_by_dX(zs)
 	return prefactor * measure * voigtFn * ns / (bs(n, mass) * (1.0 + zs))
 
-def expanded(xss, n):
-	left = xss[count - extra : count, n : n + 2]
-	right = xss[0 : extra, n : n + 2]
-	x2ss = np.append(left, xss[:, n : n + 2], axis = 0)
-	x2ss = np.append(x2ss, right, axis = 0)
-	return x2ss
-
 # Optical depth of the nth sightline from the farthest redshift up to z0, for
 # the nth sightline; we integrate using Simpson's rule over all the points that
 # fall in the region and assume the redshifts are in increasing order
 def opticalDepth(n, z0, hydrogen, ssOnly): 
-	if hydrogen:
-		global count, zs, fHIss, DeHss, Tss, vss
-		fHIss = expanded(fHIss, n)
-		DeHss = expanded(DeHss, n)
-		Tss = expanded(Tss, n)
-		vss = expanded(vss, n)
-		count += 2 * extra
-		zs = redshift_array(float(z_mid))
-		out = si.simps(integrand1s(0, z0, hydrogen, ssOnly), zs)
-		count -= 2 * extra
-		zs = redshift_array(float(z_mid))
-		fHIss = np.transpose(spec_obj.nHI_frac)
-		DeHss = np.transpose(spec_obj.rhoH2rhoHmean)
-		Tss = np.transpose(spec_obj.temp_HI)
-		vss = np.transpose(spec_obj.vel_HI) * 1.0e3
-		ta_HIss = np.transpose(spec_obj.tau_HI)
-		return out
-	else:
-		return si.simps(integrand1s(n, z0, hydrogen, ssOnly), zs)
+	return si.simps(integrand1s(n, z0, hydrogen, ssOnly), zs)
 
 def opticalDepths(n, hydrogen, ssOnly):
 	return np.array([opticalDepth(n, z0, hydrogen, ssOnly) for z0 in zs])

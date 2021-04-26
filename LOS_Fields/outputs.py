@@ -348,8 +348,9 @@ def test2(n):
 # Compare Neutral hydrogen optical depths
 def test3(n):
 	#plt.title(f"Comparison of simulation output and computed neutral hydrogen optical depths for sightline {n + 1}")
-	plt.plot(zs, ta_HIss[:, n], "k")
-	plt.plot(zs, opticalDepths(n, True, False), "b--")
+	rem = 40
+	plt.plot(zs[rem : count - rem], ta_HIss[rem : count - rem, n], "k")
+	plt.plot(zs[rem : count - rem], opticalDepths(n, True, False)[rem : count - rem], "b--")
 	measured = ml.Line2D([], [], color = "k", label = "From simulation outputs")
 	computed = ml.Line2D([], [], color = "b", ls = "--", label = "Newly computed")
 	plt.legend(handles = [measured, computed])
