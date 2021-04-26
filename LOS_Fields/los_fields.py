@@ -156,7 +156,8 @@ def redshift_array(midpoint):
 zs = redshift_array(float(z_mid))
 
 # Compute baryon number densities
-rh_bars = rh_crit0 * Om_b0 * (1.0 + zs) ** 3.0
+def rh_bars(midpoint):
+	rh_crit0 * Om_b0 * (1.0 + redshift_array(midpoint)) ** 3.0
 
 # Voigt function computed from the Faddeeva function
 def voigt(As, Bs):
@@ -177,7 +178,7 @@ def vArg2s(n, z0, mass):
 
 # Neutral hydrogen number density
 def nHIs(n):
-	ns = DeHss[:, n] * rh_bars / m_HI # Number density from mass density
+	ns = DeHss[:, n] * rh_bars(float(z_mid)) / m_HI # Number density from mass density
 	return ns * fHIss[:, n] * (1.0 - Y)
 
 # Metallicity using formula 5 from [K2014]
@@ -207,7 +208,7 @@ def nOIs(n, ssOnly):
 	fOI = ss if ssOnly else fHIss[:, n] + (1.0 - fHIss[:, n]) * ss
 	scaled_nHIs = nHIs(n) * 0.36 / Ga_12
 	if temp_flag:
-		return fOI * Zs(n) * DeHss[:, n] * rh_bars / m_OI
+		return fOI * Zs(n) * DeHss[:, n] * rh_bars(float(z_mid)) / m_OI
 	else:
 		return fOI * Zs(n) * scaled_nHIs
 
@@ -227,7 +228,7 @@ def integrand1s(n, z0, hydrogen, ssOnly):
 # fall in the region and assume the redshifts are in increasing order
 def opticalDepth(n, z0, hydrogen, ssOnly):
 	integrands = integrand1s(n, z0, hydrogen, ssOnly)
-	global count
+	global count, zs
 	if hydrogen:
 		extra = 100
 		left = integrands[count - extra : count]
@@ -235,8 +236,9 @@ def opticalDepth(n, z0, hydrogen, ssOnly):
 		integrands = np.append(left, integrands)
 		integrands = np.append(integrands, right)
 		count += 2 * extra
-		z2s = redshift_array(float(z_mid))
+		zs = redshift_array(float(z_mid))
 		count -= 2 * extra
+		zs = redshift_array(float(z_mid))
 		return si.simps(integrands, z2s)
 	else:
 		return si.simps(integrands, zs)
