@@ -225,7 +225,8 @@ def plot13(num_sightlines):
 	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
 	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
 	l1 = ml.Line2D([], [], color = 'r', label = f"Sherwood, $\\Gamma_{{12}}=0.16$, $Z= Z_0$")
-	rescale_Ga_12(Ga_12_ATON / 0.16)
+	Ga_12 = Ga_12_ATON
+	print(Ga_12)
 	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
 	plt.step(midpoint2s, dN_by_dX2s, 'g', where = 'mid')
 	l2 = ml.Line2D([], [], color = 'g', label = "Sherwood, $\\Gamma_{{12}}={:.4}$, $Z= Z_0$".format(Ga_12))
