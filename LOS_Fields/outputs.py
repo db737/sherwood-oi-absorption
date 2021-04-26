@@ -519,6 +519,15 @@ def output3(n):
 		within = lambda x: x >= zs[0] and x <= zs[count - 1]
 		print("{} ({} - {}): {}".format(zm, zs[0], zs[count - 1], len(list(filter(within, inp)))))
 
+# Gamma from ATON
+def output4(n):
+	Ga12ss = np.transpose(spec_obj_patchy.Gamma_HI)
+	print("Mean: {}\nMedian: {}".format(np.mean(Ga12ss), np.median(Ga12ss)))
+	plt.plot(zs, Ga12ss[:, n])
+	plt.xlabel("$z$")
+	plt.ylabel("$\\Gamma_{12}$")
+	plt.show()
+
 def input1():
 	tass = np.loadtxt('../../Optical_Depth.txt')
 	ns = [2188, 2369, 2514, 251, 3231]
@@ -579,4 +588,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot6(n)
+output4(n)
