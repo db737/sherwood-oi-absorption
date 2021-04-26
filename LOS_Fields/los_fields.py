@@ -231,6 +231,9 @@ def expanded(xss):
 	right = xss[0 : extra, :]
 	x2ss = np.append(left, xss, axis = 0)
 	x2ss = np.append(x2ss, right, axis = 0)
+	print(x2ss.shape)
+	print(left.shape)
+	print(right.shape)
 	return x2ss
 
 # Optical depth of the nth sightline from the farthest redshift up to z0, for
@@ -243,7 +246,6 @@ def opticalDepth(n, z0, hydrogen, ssOnly):
 		zs = redshift_array(float(z_mid))
 		fHIss = expanded(fHIss)
 		DeHss = expanded(DeHss)
-		print(DeHss.shape)
 		Tss = expanded(Tss)
 		vss = expanded(vss)
 		out = si.simps(integrand1s(n, z0, hydrogen, ssOnly), zs)
