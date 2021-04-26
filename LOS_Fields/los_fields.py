@@ -227,13 +227,13 @@ def integrand1s(n, z0, hydrogen, ssOnly):
 # fall in the region and assume the redshifts are in increasing order
 def opticalDepth(n, z0, hydrogen, ssOnly):
 	integrands = integrand1s(n, z0, hydrogen, ssOnly)
+	global count
 	if hydrogen:
 		extra = 100
 		left = integrands[count - extra : count]
 		right = integrands[0 : extra]
 		integrands = np.append(left, integrands)
 		integrands = np.append(integrands, right)
-		global count
 		count += 2 * extra
 		z2s = redshift_array(float(z_mid))
 		count -= 2 * extra
