@@ -523,7 +523,7 @@ def output3(n):
 def output4(n):
 	Ga12ss = np.transpose(spec_obj_patchy.Gamma_HI)
 	print("Mean: {}\nMedian: {}".format(np.mean(Ga12ss), np.median(Ga12ss)))
-	plt.plot(zs, Ga12ss[:, n])
+	plt.plot(zs, Ga12ss[:, n] * 1.0e12)
 	plt.xlabel("$z$")
 	plt.ylabel("$\\Gamma_{12}$")
 	plt.show()
