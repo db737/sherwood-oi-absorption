@@ -240,18 +240,22 @@ def opticalDepth(n, z0, hydrogen, ssOnly):
 	if hydrogen:
 		global count, zs, fHIss, DeHss, Tss, vss
 		fHIss = expanded(fHIss)
+		print("step 1")
 		DeHss = expanded(DeHss)
 		Tss = expanded(Tss)
 		vss = expanded(vss)
 		count += 2 * extra
 		zs = redshift_array(float(z_mid))
+		print("step 2")
 		out = si.simps(integrand1s(n, z0, hydrogen, ssOnly), zs)
+		print("step 3")
 		count -= 2 * extra
 		zs = redshift_array(float(z_mid))
 		fHIss = fHIss[extra : count + extra, :]
 		DeHss = DeHss[extra : count + extra, :]
 		Tss = Tss[extra : count + extra, :]
 		vss = vss[extra : count + extra, :]
+		print("step 4")
 		return out
 	else:
 		return si.simps(integrand1s(n, z0, hydrogen, ssOnly), zs)
