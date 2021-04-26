@@ -11,7 +11,7 @@ from scipy import ndimage
 from read_spec_ewald_script import spectra
 
 # Middle z value
-z_mid = "6.000"
+z_mid = "3.000"
 
 def filename(x, patchy = True):
 	if patchy:

@@ -347,9 +347,6 @@ def test2(n):
 
 # Compare Neutral hydrogen optical depths
 def test3(n):
-	global z_mid
-	z_mid = "3.000"
-	obtain_spec_objs()
 	#plt.title(f"Comparison of simulation output and computed neutral hydrogen optical depths for sightline {n + 1}")
 	plt.plot(zs, ta_HIss[:, n], "k")
 	plt.plot(zs, opticalDepths(n, True, False), "b--")
