@@ -218,21 +218,27 @@ def plot12(num_sightlines):
 	plt.legend(handles = [bew, ben])
 	plt.show()
 	
+# Compare with ATON
 def plot13(num_sightlines):
+	Ga_12_ATON = 8.109693034979193e-2
 	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
 	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
 	l1 = ml.Line2D([], [], color = 'r', label = f"Sherwood, $\\Gamma_{{12}}=0.16$, $Z= Z_0$")
-	enable_bubbles()
+	rescale_Ga_12(Ga_12_ATON / 0.16)
 	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
 	plt.step(midpoint2s, dN_by_dX2s, 'g', where = 'mid')
-	l2 = ml.Line2D([], [], color = 'g', label = f"Patchy, Native $\\Gamma_{{12}}$, $Z= Z_0$")
+	l2 = ml.Line2D([], [], color = 'g', label = "Sherwood, $\\Gamma_{{12}}={:.4}$, $Z= Z_0$".format(Ga_12))
+	enable_bubbles()
+	midpoint3s, dN_by_dX3s = cumulative_EW(num_sightlines, False, incomplete = True)
+	plt.step(midpoint3s, dN_by_dX3s, 'b', where = 'mid')
+	l3 = ml.Line2D([], [], color = 'b', label = f"Patchy, Native $\\Gamma_{{12}}$, $Z= Z_0$")
 	inp = np.loadtxt("add_data_mid.txt")
 	plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 	plt.ylabel('$\\frac{dN}{dX}$')
 	plt.ylim([0.0, 0.3])
 	be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
-	plt.legend(handles = [l1, l2, be])
+	plt.legend(handles = [l1, l2, l3, be])
 	plt.show()
 
 # Show degeneracy
@@ -588,4 +594,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-output4(n)
+plot13(n)
