@@ -579,4 +579,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-test3(n)
+plot6(n)
