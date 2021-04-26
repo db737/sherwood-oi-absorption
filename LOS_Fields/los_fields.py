@@ -226,7 +226,16 @@ def integrand1s(n, z0, hydrogen, ssOnly):
 # the nth sightline; we integrate using Simpson's rule over all the points that
 # fall in the region and assume the redshifts are in increasing order
 def opticalDepth(n, z0, hydrogen, ssOnly):
-	return si.simps(integrand1s(n, z0, hydrogen, ssOnly), zs)
+	integrands = integrand1s(n, z0, hydrogen, ssOnly)
+	if hydrogen:
+		extra = 100
+		left = integrands[count - extra : count]
+		right = integrands[0 : extra]
+		integrands = np.append(left, integrands)
+		integrands = np.append(integrands[extra : count - extra], right)
+		return si.simps(integrands, zs)
+	else:
+		return si.simps(integrands, zs)
 
 def opticalDepths(n, hydrogen, ssOnly):
 	return np.array([opticalDepth(n, z0, hydrogen, ssOnly) for z0 in zs])
