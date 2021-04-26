@@ -238,8 +238,9 @@ def opticalDepth(n, z0, hydrogen, ssOnly):
 		count += 2 * extra
 		zs = redshift_array(float(z_mid))
 		count -= 2 * extra
+		out = si.simps(integrands, zs)
 		zs = redshift_array(float(z_mid))
-		return si.simps(integrands, zs)
+		return out
 	else:
 		return si.simps(integrands, zs)
 
