@@ -237,7 +237,7 @@ def opticalDepth(n, z0, hydrogen, ssOnly):
 		rightz = zs[0 : extra]
 		z2s = np.append(leftz, zs)
 		z2s = np.append(z2s, rightz)
-		return si.simps(integrands, z2s)[extra : count + extra]
+		return si.simps(integrands, z2s)
 	else:
 		return si.simps(integrands, zs)
 
