@@ -227,8 +227,8 @@ def integrand1s(n, z0, hydrogen, ssOnly):
 	return prefactor * measure * voigtFn * ns / (bs(n, mass) * (1.0 + zs))
 
 def expanded(xss, n):
-	left = xss[count - extra : count, n]
-	right = xss[0 : extra, n]
+	left = xss[count - extra : count, n : n + 2]
+	right = xss[0 : extra, n : n + 2]
 	x2ss = np.append(left, xss)
 	x2ss = np.append(x2ss, right)
 	return x2ss
@@ -242,7 +242,7 @@ def opticalDepth(n, z0, hydrogen, ssOnly):
 		fHIss = expanded(fHIss, n)
 		DeHss = expanded(DeHss, n)
 		Tss = expanded(Tss, n)
-		vss = expanded(vss, 0)
+		vss = expanded(vss, n)
 		count += 2 * extra
 		zs = redshift_array(float(z_mid))
 		out = si.simps(integrand1s(0, z0, hydrogen, ssOnly), zs)
