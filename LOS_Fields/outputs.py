@@ -221,6 +221,7 @@ def plot12(num_sightlines):
 # Compare with ATON
 def plot13(num_sightlines):
 	Ga_12_ATON = 8.109693034979193e-2
+	global Ga_12
 	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
 	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
 	l1 = ml.Line2D([], [], color = 'r', label = f"Sherwood, $\\Gamma_{{12}}=0.16$, $Z= Z_0$")
