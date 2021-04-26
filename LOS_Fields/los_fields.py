@@ -15,7 +15,7 @@ z_mid = "6.000"
 
 def filename(x, patchy = True):
 	if patchy:
-		return "/data/emergence12/prace_relics/planck1_40_2048_patchy/los/" + x + "2048_n5000_z" + z_mid + ".dat"
+		return "/data/emergence11/DiRAC_relics/planck1_40_2048_RTzr53/los/" + x + "2048_n5000_z" + z_mid + ".dat"
 	else:
 		return "../../los/" + x + "2048_n5000_z" + z_mid + ".dat"
 
