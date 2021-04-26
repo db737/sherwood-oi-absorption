@@ -226,11 +226,11 @@ def integrand1s(n, z0, hydrogen, ssOnly):
 	measure = 1.0 / dz_by_dX(zs)
 	return prefactor * measure * voigtFn * ns / (bs(n, mass) * (1.0 + zs))
 
-def expanded(xss):
-	left = xss[count - extra : count, :]
-	right = xss[0 : extra, :]
-	x2ss = np.append(left, xss, axis = 0)
-	x2ss = np.append(x2ss, right, axis = 0)
+def expanded(xss, n):
+	left = xss[count - extra : count, n]
+	right = xss[0 : extra, n]
+	x2ss = np.append(left, xss)
+	x2ss = np.append(x2ss, right)
 	return x2ss
 
 # Optical depth of the nth sightline from the farthest redshift up to z0, for
@@ -239,23 +239,20 @@ def expanded(xss):
 def opticalDepth(n, z0, hydrogen, ssOnly): 
 	if hydrogen:
 		global count, zs, fHIss, DeHss, Tss, vss
-		fHIss = expanded(fHIss)
-		print("step 1")
-		DeHss = expanded(DeHss)
-		Tss = expanded(Tss)
-		vss = expanded(vss)
+		fHIss = expanded(fHIss, n)
+		DeHss = expanded(DeHss, n)
+		Tss = expanded(Tss, n)
+		vss = expanded(vss, 0)
 		count += 2 * extra
 		zs = redshift_array(float(z_mid))
-		print("step 2")
-		out = si.simps(integrand1s(n, z0, hydrogen, ssOnly), zs)
-		print("step 3")
+		out = si.simps(integrand1s(0, z0, hydrogen, ssOnly), zs)
 		count -= 2 * extra
 		zs = redshift_array(float(z_mid))
-		fHIss = fHIss[extra : count + extra, :]
-		DeHss = DeHss[extra : count + extra, :]
-		Tss = Tss[extra : count + extra, :]
-		vss = vss[extra : count + extra, :]
-		print("step 4")
+		fHIss = np.transpose(spec_obj.nHI_frac)
+		DeHss = np.transpose(spec_obj.rhoH2rhoHmean)
+		Tss = np.transpose(spec_obj.temp_HI)
+		vss = np.transpose(spec_obj.vel_HI) * 1.0e3
+		ta_HIss = np.transpose(spec_obj.tau_HI)
 		return out
 	else:
 		return si.simps(integrand1s(n, z0, hydrogen, ssOnly), zs)
