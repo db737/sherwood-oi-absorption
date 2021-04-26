@@ -26,7 +26,7 @@ def obtain_spec_objs():
 	# TODO warn if trying to use non-existent tau data for bubbles
 	global spec_obj, spec_obj_patchy
 	spec_obj = spectra(flag_spectype, filename("los", patchy = False), taufilename = filename("tau", patchy = False))
-	spec_obj_patchy = spectra(flag_spectype, filename("los"), taufilename = filename("tau", patchy = False))
+	spec_obj_patchy = spectra(flag_spectype, filename("los"), taufilename = filename("tau", patchy = False), flag_patchy = 'y')
 
 obtain_spec_objs()
 
