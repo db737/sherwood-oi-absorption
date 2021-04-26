@@ -229,8 +229,8 @@ def integrand1s(n, z0, hydrogen, ssOnly):
 def expanded(xss):
 	left = xss[count - extra : count, :]
 	right = xss[0 : extra, :]
-	x2ss = np.append(left, xss)
-	x2ss = np.append(x2ss, right)
+	x2ss = np.append(left, xss, axis = 0)
+	x2ss = np.append(x2ss, right, axis = 0)
 	return x2ss
 
 # Optical depth of the nth sightline from the farthest redshift up to z0, for
