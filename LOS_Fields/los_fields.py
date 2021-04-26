@@ -11,7 +11,7 @@ from scipy import ndimage
 from read_spec_ewald_script import spectra
 
 # Middle z value
-z_mid = "3.000"
+z_mid = "6.000"
 
 def filename(x, patchy = True):
 	if patchy:
@@ -26,7 +26,7 @@ def obtain_spec_objs():
 	# TODO warn if trying to use non-existent tau data for bubbles
 	global spec_obj, spec_obj_patchy
 	spec_obj = spectra(flag_spectype, filename("los", patchy = False), taufilename = filename("tau", patchy = False))
-#	spec_obj_patchy = spectra(flag_spectype, filename("los"), taufilename = filename("tau", patchy = False))
+	spec_obj_patchy = spectra(flag_spectype, filename("los"), taufilename = filename("tau", patchy = False))
 
 obtain_spec_objs()
 
