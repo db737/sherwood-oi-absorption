@@ -111,13 +111,14 @@ def plot6(num_sightlines):
 	plt.step(midpoint1s, dN_by_dX1s, 'b', where = 'mid')
 	plt.step(midpoint1s, dN_by_dX2s, 'b', linestyle = '--', where = 'mid')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA', fontsize = 33)
-	plt.ylabel('$\\frac{dN}{dX}$', fontsize = 33, rotation = 'horizontal')
+	plt.ylabel('$\\frac{dN}{dX}$', fontsize = 33)
 	plt.xscale('log')
 	plt.yscale('log')
 	complete = ml.Line2D([], [], color = 'b', label = 'Raw values')
 	incomplete = ml.Line2D([], [], color = 'b', ls = '--', label = 'Scaled for completeness')
 	be = ml.Line2D([], [], color = 'k', label = 'Becker et al. 2011')
 	plt.legend(handles = [complete, incomplete, be], fontsize = 22)
+	plt.savefig('/home/db737/Out.pdf', pad_inches = 0.2)
 	plt.show()
 
 # Compare hydrogen and oxygen
