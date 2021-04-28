@@ -76,7 +76,7 @@ Z_exponent = 1.3
 # Fraction of the solar metallicity to cap the metallicity at
 cap_Z_frac = 0.01
 # Helium fraction
-Y = 0.2485
+Y = 0.24
 
 # Number of bins
 num_bins = 128
