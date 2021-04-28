@@ -118,7 +118,7 @@ def plot6(num_sightlines):
 	incomplete = ml.Line2D([], [], color = 'b', ls = '--', label = 'Scaled for completeness')
 	be = ml.Line2D([], [], color = 'k', label = 'Becker et al. 2011')
 	plt.legend(handles = [complete, incomplete, be], fontsize = 22)
-	plt.savefig('/home/db737/Out.pdf', pad_inches = 0.2)
+#	plt.savefig('/home/db737/Out.pdf', pad_inches = 0.2)
 	plt.show()
 
 # Compare hydrogen and oxygen
@@ -146,7 +146,7 @@ def plot8(n):
 	plt.xlabel('Equivalent width / \AA', fontsize = 33)
 	plt.ylabel('Completeness / \%', fontsize = 33)
 	plt.xscale('log')
-	plt.savefig('/home/db737/Out.pdf', pad_inches = 0.2)
+#	plt.savefig('/home/db737/Out.pdf', pad_inches = 0.2)
 	plt.show()
 
 # Compare patchy vs. homogeneous
@@ -596,4 +596,5 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot8(n)
+plot15(n)
+plt.savefig('/home/db737/Out.pdf', pad_inches = 0.2)
