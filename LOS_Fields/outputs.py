@@ -406,7 +406,7 @@ def test6(n):
 	axes[2].set_ylabel('$v / \mathrm{kms}^{-1}$', fontsize = 18)
 	axes[3].semilogy(zs, opticalDepths(n, True, False))
 	axes[3].set_ylabel('$\\tau_{HI}$', fontsize = 18)
-	axes[4].semilogy(zs, fluxes(n, False, False))
+	axes[4].plot(zs, fluxes(n, False, False))
 	axes[4].set_xlabel('$z$', fontsize = 20)
 	axes[4].set_ylabel('$F=e^{-\\tau_{HI}}$', fontsize = 18)
 	plt.subplots_adjust(hspace = 0)
