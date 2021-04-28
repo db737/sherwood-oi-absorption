@@ -8,7 +8,7 @@ import numpy.random as nrand
 from los_fields import *
 
 matplotlib.rcParams["text.usetex"] = True
-matplotlib.rcParams.update({'font.size': 20})
+matplotlib.rcParams.update({'font.size': 18})
 plt.style.use("custom_plot_style.py")
 
 hiLabel = 'HI'
