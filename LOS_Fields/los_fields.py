@@ -237,7 +237,7 @@ def expanded(xss, n):
 # the nth sightline; we integrate using Simpson's rule over all the points that
 # fall in the region and assume the redshifts are in increasing order
 def opticalDepth(n, z0, hydrogen, ssOnly): 
-	if False#hydrogen:
+	if False:#hydrogen:
 		global count, zs, fHIss, DeHss, Tss, vss
 		fHIss = expanded(fHIss, n)
 		DeHss = expanded(DeHss, n)
