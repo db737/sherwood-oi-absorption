@@ -8,8 +8,8 @@ import numpy.random as nrand
 from los_fields import *
 
 matplotlib.rcParams["text.usetex"] = True
-matplotlib.rcParams.update({'font.size': 18})
 plt.style.use("custom_plot_style.py")
+matplotlib.rcParams.update({'font.size': 18})
 
 hiLabel = 'HI'
 oiLabel = 'OI'
@@ -134,7 +134,7 @@ def plot7(n):
 	axes[1].legend(handles = [ox], loc = 'lower right')
 	axes[1].set_ylim([-0.1, 1.1])
 	axes[1].set_ylabel('Flux')
-	axes[1].set_xlabel('z')
+	axes[1].set_xlabel('$z$')
 	plt.subplots_adjust(hspace = 0)
 	fig.align_ylabels()
 	plt.show()
