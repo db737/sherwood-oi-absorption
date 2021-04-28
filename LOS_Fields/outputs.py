@@ -9,7 +9,6 @@ from los_fields import *
 
 matplotlib.rcParams["text.usetex"] = True
 plt.style.use("custom_plot_style.py")
-matplotlib.rcParams.update({'font.size': 18})
 
 hiLabel = 'HI'
 oiLabel = 'OI'
