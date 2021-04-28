@@ -142,8 +142,8 @@ def plot7(n):
 def plot8(n):
 	data = np.loadtxt("completeness_data.txt", skiprows = 1)
 	plt.plot(data[:, 2], data[:, 0])
-	plt.xlabel('Equivalent width / \AA')
-	plt.ylabel('Completeness / \%')
+	plt.xlabel('Equivalent width / \AA', fontsize = 33)
+	plt.ylabel('Completeness / \%', fontsize = 33)
 	plt.xscale('log')
 	plt.show()
 
@@ -594,4 +594,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-example1(n)
+plot8(n)
