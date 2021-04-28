@@ -409,6 +409,8 @@ def test6(n):
 	axes[4].plot(zs, fluxes(n, False, False))
 	axes[4].set_xlabel('$z$', fontsize = 20)
 	axes[4].set_ylabel('$F=e^{-\\tau_{HI}}$', fontsize = 18)
+	axes[4].set_ylim([-0.1, 1.1])
+	axes[4].set_yticks([0.0, 1.0])
 	plt.subplots_adjust(hspace = 0)
 	fig.align_ylabels()
 	plt.show()
