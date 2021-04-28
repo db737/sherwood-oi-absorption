@@ -398,22 +398,19 @@ def test5(n):
 
 def test6(n):
 	fig, axes = plt.subplots(6, 1, sharex = True)
-	global Ga_12
-	Ga_12 = 0.16
-	axes[0].set_title(f"Oxygen properties for sightline {n + 1}, using $\\Gamma_{{12}}={Ga_12}$ and $z={z_mid}$")
-	axes[0].semilogy(zs, nOIs(n, False) / nHIs(n) * fHIss[:, n])
-	axes[0].set_ylabel('$n_{' + oiLabel + '}/n_H$', fontsize = 18, rotation = "horizontal")
-	axes[1].semilogy(zs, DeHss[:, n])
-	axes[1].set_ylabel('$\Delta$', fontsize = 18, rotation = "horizontal")
+	axes[0].semilogy(zs, DeHss[:, n])
+	axes[0].set_ylabel('$\Delta$', fontsize = 18, rotation = "horizontal")
+	axes[1].semilogy(zs, Tss[:, n])
+	axes[1].set_ylabel('$T/K$', fontsize = 18, rotation = "horizontal")
 	axes[2].plot(zs, vss[:, n] / 1.0e3)
 	axes[2].set_ylabel('$v / \mathrm{kms}^{-1}$', fontsize = 18, rotation = "horizontal")
 	axes[3].semilogy(zs, Tss[:, n])
 	axes[3].set_ylabel('$T/K$', fontsize = 18, rotation = "horizontal")
-	axes[4].semilogy(zs, Zs(n))
-	axes[4].set_ylabel('$Z$', fontsize = 18, rotation = "horizontal")
+	axes[4].semilogy(zs, opticalDepths(n, True, False))
+	axes[4].set_ylabel('$\\tau_{HI}$', fontsize = 18, rotation = "horizontal")
 	axes[5].semilogy(zs, opticalDepths(n, False, False))
-	axes[5].set_xlabel("$z$")
-	axes[5].set_ylabel('$\\tau_{' + oiLabel + '}$', fontsize = 18, rotation = "horizontal")
+	axes[5].set_xlabel('$z$', fontsize = 20)
+	axes[5].set_ylabel('$F=e^{-\\tau_{HI}}$', fontsize = 18, rotation = "horizontal")
 	plt.subplots_adjust(hspace = 0)
 	fig.align_ylabels()
 	plt.show()
@@ -580,4 +577,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-test3(n)
+test6(n)
