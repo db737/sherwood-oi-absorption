@@ -8,6 +8,7 @@ import numpy.random as nrand
 from los_fields import *
 
 matplotlib.rcParams["text.usetex"] = True
+matplotlib.rcParams.update({'font.size': 20})
 plt.style.use("custom_plot_style.py")
 
 hiLabel = 'HI'
@@ -594,4 +595,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot13(n)
+plot7(n)
