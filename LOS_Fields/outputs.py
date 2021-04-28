@@ -118,6 +118,7 @@ def plot6(num_sightlines):
 	incomplete = ml.Line2D([], [], color = 'b', ls = '--', label = 'Scaled for completeness')
 	be = ml.Line2D([], [], color = 'k', label = 'Becker et al. 2011')
 	plt.legend(handles = [complete, incomplete, be], fontsize = 22)
+	plt.tight_layout(pad = 0.01)
 	plt.show()
 
 # Compare hydrogen and oxygen
