@@ -594,4 +594,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot7(n)
+example1(n)
