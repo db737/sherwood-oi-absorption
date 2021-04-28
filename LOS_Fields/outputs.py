@@ -261,6 +261,7 @@ def plot14(num_sightlines):
 	plt.ylim([0.0, 0.3])
 	be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
 	plt.legend(handles = [l1, l2, be])
+	plt.savefig('/home/db737/Out.pdf', pad_inches = 0.2)
 	plt.show()
 
 # Basic comparison
@@ -597,4 +598,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot15(n)
+plot14(n)
