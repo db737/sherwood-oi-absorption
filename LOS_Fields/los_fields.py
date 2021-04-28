@@ -177,7 +177,7 @@ def als(n, hydrogen):
 # 2nd argument to be passed to the Voigt function in [C2001] equation 30, for
 # the nth sightline
 def vArg2s(n, z0, mass):
-	return (vss[:, n] + c * (zs - z0) / (1.0 + z0)) / bs(n, mass)
+	return (vss[:, n] + c * (zs - z0) / (1.0 + float(z_mid))) / bs(n, mass)
 
 # Neutral hydrogen number density
 def nHIs(n):
