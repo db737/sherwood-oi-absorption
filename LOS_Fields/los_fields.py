@@ -255,7 +255,7 @@ def opticalDepth(n, z0, hydrogen, ssOnly):
 		ta_HIss = np.transpose(spec_obj.tau_HI)
 		return out
 	else:
-		return np.sum(integrand1s(n, z0, hydrogen, ssOnly), zs)
+		return np.sum(integrand1s(n, z0, hydrogen, ssOnly))
 
 def opticalDepths(n, hydrogen, ssOnly):
 	return np.array([opticalDepth(n, z0, hydrogen, ssOnly) for z0 in zs])
