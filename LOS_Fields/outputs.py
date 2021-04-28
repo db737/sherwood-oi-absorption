@@ -353,8 +353,8 @@ def test3(n):
 	measured = ml.Line2D([], [], color = "k", label = "From simulation outputs")
 	computed = ml.Line2D([], [], color = "b", ls = "--", label = "Newly computed")
 	plt.legend(handles = [measured, computed])
-	plt.xlabel('$z$', fontsize = 12)
-	plt.ylabel('$\tau$', fontsize = 12)
+	plt.xlabel('$z$', fontsize = 20)
+	plt.ylabel('$\\tau$', fontsize = 20)
 	plt.show()
 
 # Metallicity, self-shielding etc.

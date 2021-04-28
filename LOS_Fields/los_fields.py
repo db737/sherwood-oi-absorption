@@ -179,8 +179,8 @@ def als(n, hydrogen):
 
 # 2nd argument to be passed to the Voigt function in [C2001] equation 30, for
 # the nth sightline
-def vArg2s(n, z0, mass):
-	return (vss[:, n] + c * (z2s - z0) / (1.0 + z0)) / bs(n, mass)
+def vArg2s(n, z0, mass, z0alt):
+	return (vss[:, n] + c * (z2s - z0alt) / (1.0 + z0)) / bs(n, mass)
 
 # Neutral hydrogen number density
 def nHIs(n):
@@ -220,12 +220,12 @@ def nOIs(n, ssOnly):
 
 # The integrand as in [C2001] equation 30 except with a change of variables to
 # be an integral over z, for the nth sightline; 'hydrogen' is a boolean setting
-def integrand1s(n, z0, hydrogen, ssOnly):
+def integrand1s(n, z0, hydrogen, ssOnly, z0alt):
 	mass = m_HI if hydrogen else m_OI
 	ns = nHIs(n) if hydrogen else nOIs(n, ssOnly)
 	I_al = I_al_HI if hydrogen else I_al_OI
 	prefactor = c * I_al * math.pi ** -0.5
-	voigtFn = voigt(als(n, hydrogen), vArg2s(n, z0, mass))
+	voigtFn = voigt(als(n, hydrogen), vArg2s(n, z0, mass, z0alt))
 	measure = 1.0 / dz_by_dX(zs)
 	return prefactor * measure * voigtFn * ns / (bs(n, mass) * (1.0 + zs))
 
@@ -239,7 +239,7 @@ def expanded(xss, n):
 # Optical depth of the nth sightline from the farthest redshift up to z0, for
 # the nth sightline; we integrate using Simpson's rule over all the points that
 # fall in the region and assume the redshifts are in increasing order
-def opticalDepth(n, z0, hydrogen, ssOnly): 
+def opticalDepth(n, z0, hydrogen, ssOnly, z0alt): 
 	if hydrogen:
 		global count, zs, fHIss, DeHss, Tss, vss
 		fHIss = expanded(fHIss, n)
@@ -248,7 +248,7 @@ def opticalDepth(n, z0, hydrogen, ssOnly):
 		vss = expanded(vss, n)
 		zs = np.append(zs[count - extra : count], zs)
 		zs = np.append(zs, zs[extra : 2 * extra])
-		out = si.simps(integrand1s(0, z0, hydrogen, ssOnly), zs)
+		out = si.simps(integrand1s(0, z0, hydrogen, ssOnly, z0alt), zs)
 		zs = redshift_array(float(z_mid))
 		fHIss = np.transpose(spec_obj.nHI_frac)
 		DeHss = np.transpose(spec_obj.rhoH2rhoHmean)
@@ -260,7 +260,7 @@ def opticalDepth(n, z0, hydrogen, ssOnly):
 		return si.simps(integrand1s(n, z0, hydrogen, ssOnly), zs)
 
 def opticalDepths(n, hydrogen, ssOnly):
-	return np.array([opticalDepth(n, z0, hydrogen, ssOnly) for z0 in zs])
+	return np.array([opticalDepth(n, zs[i], hydrogen, ssOnly, z2s[i]) for i in range(len(zs))])
 
 # Attenuation coefficient
 def fluxes(n, hydrogen, ssOnly):
