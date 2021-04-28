@@ -248,8 +248,8 @@ def opticalDepths(n, hydrogen, ssOnly):
 		vss = expanded(vss)
 		count += 2 * extra
 		zs = redshift_array(float(z_mid))
+		out = np.array([opticalDepth(n, z0, hydrogen, ssOnly) for z0 in zs[extra : count - extra]])
 		count -= 2 * extra
-		out = np.array([opticalDepth(n, z0, hydrogen, ssOnly) for z0 in zs[extra : count + extra]])
 		zs = redshift_array(float(z_mid))
 		fHIss = np.transpose(spec_obj.nHI_frac)
 		DeHss = np.transpose(spec_obj.rhoH2rhoHmean)
