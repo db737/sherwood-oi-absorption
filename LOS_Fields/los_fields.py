@@ -163,7 +163,7 @@ count -= 2 * extra
 
 # Compute baryon number densities
 def rh_bars(midpoint):
-	return rh_crit0 * Om_b0 * (1.0 + redshift_array(midpoint)) ** 3.0
+	return rh_crit0 * Om_b0 * (1.0 + zs) ** 3.0
 
 # Voigt function computed from the Faddeeva function
 def voigt(As, Bs):
