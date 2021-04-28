@@ -110,7 +110,7 @@ num = len(fHIss[0, :])
 count = len(fHIss[:, 0])
 
 # Number of extra points to take for periodic B.C.s
-extra = 100
+extra = 1000
 
 # Overall flag for whether we are using patchy or homogeneous data
 patchy = False
