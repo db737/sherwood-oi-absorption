@@ -144,19 +144,19 @@ box = spec_obj.box * 1.0e3 * consts.parsec / spec_obj.h
 def dz_by_dX(z):
 	return (H_0 / c) * (Om_La + Om_m0 * (1.0 + z) ** 3.0) ** 0.5
 
-def redshift_array(midpoint):
-	zs = np.full(count, midpoint)
-	middleIndex = (count - 1) // 2
+def redshift_array(midpoint, num):
+	zs = np.full(num, midpoint)
+	middleIndex = (num - 1) // 2
 	for i in range(middleIndex - 1, -1, -1):
 		z = zs[i + 1]
 		zs[i] = z - dz_by_dX(z) * box / count
-	for i in range(middleIndex + 1, count):
+	for i in range(middleIndex + 1, num):
 		z = zs[i - 1]
 		zs[i] = z + dz_by_dX(z) * box / count
 	return zs
 
 # Compute redshift axis
-zs = redshift_array(float(z_mid))
+zs = redshift_array(float(z_mid), count)
 
 # Compute baryon number densities
 def rh_bars(midpoint):
@@ -246,11 +246,9 @@ def opticalDepths(n, hydrogen, ssOnly):
 		DeHss = expanded(DeHss)
 		Tss = expanded(Tss)
 		vss = expanded(vss)
-		count += 2 * extra
-		zs = redshift_array(float(z_mid))
-		out = np.array([opticalDepth(n, z0, hydrogen, ssOnly) for z0 in zs[extra : count - extra]])
-		count -= 2 * extra
-		zs = redshift_array(float(z_mid))
+		zs = redshift_array(float(z_mid), count + 2 * extra)
+		out = np.array([opticalDepth(n, z0, hydrogen, ssOnly) for z0 in zs[extra : count + extra]])
+		zs = redshift_array(float(z_mid), count)
 		fHIss = np.transpose(spec_obj.nHI_frac)
 		DeHss = np.transpose(spec_obj.rhoH2rhoHmean)
 		Tss = np.transpose(spec_obj.temp_HI)
