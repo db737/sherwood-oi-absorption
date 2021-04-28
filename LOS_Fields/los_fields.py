@@ -226,8 +226,8 @@ def integrand1s(n, z0, hydrogen, ssOnly):
 	I_al = I_al_HI if hydrogen else I_al_OI
 	prefactor = c * I_al * math.pi ** -0.5
 	voigtFn = voigt(als(n, hydrogen), vArg2s(n, z0, mass))
-	measure = 1.0 / dz_by_dX(zs)
-	return prefactor * measure * voigtFn * ns / (bs(n, mass) * (1.0 + zs))
+	measure = 1.0 / dz_by_dX(z2s)
+	return prefactor * measure * voigtFn * ns / (bs(n, mass) * (1.0 + z2s))
 
 def expanded(xss):
 	left = xss[count - extra : count, :]
