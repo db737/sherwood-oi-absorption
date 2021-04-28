@@ -157,6 +157,7 @@ def redshift_array(midpoint, num):
 
 # Compute redshift axis
 zs = redshift_array(float(z_mid), count)
+#z2s = zs
 
 # Compute baryon number densities
 def rh_bars(midpoint):
@@ -241,12 +242,14 @@ def opticalDepth(n, z0, hydrogen, ssOnly):
 
 def opticalDepths(n, hydrogen, ssOnly):
 	if hydrogen:
-		global count, zs, fHIss, DeHss, Tss, vss
+		global count, zs, z2s, fHIss, DeHss, Tss, vss
 		fHIss = expanded(fHIss)
 		DeHss = expanded(DeHss)
 		Tss = expanded(Tss)
 		vss = expanded(vss)
 		zs = redshift_array(float(z_mid), count + 2 * extra)
+#		z2s = np.append(zs[count : count + extra], z2s)
+#		z2s = np.append(z2s, zs[extra : 2 * extra])
 		out = np.array([opticalDepth(n, z0, hydrogen, ssOnly) for z0 in zs[extra : count + extra]])
 		zs = redshift_array(float(z_mid), count)
 		fHIss = np.transpose(spec_obj.nHI_frac)
