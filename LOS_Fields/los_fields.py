@@ -11,7 +11,7 @@ from scipy import ndimage
 from read_spec_ewald_script import spectra
 
 # Middle z value
-z_mid = "6.000"
+z_mid = "3.000"
 
 def filename(x, patchy = True):
 	if patchy:
@@ -26,7 +26,7 @@ def obtain_spec_objs():
 	# TODO warn if trying to use non-existent tau data for bubbles
 	global spec_obj, spec_obj_patchy
 	spec_obj = spectra(flag_spectype, filename("los", patchy = False), taufilename = filename("tau", patchy = False))
-	spec_obj_patchy = spectra(flag_spectype, filename("los"), taufilename = filename("tau", patchy = False))
+#	spec_obj_patchy = spectra(flag_spectype, filename("los"), taufilename = filename("tau", patchy = False))
 
 obtain_spec_objs()
 
@@ -223,7 +223,7 @@ def integrand1s(n, z0, hydrogen, ssOnly):
 	I_al = I_al_HI if hydrogen else I_al_OI
 	prefactor = c * I_al * math.pi ** -0.5
 	voigtFn = voigt(als(n, hydrogen), vArg2s(n, z0, mass))
-	measure = 1.0# / dz_by_dX(zs)
+	measure = 1.0 / dz_by_dX(zs)
 	return prefactor * measure * voigtFn * ns / (bs(n, mass) * (1.0 + zs))
 
 def expanded(xss, n):
@@ -237,7 +237,7 @@ def expanded(xss, n):
 # the nth sightline; we integrate using Simpson's rule over all the points that
 # fall in the region and assume the redshifts are in increasing order
 def opticalDepth(n, z0, hydrogen, ssOnly): 
-	if False:#hydrogen:
+	if hydrogen:
 		global count, zs, fHIss, DeHss, Tss, vss
 		fHIss = expanded(fHIss, n)
 		DeHss = expanded(DeHss, n)
@@ -255,7 +255,7 @@ def opticalDepth(n, z0, hydrogen, ssOnly):
 		ta_HIss = np.transpose(spec_obj.tau_HI)
 		return out
 	else:
-		return np.sum(integrand1s(n, z0, hydrogen, ssOnly))
+		return si.simps(integrand1s(n, z0, hydrogen, ssOnly), zs)
 
 def opticalDepths(n, hydrogen, ssOnly):
 	return np.array([opticalDepth(n, z0, hydrogen, ssOnly) for z0 in zs])
