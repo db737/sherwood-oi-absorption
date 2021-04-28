@@ -245,10 +245,10 @@ def opticalDepth(n, z0, hydrogen, ssOnly):
 def opticalDepths(n, hydrogen, ssOnly):
 	if hydrogen:
 		global count, zs, fHIss, DeHss, Tss, vss
-		fHIss = expanded(fHIss, n)
-		DeHss = expanded(DeHss, n)
-		Tss = expanded(Tss, n)
-		vss = expanded(vss, n)
+		fHIss = expanded(fHIss)
+		DeHss = expanded(DeHss)
+		Tss = expanded(Tss)
+		vss = expanded(vss)
 		zs = np.append(zs[count - extra : count], zs)
 		zs = np.append(zs, zs[extra : 2 * extra])
 		out = np.array([opticalDepth(n, z0, hydrogen, ssOnly) for z0 in zs[extra : count + extra]])
