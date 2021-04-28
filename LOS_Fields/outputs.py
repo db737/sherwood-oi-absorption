@@ -114,10 +114,10 @@ def plot6(num_sightlines):
 	plt.ylabel('$\\frac{dN}{dX}$', fontsize = 33)
 	plt.xscale('log')
 	plt.yscale('log')
-	complete = ml.Line2D([], [], color = 'b', label = 'Raw computed values')
-	incomplete = ml.Line2D([], [], color = 'b', ls = '--', label = 'Scaled for expected completeness')
+	complete = ml.Line2D([], [], color = 'b', label = 'Raw values')
+	incomplete = ml.Line2D([], [], color = 'b', ls = '--', label = 'Scaled for completeness')
 	be = ml.Line2D([], [], color = 'k', label = 'Becker et al. 2011')
-	plt.legend(handles = [complete, incomplete, be], fontsize = 27)
+	plt.legend(handles = [complete, incomplete, be], fontsize = 22)
 	plt.show()
 
 # Compare hydrogen and oxygen
