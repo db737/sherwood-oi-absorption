@@ -351,7 +351,7 @@ def test3(n):
 	plt.plot(zs, ta_HIss[:, n], "k")
 	plt.plot(zs, opticalDepths(n, True, False), "b--")
 	measured = ml.Line2D([], [], color = "k", label = "From simulation outputs")
-	computed = ml.Line2D([], [], color = "b", ls = "--", label = "Newly computed")
+	computed = ml.Line2D([], [], color = "b", label = "Newly computed")
 	plt.legend(handles = [measured, computed])
 	plt.xlabel('$z$', fontsize = 20)
 	plt.ylabel('$\\tau$', fontsize = 20)
