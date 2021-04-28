@@ -177,7 +177,7 @@ def als(n, hydrogen):
 # 2nd argument to be passed to the Voigt function in [C2001] equation 30, for
 # the nth sightline
 def vArg2s(n, z0, mass):
-	return (vss[:, n] + c * (zs - z0) / (1.0 + float(z_mid))) / bs(n, mass)
+	return (vss[:, n] + c * (zs - z0) / (1.0 + z0)) / bs(n, mass)
 
 # Neutral hydrogen number density
 def nHIs(n):
@@ -223,7 +223,7 @@ def integrand1s(n, z0, hydrogen, ssOnly):
 	I_al = I_al_HI if hydrogen else I_al_OI
 	prefactor = c * I_al * math.pi ** -0.5
 	voigtFn = voigt(als(n, hydrogen), vArg2s(n, z0, mass))
-	measure = 1.0 / dz_by_dX(zs)
+	measure = 1.0# / dz_by_dX(zs)
 	return prefactor * measure * voigtFn * ns / (bs(n, mass) * (1.0 + zs))
 
 def expanded(xss, n):
@@ -237,7 +237,7 @@ def expanded(xss, n):
 # the nth sightline; we integrate using Simpson's rule over all the points that
 # fall in the region and assume the redshifts are in increasing order
 def opticalDepth(n, z0, hydrogen, ssOnly): 
-	if hydrogen:
+	if False#hydrogen:
 		global count, zs, fHIss, DeHss, Tss, vss
 		fHIss = expanded(fHIss, n)
 		DeHss = expanded(DeHss, n)
@@ -255,7 +255,7 @@ def opticalDepth(n, z0, hydrogen, ssOnly):
 		ta_HIss = np.transpose(spec_obj.tau_HI)
 		return out
 	else:
-		return si.simps(integrand1s(n, z0, hydrogen, ssOnly), zs)
+		return np.sum(integrand1s(n, z0, hydrogen, ssOnly), zs)
 
 def opticalDepths(n, hydrogen, ssOnly):
 	return np.array([opticalDepth(n, z0, hydrogen, ssOnly) for z0 in zs])
