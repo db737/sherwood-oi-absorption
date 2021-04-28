@@ -229,17 +229,20 @@ def integrand1s(n, z0, hydrogen, ssOnly):
 	measure = 1.0 / dz_by_dX(zs)
 	return prefactor * measure * voigtFn * ns / (bs(n, mass) * (1.0 + zs))
 
-def expanded(xss, n):
-	left = xss[count - extra : count, n : n + 2]
-	right = xss[0 : extra, n : n + 2]
-	x2ss = np.append(left, xss[:, n : n + 2], axis = 0)
+def expanded(xss):
+	left = xss[count - extra : count, :]
+	right = xss[0 : extra, :]
+	x2ss = np.append(left, xss, axis = 0)
 	x2ss = np.append(x2ss, right, axis = 0)
 	return x2ss
 
 # Optical depth of the nth sightline from the farthest redshift up to z0, for
 # the nth sightline; we integrate using Simpson's rule over all the points that
 # fall in the region and assume the redshifts are in increasing order
-def opticalDepth(n, z0, hydrogen, ssOnly): 
+def opticalDepth(n, z0, hydrogen, ssOnly):
+	return si.simps(integrand1s(n, z0, hydrogen, ssOnly), zs)
+
+def opticalDepths(n, hydrogen, ssOnly):
 	if hydrogen:
 		global count, zs, fHIss, DeHss, Tss, vss
 		fHIss = expanded(fHIss, n)
@@ -248,19 +251,15 @@ def opticalDepth(n, z0, hydrogen, ssOnly):
 		vss = expanded(vss, n)
 		zs = np.append(zs[count - extra : count], zs)
 		zs = np.append(zs, zs[extra : 2 * extra])
-		out = si.simps(integrand1s(0, z0, hydrogen, ssOnly), zs)
+		out = np.array([opticalDepth(n, z0, hydrogen, ssOnly) for z0 in zs[extra : count + extra]])
 		zs = redshift_array(float(z_mid))
 		fHIss = np.transpose(spec_obj.nHI_frac)
 		DeHss = np.transpose(spec_obj.rhoH2rhoHmean)
 		Tss = np.transpose(spec_obj.temp_HI)
 		vss = np.transpose(spec_obj.vel_HI) * 1.0e3
-		ta_HIss = np.transpose(spec_obj.tau_HI)
 		return out
 	else:
-		return si.simps(integrand1s(n, z0, hydrogen, ssOnly), zs)
-
-def opticalDepths(n, hydrogen, ssOnly):
-	return np.array([opticalDepth(n, z0, hydrogen, ssOnly) for z0 in zs[extra : count + extra]])
+		return np.array([opticalDepth(n, z0, hydrogen, ssOnly) for z0 in zs])
 
 # Attenuation coefficient
 def fluxes(n, hydrogen, ssOnly):
