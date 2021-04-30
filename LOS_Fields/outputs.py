@@ -113,7 +113,7 @@ def plot5(num_sightlines):
 		plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 		plt.ylabel('$\\frac{dN}{dX}$')
 		be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
-		plt.legend(handles = [l1, l2, l3, l4, be])
+		plt.legend(handles = [l1, l2, l3, l4, be], fontsize = 22)
 		plt.savefig('/home/db737/Out.pdf', pad_inches = 0.2)
 		plt.show()
 
