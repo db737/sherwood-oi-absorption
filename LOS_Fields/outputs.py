@@ -63,7 +63,7 @@ def plot4(num_sightlines):
 		midpoint3s, dN_by_dX3s = cumulative_EW(num_sightlines, False, incomplete = True)
 		midpoint3s = np.append(0.0, midpoint3s)
 		dN_by_dX3s = np.append(dN_by_dX3s[0], dN_by_dX3s)
-		out = np.zeros((num_bins + 1, 8))
+		out = np.zeros((num_bins + 1, 6))
 		out[:, 0] = midpoint1s
 		out[:, 1] = dN_by_dX1s
 		out[:, 2] = midpoint2s
