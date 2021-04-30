@@ -142,8 +142,7 @@ def plot6(num_sightlines):
 	inp = np.loadtxt("add_data.txt")
 	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
 	complete = ml.Line2D([], [], color = 'b', label = 'Raw values')
-	incomplete, be = None, None
-	plt.legend(handles = [complete, incomplete, be], fontsize = 22)
+	plt.legend(handles = [complete], fontsize = 22)
 	plt.step(midpoint1s, dN_by_dX1s, 'b', where = 'mid')
 	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA', fontsize = 33)
 	plt.ylabel('$\\frac{dN}{dX}$', fontsize = 33)
@@ -152,9 +151,11 @@ def plot6(num_sightlines):
 	plt.savefig('/home/db737/Out1.pdf', pad_inches = 0.2)
 	incomplete = ml.Line2D([], [], color = 'b', ls = '--', label = 'Scaled for completeness')
 	plt.step(midpoint2s, dN_by_dX2s, 'b', linestyle = '--', where = 'mid')
+	plt.legend(handles = [complete, incomplete], fontsize = 22)
 	plt.savefig('/home/db737/Out2.pdf', pad_inches = 0.2)
 	be = ml.Line2D([], [], color = 'k', label = 'Becker et al. 2011')
 	plt.step(inp[:, 0], inp[:, 1], 'k', where = 'mid')
+	plt.legend(handles = [complete, incomplete, be], fontsize = 22)
 	plt.savefig('/home/db737/Out3.pdf', pad_inches = 0.2)
 	plt.show()
 
