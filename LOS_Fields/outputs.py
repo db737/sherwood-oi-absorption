@@ -357,7 +357,7 @@ def plot16(num_sightlines):
 		plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
 		plt.ylabel('$\\frac{dN}{dX}$')
 		be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
-		plt.legend(handles = [l1, l2, l3, l4, be], fontsize = 22)
+		plt.legend(handles = [l1, l2, l3, l4, be])
 		plt.savefig('/home/db737/Out.pdf', pad_inches = 0.2)
 		plt.show()
 
@@ -644,4 +644,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot4(n)
+plot16(n)
