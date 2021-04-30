@@ -49,25 +49,43 @@ def plot3(num_sightlines):
 
 # Vary metallicity
 def plot4(num_sightlines):
-	rescale_Z(1.3)
-	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True, tracking = 0.4)
-	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
-	l1 = ml.Line2D([], [], color = 'r', label = f"$Z/Z_0$=1.3")
-	rescale_Z(0.5 / 1.3)
-	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
-	plt.step(midpoint2s, dN_by_dX2s, 'g', where = 'mid')
-	l2 = ml.Line2D([], [], color = 'g', label = f"$Z/Z_0$=0.5")
-	rescale_Z(6.0)
-	midpoint3s, dN_by_dX3s = cumulative_EW(num_sightlines, False, incomplete = True)
-	plt.step(midpoint3s, dN_by_dX3s, 'b', where = 'mid')
-	l3 = ml.Line2D([], [], color = 'b', label = f"$Z/Z_0$=3.0")
-	inp = np.loadtxt("add_data_mid.txt")
-	plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
-	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
-	plt.ylabel('$\\frac{dN}{dX}$')
-	be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
-	plt.legend(handles = [l1, l2, l3, be])
-	plt.show()
+	fname = '/home/db737/data/plots/plot4.txt'
+	if num_sightlines > 0:
+		rescale_Z(1.3)
+		midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
+		midpoint1s = np.append(0.0, midpoint1s)
+		dN_by_dX1s = np.append(dN_by_dX1s[0], dN_by_dX1s)
+		rescale_Z(0.5 / 1.3)
+		midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
+		midpoint2s = np.append(0.0, midpoint2s)
+		dN_by_dX2s = np.append(dN_by_dX2s[0], dN_by_dX2s)
+		rescale_Z(6.0)
+		midpoint3s, dN_by_dX3s = cumulative_EW(num_sightlines, False, incomplete = True)
+		midpoint3s = np.append(0.0, midpoint3s)
+		dN_by_dX3s = np.append(dN_by_dX3s[0], dN_by_dX3s)
+		out = np.zeros((num_bins + 1, 8))
+		out[:, 0] = midpoint1s
+		out[:, 1] = dN_by_dX1s
+		out[:, 2] = midpoint2s
+		out[:, 3] = dN_by_dX2s
+		out[:, 4] = midpoint3s
+		out[:, 5] = dN_by_dX3s
+		np.savetxt(fname, out)
+	else:
+		load = np.loadtxt(fname)
+		plt.step(load[:, 0], load[:, 1], 'r', where = 'mid')
+		l1 = ml.Line2D([], [], color = 'r', label = '$Z/Z_0=1.3$, $\Gamma_{12}=0.16$')
+		plt.step(load[:, 2], load[:, 3], 'g', where = 'mid')
+		l2 = ml.Line2D([], [], color = 'g', label = '$Z/Z_0=0.5$, $\Gamma_{12}=0.16$')
+		plt.step(load[:, 4], load[:, 5], 'b', where = 'mid')
+		l3 = ml.Line2D([], [], color = 'b', label = '$Z/Z_0=3.0$, $\Gamma_{12}=0.16$')
+		inp = np.loadtxt("add_data_mid.txt")
+		plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
+		plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
+		plt.ylabel('$\\frac{dN}{dX}$')
+		be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
+		plt.legend(handles = [l1, l2, l3, be])
+		plt.show()
 
 # Vary Gamma
 def plot5(num_sightlines):
@@ -613,4 +631,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot5(n)
+plot4(n)
