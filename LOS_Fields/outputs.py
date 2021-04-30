@@ -71,36 +71,51 @@ def plot4(num_sightlines):
 
 # Vary Gamma
 def plot5(num_sightlines):
-	midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
-	midpoint1s = np.append(0.0, midpoint1s)
-	dN_by_dX1s = np.append(dN_by_dX1s[0], dN_by_dX1s)
-	plt.step(midpoint1s, dN_by_dX1s, 'r', where = 'mid')
-	l1 = ml.Line2D([], [], color = 'r', label = f"$\\Gamma_{{12}}={0.16}$")
-	rescale_Ga_12(0.25)
-	midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
-	midpoint2s = np.append(0.0, midpoint2s)
-	dN_by_dX2s = np.append(dN_by_dX2s[0], dN_by_dX2s)
-	plt.step(midpoint2s, dN_by_dX2s, 'g', where = 'mid')
-	l2 = ml.Line2D([], [], color = 'g', label = f"$\\Gamma_{{12}}={0.04}$")
-	rescale_Ga_12(16.0)
-	midpoint3s, dN_by_dX3s = cumulative_EW(num_sightlines, False, incomplete = True)
-	midpoint3s = np.append(0.0, midpoint3s)
-	dN_by_dX3s = np.append(dN_by_dX3s[0], dN_by_dX3s)
-	plt.step(midpoint3s, dN_by_dX3s, 'b', where = 'mid')
-	l3 = ml.Line2D([], [], color = 'b', label = f"$\\Gamma_{{12}}={0.64}$")
-	rescale_Ga_12(0.125)
-	midpoint4s, dN_by_dX4s = cumulative_EW(num_sightlines, False, incomplete = True)
-	midpoint4s = np.append(0.0, midpoint4s)
-	dN_by_dX4s = np.append(dN_by_dX4s[0], dN_by_dX4s)
-	plt.step(midpoint4s, dN_by_dX4s, 'k', where = 'mid')
-	l4 = ml.Line2D([], [], color = 'k', label = f"$\\Gamma_{{12}}={0.08}$")
-	inp = np.loadtxt("add_data_mid.txt")
-	plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
-	plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
-	plt.ylabel('$\\frac{dN}{dX}$')
-	be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
-	plt.legend(handles = [l1, l2, l3, l4, be])
-	plt.show()
+	fname = '/home/db737/data/plots/plot5.txt'
+	if num_sightlines > 0:
+		midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
+		midpoint1s = np.append(0.0, midpoint1s)
+		dN_by_dX1s = np.append(dN_by_dX1s[0], dN_by_dX1s)
+		rescale_Ga_12(0.25)
+		midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
+		midpoint2s = np.append(0.0, midpoint2s)
+		dN_by_dX2s = np.append(dN_by_dX2s[0], dN_by_dX2s)
+		rescale_Ga_12(16.0)
+		midpoint3s, dN_by_dX3s = cumulative_EW(num_sightlines, False, incomplete = True)
+		midpoint3s = np.append(0.0, midpoint3s)
+		dN_by_dX3s = np.append(dN_by_dX3s[0], dN_by_dX3s)
+		rescale_Ga_12(0.125)
+		midpoint4s, dN_by_dX4s = cumulative_EW(num_sightlines, False, incomplete = True)
+		midpoint4s = np.append(0.0, midpoint4s)
+		dN_by_dX4s = np.append(dN_by_dX4s[0], dN_by_dX4s)
+		out = np.zeros((count, 8))
+		out[:, 0] = midpoint1s
+		out[:, 1] = dN_by_dX1s
+		out[:, 2] = midpoint2s
+		out[:, 3] = dN_by_dX2s
+		out[:, 4] = midpoint3s
+		out[:, 5] = dN_by_dX3s
+		out[:, 6] = midpoint4s
+		out[:, 7] = dN_by_dX4s
+		np.savetxt(fname, out)
+	else:
+		load = np.loadtxt(fname)
+		plt.step(load[:, 0], load[:, 1], 'r', where = 'mid')
+		l1 = ml.Line2D([], [], color = 'r', label = f"$\\Gamma_{{12}}={0.16}$, $Z=Z_0$")
+		plt.step(load[:, 2], load[:, 3], 'g', where = 'mid')
+		l2 = ml.Line2D([], [], color = 'g', label = f"$\\Gamma_{{12}}={0.04}$, $Z=Z_0$")
+		plt.step(load[:, 4], load[:, 5], 'b', where = 'mid')
+		l3 = ml.Line2D([], [], color = 'b', label = f"$\\Gamma_{{12}}={0.64}$, $Z=Z_0$")
+		plt.step(load[:, 6], load[:, 7], 'k', where = 'mid')
+		l4 = ml.Line2D([], [], color = 'k', label = f"$\\Gamma_{{12}}={0.08}$, $Z=Z_0$")
+		inp = np.loadtxt("add_data_mid.txt")
+		plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
+		plt.xlabel('$' + oiLabel + '$ equivalent width / \AA')
+		plt.ylabel('$\\frac{dN}{dX}$')
+		be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
+		plt.legend(handles = [l1, l2, l3, l4, be])
+		plt.savefig('/home/db737/Out.pdf', pad_inches = 0.2)
+		plt.show()
 
 # Completeness comparison
 def plot6(num_sightlines):
@@ -598,4 +613,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot14(n)
+plot5(n)
