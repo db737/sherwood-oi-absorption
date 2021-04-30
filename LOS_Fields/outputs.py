@@ -71,8 +71,7 @@ def plot4(num_sightlines):
 
 # Vary Gamma
 def plot5(num_sightlines):
-	fname1 = '/home/db737/data/plots/plot5_1.txt'
-	fname2 = '/home/db737/data/plots/plot5_2.txt'
+	fname = '/home/db737/data/plots/plot5.txt'
 	if num_sightlines > 0:
 		midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
 		midpoint1s = np.append(0.0, midpoint1s)
@@ -89,27 +88,25 @@ def plot5(num_sightlines):
 		midpoint4s, dN_by_dX4s = cumulative_EW(num_sightlines, False, incomplete = True)
 		midpoint4s = np.append(0.0, midpoint4s)
 		dN_by_dX4s = np.append(dN_by_dX4s[0], dN_by_dX4s)
-		out1 = np.zeros((num_bins + 1, 4))
-		out2 = np.zeros((count, 4))
-		out1[:, 0] = midpoint1s
-		out1[:, 1] = midpoint2s
-		out1[:, 2] = midpoint3s
-		out1[:, 3] = midpoint4s
-		out2[:, 0] = dN_by_dX1s
-		out2[:, 1] = dN_by_dX2s
-		out2[:, 2] = dN_by_dX3s
-		out2[:, 3] = dN_by_dX4s
+		out = np.zeros((num_bins + 1, 8))
+		out[:, 0] = midpoint1s
+		out[:, 1] = dN_by_dX1s
+		out[:, 2] = midpoint2s
+		out[:, 3] = dN_by_dX2s
+		out[:, 4] = midpoint3s
+		out[:, 5] = dN_by_dX3s
+		out[:, 6] = midpoint4s
+		out[:, 7] = dN_by_dX4s
 		np.savetxt(fname, out)
 	else:
-		in1 = np.loadtxt(fname1)
-		in2 = np.loadtxt(fname2)
-		plt.step(in1[:, 0], in2[:, 0], 'r', where = 'mid')
+		load = np.loadtxt(fname)
+		plt.step(load[:, 0], load[:, 1], 'r', where = 'mid')
 		l1 = ml.Line2D([], [], color = 'r', label = f"$\\Gamma_{{12}}={0.16}$, $Z=Z_0$")
-		plt.step(in2[:, 1], in2[:, 1], 'g', where = 'mid')
+		plt.step(load[:, 2], load[:, 3], 'g', where = 'mid')
 		l2 = ml.Line2D([], [], color = 'g', label = f"$\\Gamma_{{12}}={0.04}$, $Z=Z_0$")
-		plt.step(in3[:, 2], in2[:, 2], 'b', where = 'mid')
+		plt.step(load[:, 4], load[:, 5], 'b', where = 'mid')
 		l3 = ml.Line2D([], [], color = 'b', label = f"$\\Gamma_{{12}}={0.64}$, $Z=Z_0$")
-		plt.step(in4[:, 3], in2[:, 3], 'k', where = 'mid')
+		plt.step(load[:, 6], load[:, 7], 'k', where = 'mid')
 		l4 = ml.Line2D([], [], color = 'k', label = f"$\\Gamma_{{12}}={0.08}$, $Z=Z_0$")
 		inp = np.loadtxt("add_data_mid.txt")
 		plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
