@@ -115,6 +115,8 @@ patchy = False
 # TODO delete this
 temp_flag = False
 
+Ga_factor_ATON = 1.0
+
 # Imperative function to switch to patchy data
 def enable_bubbles():
 	global x_H, fHIss, DeHss, Tss, vss, patchy
@@ -205,7 +207,7 @@ def nOIs(n, ssOnly):
 		ss = np.zeros(count)
 	# Thss ensures that when ss is 0 we get fHIss[:, n] and when ss is 1.0 we get 1.0
 	fOI = ss if ssOnly else fHIss[:, n] + (1.0 - fHIss[:, n]) * ss
-	scaled_nHIs = nHIs(n) * 0.36 / Ga_12
+	scaled_nHIs = nHIs(n) * (Ga_factor_ATON if patchy else 0.36 / Ga_12)
 	if temp_flag:
 		return fOI * Zs(n) * DeHss[:, n] * rh_bars / m_OI
 	else:
@@ -368,3 +370,7 @@ def old_mode(b):
 def set_n(v):
 	global Z_exponent
 	Z_exponent = v
+
+def scale_ATON(f):
+	global Ga_factor_ATON
+	Ga_factor_ATON *= f
