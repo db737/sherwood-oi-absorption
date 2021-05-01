@@ -397,6 +397,63 @@ def plot16(num_sightlines):
 		plt.savefig('/home/db737/Out.pdf', pad_inches = 0.2)
 		plt.show()
 
+# Compare with ATON 3-4
+def plot17(num_sightlines):
+	Ga_12_ATON = 8.109693034979193e-2
+	fname = '/home/db737/data/plots/plot17.txt'
+	if num_sightlines > 0:
+		enable_bubbles()
+		rescale_ATON(Ga_12_ATON / 0.16)
+		midpoint1s, dN_by_dX1s = cumulative_EW(num_sightlines, False, incomplete = True)
+		midpoint1s = np.append(0.0, midpoint1s)
+		dN_by_dX1s = np.append(dN_by_dX1s[0], dN_by_dX1s)
+		rescale_Z(2.0)
+		midpoint2s, dN_by_dX2s = cumulative_EW(num_sightlines, False, incomplete = True)
+		midpoint2s = np.append(0.0, midpoint2s)
+		dN_by_dX2s = np.append(dN_by_dX2s[0], dN_by_dX2s)
+		rescale_Z(0.25)
+		midpoint3s, dN_by_dX3s = cumulative_EW(num_sightlines, False, incomplete = True)
+		midpoint3s = np.append(0.0, midpoint3s)
+		dN_by_dX3s = np.append(dN_by_dX3s[0], dN_by_dX3s)
+		rescale_Z(2.6)
+		midpoint4s, dN_by_dX4s = cumulative_EW(num_sightlines, False, incomplete = True)
+		midpoint4s = np.append(0.0, midpoint4s)
+		dN_by_dX4s = np.append(dN_by_dX4s[0], dN_by_dX4s)
+		out = np.zeros((num_bins + 1, 8))
+		out[:, 0] = midpoint1s
+		out[:, 1] = dN_by_dX1s
+		out[:, 2] = midpoint2s
+		out[:, 3] = dN_by_dX2s
+		out[:, 4] = midpoint3s
+		out[:, 5] = dN_by_dX3s
+		out[:, 6] = midpoint4s
+		out[:, 7] = dN_by_dX4s
+		np.savetxt(fname, out)
+	else:
+		load = np.loadtxt(fname)
+		if num_sightlines == 0:
+			plt.step(load[:, 0], load[:, 1], 'r', where = 'mid')
+		else:
+			plt.step(load[:, 2], load[:, 3], 'g', where = 'mid')
+			plt.step(load[:, 4], load[:, 5], 'b', where = 'mid')
+			plt.step(load[:, 6], load[:, 7], 'k', where = 'mid')
+		l1 = ml.Line2D([], [], color = 'r', label = 'Patchy, Scaled to $\Gamma_{12} = 0.16$, $Z= Z_0$')
+		l2 = ml.Line2D([], [], color = 'g', label = 'Patchy, Scaled to $\Gamma_{12} = 0.16$, $Z= 2.0Z_0$')
+		l3 = ml.Line2D([], [], color = 'b', label = 'Patchy, Scaled to $\Gamma_{12} = 0.16$, $Z= 0.5Z_0$')
+		l4 = ml.Line2D([], [], color = 'k', label = 'Patchy, Scaled to $\Gamma_{12} = 0.16$, $Z= 1.3Z_0$')
+		inp = np.loadtxt("add_data_mid.txt")
+		plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
+		plt.xlabel('$' + oiLabel + '$ equivalent width / \AA', fontsize = 33)
+		plt.ylabel('$\\frac{dN}{dX}$', fontsize = 33)
+		plt.ylim([0.0, 0.3])
+		be = ml.Line2D([], [], color = 'k', ls = '--', label = 'Becker et al. 2011')
+		if num_sightlines == 0:
+			plt.legend(handles = [l1, be], fontsize = 22)
+		else:
+			plt.legend(handles = [l2, l3, l4, be], fontsize = 22)
+		plt.savefig('/home/db737/Out.pdf', pad_inches = 0.2)
+		plt.show()
+
 # Check that overdensity averages to 1 for a given redshift
 def test1():
 	Des = DeHss[middleIndex, :]
@@ -680,4 +737,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot13(n)
+plot17(n)
