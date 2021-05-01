@@ -371,6 +371,6 @@ def set_n(v):
 	global Z_exponent
 	Z_exponent = v
 
-def scale_ATON(f):
+def rescale_ATON(f):
 	global Ga_factor_ATON
 	Ga_factor_ATON *= f
