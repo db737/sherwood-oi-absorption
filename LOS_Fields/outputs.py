@@ -298,8 +298,8 @@ def plot13(num_sightlines):
 			plt.step(load[:, 6], load[:, 7], 'k', where = 'mid')
 		l1 = ml.Line2D([], [], color = 'r', label = "Sherwood, $\\Gamma_{{12}}=0.16$, $Z= Z_0$")
 		l2 = ml.Line2D([], [], color = 'g', label = "Sherwood, $\\Gamma_{{12}}=0.081$, $Z= Z_0$")
-		l3 = ml.Line2D([], [], color = 'b', label = 'Patchy, Native $\Gamma_{12}$, $Z= Z_0$')
-		l4 = ml.Line2D([], [], color = 'k', label = 'Patchy, Native $\Gamma_{12}$, $Z= 0.6Z_0$')
+		l3 = ml.Line2D([], [], color = 'b', label = 'Patchy, Native $\Gamma_{12}$ ($\langle \Gamma_{12} \\rangle = 0.081$), $Z= Z_0$')
+		l4 = ml.Line2D([], [], color = 'k', label = 'Patchy, Native $\Gamma_{12}$ ($\langle \Gamma_{12} \\rangle = 0.081$), $Z= 0.6Z_0$')
 		inp = np.loadtxt("add_data_mid.txt")
 		plt.plot(inp[:, 0], inp[:, 1], 'k', linestyle = '--')
 		plt.xlabel('$' + oiLabel + '$ equivalent width / \AA', fontsize = 33)
@@ -737,4 +737,4 @@ def example3(n):
 
 # Main
 n = int(sys.argv[1]) - 1
-plot17(n)
+plot13(n)
